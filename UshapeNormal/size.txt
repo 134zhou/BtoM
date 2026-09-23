@@ -1,0 +1,26 @@
+# ==========================================
+# 1. 参数配置
+# ==========================================
+csv_pattern = "UshapeNormal/*.csv"          # 多文件存放路径
+output_vtk_base = "UshapeNormal/inverted_M_results_test"
+B_unit_conversion = 1e-6
+
+# 磁铁边界与几何（单位：mm）
+MAGNET_X_MIN, MAGNET_X_MAX = 111.5, 193.5
+MAGNET_Y_MIN, MAGNET_Y_MAX = 129.5, 231.5
+MAGNET_Z_MIN, MAGNET_Z_MAX = -35, -3
+
+X_c = (MAGNET_X_MIN + MAGNET_X_MAX) / 2.0
+R_out = (MAGNET_X_MAX - MAGNET_X_MIN) / 2.0
+Y_c = MAGNET_Y_MAX - R_out
+R_in = 22
+
+# ---- 自适应网格参数 ----
+voxel_size_base = 1.5          # 基础网格尺寸
+Y_split = 144.0                  # 加密分界 y 坐标
+
+# ---- 反演参数 ----
+huber_epsilon = 4e3
+max_iter = 4
+lambda_reg = 1e-15
+max_M = 1.5e6
