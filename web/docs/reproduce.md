@@ -133,7 +133,7 @@ $PY run_experiments.py --only E7      # 只跑某一个实验
 # 依赖（首次/换机）——已装好则跳过
 E:/Python/Miniforge/envs/HTML/python.exe -m pip install -r web/requirements.txt
 
-# 同步 meshtest 文档与配图到站点（改了源文件就要跑）
+# 同步 meshtest 的三份 md 到站点（改了源文件就要跑；只管 markdown，不管图片）
 E:/Python/Miniforge/envs/HTML/python.exe web/tools/sync_docs.py
 E:/Python/Miniforge/envs/HTML/python.exe web/tools/sync_docs.py --check   # 只检查是否已同步
 
@@ -151,6 +151,12 @@ E:/Python/Miniforge/envs/HTML/python.exe -m mkdocs gh-deploy --force
 
 发布后：仓库 **Settings → Pages → Source** 选 **Deploy from a branch** →
 分支 `gh-pages` / 目录 `(root)`。站点地址 `https://134zhou.github.io/BtoM/`。
+
+!!! note "单仓库就够了"
+    `gh-pages` 只是**同一个仓库**的一个分支，不需要为站点另建仓库。
+    注意 Pages 的 "Deploy from a branch" 里目录**只能选仓库根的 `/` 或 `/docs`**，
+    而本站源码在 `web/docs/`、构建产物在 `web/site/`，所以走 `gh-pages` 分支这条路
+    （详见 `web/README.md`）。
 
 !!! warning "发布是手动动作"
     本仓库**没有**配置 GitHub Actions 自动部署。改完文档要自己跑一次

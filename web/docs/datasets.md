@@ -51,31 +51,43 @@
 
 ### 3.1 测量磁场（`UshapeNormal`，扫描平面 $z=0$）
 
-![B 场截面](../assets/B_field_section.png)
+`Large.csv`（圆弧区，4 mm 间距，4200 点）与 `legs.csv`（磁腿区，2 mm 间距，7056 点）
+合起来覆盖 U 形磁铁上方的一个平面。测量磁场的模值分布里 U 形轮廓清晰可辨：
+两条磁腿外侧场强最高、槽内迅速衰减、圆弧顶部居中。
 
-*4200 + 7056 个测点的 $\lvert\mathbf B\rvert$ 分布。U 形轮廓在磁场图上清晰可辨 ——
-这就是反演能work的原因：外部场的空间结构直接编码了内部磁化分布。*
+**这正是反演能成立的原因** —— 外部场的空间结构直接编码了内部磁化分布；
+如果测点离得太远，几何核退化成常数，数据就只剩下"总磁矩"这一个信息量。
 
-### 3.2 反演出的磁化强度（`UshapeNormal`，磁铁中面）
+### 3.2 反演出的磁化强度（磁铁中面）
 
-![M 截面](../assets/M_section.png)
-
-*正则化反演的 $\lvert\mathbf M\rvert$ 在中面的分布，叠加磁铁几何轮廓。
-幅值在 $10^5$ A/m 量级（钕铁硼永磁体的典型剩磁）。*
-
-![M 截面（specialU）](../assets/M_Uspecial.png)
-
-*同一套流程在 `specialU` 数据上的结果。*
+正则化反演给出的 $\lvert\mathbf M\rvert$ 在中面（$z\approx-19$ mm）上的分布，
+叠加磁铁几何轮廓后可以看到磁化强度集中在 U 形的两条腿与圆弧上，槽内接近 0；
+幅值在 $10^5$ A/m 量级，与钕铁硼永磁体的典型剩磁同量级。
 
 ### 3.3 正则化到底在做什么
 
-![正则化 vs 无正则化](../assets/M_regularized_vs_noreg.png)
+同一批数据、同一个正演算子，去掉正则化项的纯最小二乘解对数据的拟合同样很好
+（甚至更好），但幅值在空间上剧烈振荡、相邻单元符号乱跳 ——
+这是"解不唯一，必须靠挑解规则"的直接证据，也是 `B2M_noreg.py` 存在的意义：
+它专门用来展示"没有正则化会发生什么"。
 
-*左：带正则化（$w_f$ 按体积、$\lambda=10^{-10}$、$\varepsilon=4\times10^3$ A/m）。
-右：完全去掉正则化项的纯最小二乘解。两者对数据的拟合都很好，但右侧的幅值
-在空间上剧烈振荡 —— 这正是"解不唯一，得靠挑解规则"的直接证据。*
+### 3.4 配图由人工维护
 
-### 3.4 新数据集（小探头）目前的状态
+本仓库**不做图片同步**。要往站点加图，把文件放进 `web/docs/`，
+然后在页面里用 `![说明](文件名)` 引用即可（同目录，不需要 `../`）。
+下面几张是现成的候选，源文件在 `figures/`（`.gitignore`，由脚本生成）：
+
+| 建议文件名 | 内容 | 生成方式 |
+|---|---|---|
+| `B_field_section.png` | 测量磁场在 $z=0$ 平面的分布 | `python notebooks/plot_2d_sections.py` |
+| `M_section.png` | 反演磁化强度在磁铁中面的分布 | 同上 |
+| `M_Uspecial.png` | `specialU` 数据集的反演结果 | `notebooks/plot_2d_sections.ipynb` |
+| `M_regularized_vs_noreg.png` | 正则化 vs 无正则化对照 | `python notebooks/B2M_noreg.py` |
+| `symmetry_plane_detection.png` | $J(h)$ 凹坑与不确定带宽 | `python src/symmetry.py data/raw/UshapeNormal_New_prob` |
+| `mirror_overlap.png` | 镜像重合点的分布与不一致量 | 同上 |
+| `E1_discretization.png`、`E2_lambda_sweep.png`、`E5_lambda_rule.png` | 实验曲线 | `cd meshtest && python run_experiments.py --full` |
+
+### 3.5 新数据集（小探头）目前的状态
 
 | 项目 | 结果 |
 |---|---|

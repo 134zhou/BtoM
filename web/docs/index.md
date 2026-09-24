@@ -24,7 +24,7 @@ $$\mathbf B(\mathbf r_i)=\frac{\mu_0}{4\pi}\sum_j V_j\,
     点偶极正演的离散（$B=A M$）、`discretize.TreeMesh` 自适应网格、
     边缘保持正则化、以及用 $\sqrt{v_i}\,m_i$ 当未知量来消掉粗细网格的区别。
 
-    [阅读](methods/b2m.md)
+    [阅读](b2m.md)
 
 -   **方法二：对称面检测与镜像**
 
@@ -33,7 +33,7 @@ $$\mathbf B(\mathbf r_i)=\frac{\mu_0}{4\pi}\sum_j V_j\,
     小探头测穿了对称面之后，手工给的镜像面高度会把镜像点叠到实测点上。
     用数据自身定出对称面 $h$，并让**实测值永远优先**。
 
-    [阅读](methods/symmetry.md)
+    [阅读](symmetry.md)
 
 -   **理论推导**
 
@@ -42,7 +42,7 @@ $$\mathbf B(\mathbf r_i)=\frac{\mu_0}{4\pi}\sum_j V_j\,
     从正问题的离散出发，证明"按体素体积加权"才是 $\int\rho(|\nabla M|)\mathrm dV$
     的正确离散化；以及为什么 $\lambda$ 取值不当会表现为"细网格偏小、粗网格偏大"。
 
-    [阅读](theory/index.md)
+    [阅读](theory.md)
 
 -   **对照实验**
 
@@ -51,7 +51,7 @@ $$\mathbf B(\mathbf r_i)=\frac{\mu_0}{4\pi}\sum_j V_j\,
     E0–E7 七组可复现实验、29 条判据：$O(h^{2})$ 收敛性、$\lambda$ 换算表、
     欠正则化幅值指纹、网格无关性、$\lambda$ 自动选择、粗细网格互换不变性。
 
-    [阅读](experiments/index.md)
+    [阅读](experiments.md)
 
 -   **数据与结果**
 
@@ -59,7 +59,7 @@ $$\mathbf B(\mathbf r_i)=\frac{\mu_0}{4\pi}\sum_j V_j\,
 
     三套测量数据集、几何参数、以及反演出来的磁化强度分布截面图。
 
-    [阅读](results/new-prob.md)
+    [阅读](datasets.md)
 
 -   **复现指南**
 
@@ -101,5 +101,6 @@ $$\mathbf B(\mathbf r_i)=\frac{\mu_0}{4\pi}\sum_j V_j\,
 
 !!! note "关于本站"
     站点用 **MkDocs + Material for MkDocs** 构建，公式由 **MathJax 3** 在浏览器端渲染。
-    `理论推导` / `对照实验` 两栏是仓库里 `meshtest/*.md` 的**自动同步副本**
-    （见 `web/tools/sync_docs.py`），事实来源始终是仓库中的源文件。
+    所有分页 markdown 平铺在 `web/docs/` 一个文件夹里。
+    `理论推导` / `实验说明与结论` / `判据汇总` 三页是仓库里 `meshtest/*.md` 的
+    **自动同步副本**（见 `web/tools/sync_docs.py`），事实来源始终是仓库中的源文件。

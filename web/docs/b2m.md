@@ -79,12 +79,6 @@ grad_reg  = lambda_reg * (G_sub.T @ (V_face[:, None] * grad * weights[:, None]))
 
 生产参数：`lambda_reg = 1e-10`、`huber_epsilon = 4e3`、`max_iter = 50`。
 
-![正则化 vs 无正则化](../assets/M_regularized_vs_noreg.png)
-
-*同一批测量数据：左边是带正则化的反演（幅值合理、边缘清楚），右边是完全不加重正则化的
-最小二乘解（幅值振荡发散）。正则化不是"为了让图好看"，而是为了在无穷多组可行解里挑出
-物理上合理的那一组。*
-
 ---
 
 ## 4. 为什么 $w_f$ 必须按体积加权
@@ -106,7 +100,7 @@ $$\sum_f w_f\,\rho(\|\nabla \mathbf m\|_f)\;\xrightarrow[\;h\to0\;]{}\;\int\rho(
 | 64 | **0.46%** | **28628%** |
 
 完整推导（含"为什么 $\lambda$ 没跟着换算就会表现为细网格偏小、粗网格偏大"）见
-[理论推导](../theory/index.md)。
+[理论推导](theory.md)。
 
 ---
 
@@ -157,8 +151,6 @@ $\lambda$ 的**绝对值没有跨配置意义**（它取决于 $w_f$ 的量纲�
 
 实测：这样选出来的 $\lambda$ 与上帝视角最优完全一致（$k=+1$ vs $+1$，误差同为 0.29%）。
 可用窗口是**单边**的 $k\in[0,+1]$，**宁大勿小**。
-
-![λ 选择规则](../assets/E5_lambda_rule.png)
 
 ---
 

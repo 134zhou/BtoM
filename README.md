@@ -85,9 +85,10 @@ BtoM/
 ├── data/
 │   ├── raw/                   ✅ 原始测量数据（入库）
 │   └── derived/               ❌ 反演产物 .vtu/.vtk（不入库，可重跑）
-├── figures/                   ❌ 论文/站点配图（不入库）
+├── figures/                   ❌ 论文/站点配图源文件（不入库，手工挑选后放进站点）
 ├── archive/                   历史文件（旧 notebook、早期试验、参数快照）
-└── web/                       ⭐ MkDocs 文档站（发布到 GitHub Pages）
+└── web/                       ⭐ MkDocs 文档站（与代码同仓库，发布到 gh-pages 分支）
+    └── docs/                  所有分页 markdown 平铺在这里（配图手工放，不做同步）
 ```
 
 所有脚本/notebook 开头都有一段**仓库路径引导**（向上找含 `.git` 的仓库根），

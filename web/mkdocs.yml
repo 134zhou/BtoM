@@ -39,15 +39,12 @@ theme:
 
 nav:
   - 首页: index.md
-  - 方法:
-      - 反演方法（B2M）: methods/b2m.md
-      - 对称面检测与镜像: methods/symmetry.md
-  - 理论推导: theory/index.md
-  - 对照实验:
-      - 实验说明与结论: experiments/index.md
-      - 判据汇总: experiments/results.md
-  - 数据与结果:
-      - 数据集与结果: results/new-prob.md
+  - 反演方法（B2M）: b2m.md
+  - 对称面检测与镜像: symmetry.md
+  - 理论推导: theory.md
+  - 实验说明与结论: experiments.md
+  - 判据汇总: experiment-results.md
+  - 数据集与结果: datasets.md
   - 复现指南: reproduce.md
 
 markdown_extensions:
