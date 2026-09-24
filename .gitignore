@@ -1,6 +1,37 @@
+# ============================================================
+# BtoM —— 反演磁铁内部磁化强度分布
+# 只提交「源码 + 原始测量数据 + 文档 + 论文/网站源文件」；
+# 一切可重新生成的中间产物、结果文件、图片一律不入库。
+#
+# 注意：.gitignore 不支持行尾注释（# 只在行首才是注释），
+#      所以下面的说明都写在规则上一行。
+# ============================================================
+
+# ---------- Python ----------
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# ---------- 编辑器 ----------
 .vscode/
-data/
-docs/
+
+# ---------- MkDocs 构建产物 ----------
+# 用 `mkdocs gh-deploy` 发布到 gh-pages 分支，网站源码在 web/，产物不入库
+site/
+web/site/
+
+# ---------- 反演 / 绘图产物（可由 data/raw + notebooks 重新生成） ----------
+
+# 论文/报告配图，由 notebooks/ 下的脚本生成
 figures/
-test/
-UshapeNormal/
+
+# 网格化后的 vtk/vtu 与数值结果
+data/derived/
+
+# meshtest 的实验曲线
+meshtest/figures/
+
+# 早期临时试验目录（含 4 MB PDF 与 4×1.7 MB vtu）
+archive/test/

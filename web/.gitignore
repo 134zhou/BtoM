@@ -1,0 +1,6 @@
+# MkDocs 构建产物（用 mkdocs gh-deploy 发布到 gh-pages 分支，不要提交）
+site/
+
+# Python 缓存
+__pycache__/
+*.pyc

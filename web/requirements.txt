@@ -1,0 +1,8 @@
+# BtoM 站点依赖（解释器：E:\Python\Miniforge\envs\HTML）
+# 重建环境：python -m pip install -r requirements.txt
+mkdocs-material==9.7.7
+mkdocs==1.6.1
+pymdown-extensions==11.0.2
+
+# mkdocs gh-deploy 需要（通常随 mkdocs-material 一起装上）
+ghp-import==2.1.0
