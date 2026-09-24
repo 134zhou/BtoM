@@ -17,8 +17,17 @@ __pycache__/
 # ---------- 编辑器 ----------
 .vscode/
 
-# ---------- MkDocs 构建产物 ----------
-# 用 `mkdocs gh-deploy` 发布到 gh-pages 分支，网站源码在 web/，产物不入库
+# ---------- MkDocs ----------
+#
+# 站点源码在 web/（markdown 在 web/docs/），构建产物直接写到【仓库根的 docs/】。
+# 那份产物是【要提交进仓库】的 —— GitHub Pages 用
+#   Settings → Pages → Source: Deploy from a branch → main / docs
+# 直接发布它，不需要 gh-pages 分支。
+#
+# 所以：**千万不要把 docs/ 加进这里**。
+#
+# site/ 与 web/site/ 是早期用 gh-deploy 时的产物目录，现在不会再生成了；
+# 留着只是防止有人在别的目录顺手 mkdocs build 时误提交。
 site/
 web/site/
 

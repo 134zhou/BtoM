@@ -29,37 +29,53 @@ E:/Python/Miniforge/envs/HTML/python.exe -m mkdocs serve
 ```bash
 cd web
 E:/Python/Miniforge/envs/HTML/python.exe -m mkdocs build --strict
-# 产物在 web/site/，--strict 把断链/坏引用当错误
+# 产物直接写到【仓库根的 docs/】（mkdocs.yml 里 site_dir: ../docs）
+# --strict 把断链/坏引用当错误
 ```
 
 ---
 
-## 部署：一个仓库就够了
+## 部署：一个仓库 + 仓库根的 `docs/` 文件夹
 
-站点和代码在**同一个仓库**里，不需要另建仓库。三种发布方式里选的是**第三种**：
+站点和代码在**同一个仓库**里。构建产物写在仓库根的 `docs/`，然后
+**把 `docs/` 一起提交到 `main`**，GitHub Pages 直接从它发布 —— 不用 `gh-pages` 分支，
+也不用 `mkdocs gh-deploy`。
 
 | 方式 | 做法 | 本项目 |
 |---|---|---|
-| ① Deploy from a branch | 在仓库 Settings → Pages 里选分支 + 目录，目录**只能选 `/` 或 `/docs`**（指**仓库根目录下**的 `docs/`） | ❌ 用不了：站点源码在 `web/docs/`，构建产物在 `web/site/`，都不是仓库根的 `docs/` |
-| ② GitHub Actions | 写 workflow，检出仓库 → `mkdocs build` → 部署 | ⚪ 可选（本项目没配，按约定手动发布） |
-| ③ **`gh-deploy` 推 `gh-pages` 分支** | `mkdocs gh-deploy` 用 ghp-import 把 `site/` 提交到**同一仓库**的 `gh-pages` 分支 | ✅ 采用 |
+| **① Deploy from a branch** | Settings → Pages → Source 选 `main` + `/docs` | ✅ **采用** |
+| ② GitHub Actions | workflow 里构建 + 部署 | ⚪ 可选，没配 |
+| ③ `gh-deploy` 推 `gh-pages` | `mkdocs gh-deploy` | ❌ 不用（会有第二个分支） |
+
+完整流程：
 
 ```bash
+# 1) 改文档（web/docs/*.md、mkdocs.yml）——如果改了 meshtest 的 md，先同步
+E:/Python/Miniforge/envs/HTML/python.exe web/tools/sync_docs.py
+
+# 2) 重新构建（产物进仓库根的 docs/）
 cd web
-E:/Python/Miniforge/envs/HTML/python.exe -m mkdocs gh-deploy --force
+E:/Python/Miniforge/envs/HTML/python.exe -m mkdocs build --strict
+cd ..
+
+# 3) 把源码和产物一起提交
+git add web docs
+git commit -m "docs: ..."
+git push
 ```
 
-然后在 GitHub 仓库 **Settings → Pages → Source** 选
-**Deploy from a branch** → 分支 `gh-pages` / 目录 `(root)`。
+GitHub 侧设置一次即可：仓库 **Settings → Pages → Source** →
+**Deploy from a branch** → 分支 **`main`** / 目录 **`/docs`**。
 
-- `gh-pages` 就是同一个仓库的一个分支，**不是第二个仓库**
 - 站点地址：`https://134zhou.github.io/BtoM/`
-  （仓库名不是 `<用户名>.github.io`，所以路径里带仓库名，`mkdocs.yml` 里的
-  `site_url` 已按此填好，用于 sitemap/canonical）
-- `gh-pages` 分支里的内容是构建产物，不用手改；改内容永远改 `main` 分支的 markdown
+  （仓库名不是 `<用户名>.github.io`，所以路径里带仓库名；`mkdocs.yml` 的 `site_url`
+  已按此填好，用于 sitemap/canonical）
+- 仓库根的 `docs/` 是**构建产物**，**不要手改**，也不要加进 `.gitignore`
+- `web/tools/hooks.py` 会在每次构建后往产物里写一个 `.nojekyll`，
+  让 Pages 不走 Jekyll（否则下划线开头的文件会被跳过）
 
-> 如果以后想省掉手动这一步，可以加一个 GitHub Actions workflow：
-> 在 `web/` 下 `mkdocs build` 然后 `mkdocs gh-deploy`。目前按约定没配。
+> ⚠️ 代价：`docs/` 是生成物却要入库，所以**改完文档必须记得重新 `mkdocs build`
+> 再提交**，否则线上还是旧内容。`mkdocs build` 不会自动 commit。
 
 ---
 
@@ -104,28 +120,35 @@ E:/Python/Miniforge/envs/HTML/python.exe web/tools/sync_docs.py --check
 ## 目录
 
 ```
-web/
-  mkdocs.yml                  站点配置（主题、导航、arithmatex、MathJax 脚本）
-  requirements.txt            依赖固定版本
-  README.md                   本文件
-  tools/
-    sync_docs.py              把 meshtest 的三份 md 同步到 docs/（只同步 markdown）
-  docs/                       ← 所有分页 markdown 都平铺在这里
-    index.md                  首页（结论速查 + 记号约定）
-    b2m.md                    反演方法：正演、网格、目标函数、λ 标定
-    symmetry.md               对称面自动检测与镜像重合处理
-    theory.md                 ← meshtest/THEORY.md（自动同步）
-    experiments.md            ← meshtest/README.md（自动同步）
-    experiment-results.md     ← meshtest/results.md（自动同步）
-    datasets.md               数据集、几何、反演结果
-    reproduce.md              环境、目录、全部复现命令
-    javascripts/mathjax.js    MathJax 3 配置（Material + arithmatex 官方配方）
-  site/                       构建产物（.gitignore 已忽略）
+BtoM/
+├── docs/                      ← 【构建产物】GitHub Pages 就是发布这个目录
+│                                 自动生成，不要手改，也不要 .gitignore
+└── web/                       站点工程
+    ├── mkdocs.yml             站点配置（主题、导航、arithmatex、MathJax、hooks）
+    ├── requirements.txt       依赖固定版本
+    ├── README.md              本文件
+    ├── tools/
+    │   ├── sync_docs.py       把 meshtest 的三份 md 同步到 docs/（只同步 markdown）
+    │   └── hooks.py           构建钩子：往产物里写 .nojekyll
+    └── docs/                  ← 【站点源码】所有分页 markdown 都平铺在这里
+        ├── index.md           首页（结论速查 + 记号约定）
+        ├── b2m.md             反演方法：正演、网格、目标函数、λ 标定
+        ├── symmetry.md        对称面自动检测与镜像重合处理
+        ├── theory.md          ← meshtest/THEORY.md（自动同步）
+        ├── experiments.md     ← meshtest/README.md（自动同步）
+        ├── experiment-results.md  ← meshtest/results.md（自动同步）
+        ├── datasets.md        数据集、几何、反演结果
+        ├── reproduce.md       环境、目录、全部复现命令
+        └── javascripts/mathjax.js  MathJax 3 配置（Material + arithmatex 官方配方）
 ```
 
 ## 已知事项
 
 - 公式在浏览器端由 MathJax 渲染，读者需要能访问 `unpkg.com`。要完全离线，
   把 `mkdocs.yml` 里 MathJax 的 URL 换成本地文件。
-- `docs/` 下不放子文件夹（除 `javascripts/`）：`use_directory_urls: true` 时
+- **构建产物要提交**：`docs/` 是生成物却进了版本库，这是"用 main 分支的 `/docs`
+  发布"这个方案的必要代价。改完文档别忘了 `mkdocs build` 再 `git add docs`。
+- `web/docs/` 下不放子文件夹（除 `javascripts/`）：`use_directory_urls: true` 时
   每页 URL 是 `/BtoM/<文件名>/`，同目录引用图片直接写文件名即可。
+- 两个 `docs/` 别搞混：`web/docs/` 是 **markdown 源**，
+  仓库根的 `docs/` 是 **HTML 产物**。

@@ -49,11 +49,14 @@ BtoM/
 │   └── derived/               ❌ 不入库：反演产物（.vtu/.vtk），可由脚本重跑
 ├── figures/                   ❌ 不入库：论文/站点配图（由 notebooks 生成）
 ├── archive/                   历史文件：旧 notebook、早期试验、参数快照
-└── web/                       ⭐ MkDocs 站点（发布到 GitHub Pages）
-    ├── mkdocs.yml
+├── docs/                      ⭐【构建产物】GitHub Pages 发布的就是这个目录
+│                                 由 mkdocs build 生成，别手改，也别 .gitignore
+└── web/                       站点工程
+    ├── mkdocs.yml             站点配置（site_dir: ../docs）
     ├── requirements.txt
-    ├── tools/sync_docs.py     把 meshtest/*.md 同步到站点
-    └── docs/                  站点源文件
+    ├── tools/sync_docs.py     把 meshtest 的三份 md 同步到 web/docs/
+    ├── tools/hooks.py         构建钩子：往产物里写 .nojekyll
+    └── docs/                  【站点源码】分页 markdown 平铺在这里
 ```
 
 !!! note "路径无关"
@@ -133,7 +136,7 @@ $PY run_experiments.py --only E7      # 只跑某一个实验
 # 依赖（首次/换机）——已装好则跳过
 E:/Python/Miniforge/envs/HTML/python.exe -m pip install -r web/requirements.txt
 
-# 同步 meshtest 的三份 md 到站点（改了源文件就要跑；只管 markdown，不管图片）
+# 同步 meshtest 的三份 md 到站点源码（改了源文件就要跑；只管 markdown，不管图片）
 E:/Python/Miniforge/envs/HTML/python.exe web/tools/sync_docs.py
 E:/Python/Miniforge/envs/HTML/python.exe web/tools/sync_docs.py --check   # 只检查是否已同步
 
@@ -143,21 +146,36 @@ E:/Python/Miniforge/envs/HTML/python.exe -m mkdocs serve
 # 浏览器打开 http://127.0.0.1:8000/
 
 # 构建（--strict 会把断链/坏引用当错误）
+# 产物直接写到【仓库根的 docs/】，因为 mkdocs.yml 里设了 site_dir: ../docs
 E:/Python/Miniforge/envs/HTML/python.exe -m mkdocs build --strict
+cd ..
 
-# 发布：把 site/ 推到 gh-pages 分支
-E:/Python/Miniforge/envs/HTML/python.exe -m mkdocs gh-deploy --force
+# 发布：把源码和产物一起提交到 main
+git add web docs
+git commit -m "docs: ..."
+git push
 ```
 
-发布后：仓库 **Settings → Pages → Source** 选 **Deploy from a branch** →
-分支 `gh-pages` / 目录 `(root)`。站点地址 `https://134zhou.github.io/BtoM/`。
+GitHub 侧只需要设置一次：仓库 **Settings → Pages → Source** →
+**Deploy from a branch** → 分支 **`main`** / 目录 **`/docs`**。
+站点地址 `https://134zhou.github.io/BtoM/`。
 
-!!! note "单仓库就够了"
-    `gh-pages` 只是**同一个仓库**的一个分支，不需要为站点另建仓库。
-    注意 Pages 的 "Deploy from a branch" 里目录**只能选仓库根的 `/` 或 `/docs`**，
-    而本站源码在 `web/docs/`、构建产物在 `web/site/`，所以走 `gh-pages` 分支这条路
-    （详见 `web/README.md`）。
+!!! note "为什么用仓库根的 docs/"
+    这是 GitHub Pages "Deploy from a branch" 唯一能选的两个目录之一
+    （另一个是 `/`）。把构建产物直接输出到那里，就**不需要 `gh-pages` 分支、
+    也不需要 `mkdocs gh-deploy`** —— 一个仓库、一条 `main` 分支搞定。
+
+    两个 `docs/` 别搞混：
+
+    | 路径 | 是什么 | 谁维护 |
+    |---|---|---|
+    | `web/docs/` | markdown **源文件** | 人写（+ `sync_docs.py` 同步三页） |
+    | `docs/` | 构建出来的 **HTML 产物** | `mkdocs build` 生成，**别手改** |
+
+    产物里的 `.nojekyll` 由 `web/tools/hooks.py` 在每次构建后自动写入，
+    让 Pages 不走 Jekyll。
 
 !!! warning "发布是手动动作"
     本仓库**没有**配置 GitHub Actions 自动部署。改完文档要自己跑一次
-    `sync_docs.py` + `mkdocs gh-deploy`，否则线上站点不会更新。
+    `sync_docs.py`（可选）+ `mkdocs build --strict` + `git add docs` 再提交，
+    否则线上站点不会更新。

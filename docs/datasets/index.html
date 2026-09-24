@@ -1,0 +1,1151 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="用外部磁场测量数据反推磁铁内部的磁化强度分布：偶极正演的离散、体积加权正则化、对称面自动检测与网格无关性">
+      
+      
+        <meta name="author" content="134zhou">
+      
+      
+        <link rel="canonical" href="https://134zhou.github.io/BtoM/datasets/">
+      
+      
+        <link rel="prev" href="../experiment-results/">
+      
+      
+        <link rel="next" href="../reproduce/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>数据集与结果 - BtoM —— 反演磁铁内部磁化强度分布</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="BtoM —— 反演磁铁内部磁化强度分布" class="md-header__button md-logo" aria-label="BtoM —— 反演磁铁内部磁化强度分布" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            BtoM —— 反演磁铁内部磁化强度分布
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              数据集与结果
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="切换到深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="切换到浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/134zhou/BtoM" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    134zhou/BtoM
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="BtoM —— 反演磁铁内部磁化强度分布" class="md-nav__button md-logo" aria-label="BtoM —— 反演磁铁内部磁化强度分布" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    BtoM —— 反演磁铁内部磁化强度分布
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/134zhou/BtoM" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    134zhou/BtoM
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../b2m/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    反演方法（B2M）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../symmetry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    对称面检测与镜像
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../theory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    理论推导
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../experiments/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实验说明与结论
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../experiment-results/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    判据汇总
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数据集与结果
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数据集与结果
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 测量数据集
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 磁铁几何
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 反演结果
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 反演结果">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-ushapenormal-z0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 测量磁场（UshapeNormal，扫描平面 \(z=0\)）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 反演出的磁化强度（磁铁中面）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 正则化到底在做什么
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 配图由人工维护
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 新数据集（小探头）目前的状态
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 结果文件在哪
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 局限
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reproduce/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    复现指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 测量数据集
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 磁铁几何
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 反演结果
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 反演结果">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-ushapenormal-z0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 测量磁场（UshapeNormal，扫描平面 \(z=0\)）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 反演出的磁化强度（磁铁中面）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 正则化到底在做什么
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 配图由人工维护
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 新数据集（小探头）目前的状态
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 结果文件在哪
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 局限
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="_1">数据集与结果<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<h2 id="1">1. 测量数据集<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<p>三套数据，CSV 格式统一为 <code>x, y, z, Bx, By, Bz</code>（坐标 mm、磁场 µT）：</p>
+<table>
+<thead>
+<tr>
+<th>目录</th>
+<th>文件</th>
+<th>测点数</th>
+<th>说明</th>
+<th>谁在用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>data/raw/specialU/</code></td>
+<td><code>N_leg.csv</code> / <code>S_leg.csv</code> / <code>whole.csv</code></td>
+<td>3696 / 2816 / 720</td>
+<td>早期"特殊 U"磁铁，两腿分开扫</td>
+<td><code>notebooks/B2M.ipynb</code></td>
+</tr>
+<tr>
+<td><code>data/raw/UshapeNormal/</code></td>
+<td><code>Large.csv</code> / <code>legs.csv</code></td>
+<td>4200 / 7056</td>
+<td>圆弧区 4 mm 间距、磁腿区 2 mm 间距</td>
+<td><code>notebooks/B2M_noreg.py</code>、<code>notebooks/plot_2d_sections.py</code></td>
+</tr>
+<tr>
+<td><code>data/raw/UshapeNormal_New_prob/</code></td>
+<td><code>magnetic_field_{N,S,front,up,inside,curve}.csv</code></td>
+<td>3968 / 4960 / 15360 / 13888 / 8432 / 2176，<strong>合计 48784</strong></td>
+<td><strong>小探头</strong>重测：测点跨越了磁铁对称面，<span class="arithmatex">\(z\in[0,40]\)</span> mm</td>
+<td><code>notebooks/B2M_newprob.py</code>、<code>src/symmetry.py</code></td>
+</tr>
+<tr>
+<td><code>data/raw/legacy/</code></td>
+<td><code>U_normal_magnetic_field.csv</code>、<code>U_special_B.csv</code></td>
+<td>975 / 975</td>
+<td>更早的两组测量，仅存档</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="2">2. 磁铁几何<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
+<p>三套数据对应三块不同的磁铁（或同一块磁铁的不同测量），几何参数<strong>不通用</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>参数（mm）</th>
+<th><code>specialU</code></th>
+<th><code>UshapeNormal</code></th>
+<th><code>UshapeNormal_New_prob</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\(x\)</span> 范围</td>
+<td>104 – 186</td>
+<td>111.5 – 193.5</td>
+<td>96 – 186 ⚠️</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(y\)</span> 范围</td>
+<td>134 – 240</td>
+<td>129.5 – 231.5</td>
+<td>120 – 250 ⚠️</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(z\)</span> 范围</td>
+<td>−28 – 0</td>
+<td>−35 – −3</td>
+<td>−8 – 24 ⚠️</td>
+</tr>
+<tr>
+<td>外半径 <span class="arithmatex">\(R_{\text{out}}\)</span></td>
+<td>41</td>
+<td>41</td>
+<td>45 ⚠️</td>
+</tr>
+<tr>
+<td>内半径 <span class="arithmatex">\(R_{\text{in}}\)</span></td>
+<td>22</td>
+<td>22</td>
+<td>18 ⚠️</td>
+</tr>
+<tr>
+<td>厚度 <span class="arithmatex">\(T\)</span></td>
+<td>28</td>
+<td>32</td>
+<td>32 ⚠️</td>
+</tr>
+<tr>
+<td>基础体素</td>
+<td>1.5</td>
+<td>1.5</td>
+<td>1.5</td>
+</tr>
+<tr>
+<td>加密分界 <span class="arithmatex">\(y_{\text{split}}\)</span></td>
+<td>144</td>
+<td>144</td>
+<td>144</td>
+</tr>
+</tbody>
+</table>
+<p>几何模型：<span class="arithmatex">\(U\)</span> 形 = 上半圆环（<span class="arithmatex">\(R_{\text{in}}\le r\le R_{\text{out}}\)</span>，圆心 <span class="arithmatex">\((X_c,Y_c)\)</span>）
++ 下半两条直腿（<span class="arithmatex">\(y\le Y_c\)</span> 的两条竖条），<span class="arithmatex">\(Y_c=Y_{\max}-R_{\text{out}}\)</span>。</p>
+<div class="admonition danger">
+<p class="admonition-title">新数据集的几何是占位值（⚠️）</p>
+<p><code>UshapeNormal_New_prob</code> 的几何<strong>没有实测</strong>，是从扫描范围反推的粗估：</p>
+<ul>
+<li><code>magnetic_field_inside.csv</code> 覆盖 <span class="arithmatex">\(x\in[125,157]\)</span> ⇒ 槽宽 ≈33 mm、<span class="arithmatex">\(X_c\approx141\)</span>；</li>
+<li><code>N</code>/<code>S</code> 扫描分别在 <span class="arithmatex">\(x\le94\)</span> / <span class="arithmatex">\(x\ge189\)</span> ⇒ 外侧面在 96 / 186 附近；</li>
+<li><code>front</code> 扫描 <span class="arithmatex">\(y\le117\)</span> ⇒ 磁腿下端面 <span class="arithmatex">\(y\approx119\)</span>；</li>
+<li><strong><span class="arithmatex">\(z\)</span> 厚度 <span class="arithmatex">\(T\)</span> 无法从外部场反演</strong>（<span class="arithmatex">\(z\)</span> 向均匀分布时外部场只依赖 <span class="arithmatex">\(M\!\cdot\!T\)</span>），
+  必须用卡尺实测。</li>
+</ul>
+<p>代码里 <code>GEOMETRY_IS_PLACEHOLDER = True</code> 会在每次运行时大声警告。
+填充实测尺寸后请把它置为 <code>False</code>。
+<strong>本数据集的反演绝对幅值暂时不要引用</strong>，但"对称面 <span class="arithmatex">\(h=8\)</span> mm""重合 37.7%"
+以及全部方法学结论（<code>meshtest/</code>）都不依赖这组占位尺寸。</p>
+</div>
+<hr />
+<h2 id="3">3. 反演结果<a class="headerlink" href="#3" title="Permanent link">&para;</a></h2>
+<h3 id="31-ushapenormal-z0">3.1 测量磁场（<code>UshapeNormal</code>，扫描平面 <span class="arithmatex">\(z=0\)</span>）<a class="headerlink" href="#31-ushapenormal-z0" title="Permanent link">&para;</a></h3>
+<p><code>Large.csv</code>（圆弧区，4 mm 间距，4200 点）与 <code>legs.csv</code>（磁腿区，2 mm 间距，7056 点）
+合起来覆盖 U 形磁铁上方的一个平面。测量磁场的模值分布里 U 形轮廓清晰可辨：
+两条磁腿外侧场强最高、槽内迅速衰减、圆弧顶部居中。</p>
+<p><strong>这正是反演能成立的原因</strong> —— 外部场的空间结构直接编码了内部磁化分布；
+如果测点离得太远，几何核退化成常数，数据就只剩下"总磁矩"这一个信息量。</p>
+<h3 id="32">3.2 反演出的磁化强度（磁铁中面）<a class="headerlink" href="#32" title="Permanent link">&para;</a></h3>
+<p>正则化反演给出的 <span class="arithmatex">\(\lvert\mathbf M\rvert\)</span> 在中面（<span class="arithmatex">\(z\approx-19\)</span> mm）上的分布，
+叠加磁铁几何轮廓后可以看到磁化强度集中在 U 形的两条腿与圆弧上，槽内接近 0；
+幅值在 <span class="arithmatex">\(10^5\)</span> A/m 量级，与钕铁硼永磁体的典型剩磁同量级。</p>
+<h3 id="33">3.3 正则化到底在做什么<a class="headerlink" href="#33" title="Permanent link">&para;</a></h3>
+<p>同一批数据、同一个正演算子，去掉正则化项的纯最小二乘解对数据的拟合同样很好
+（甚至更好），但幅值在空间上剧烈振荡、相邻单元符号乱跳 ——
+这是"解不唯一，必须靠挑解规则"的直接证据，也是 <code>B2M_noreg.py</code> 存在的意义：
+它专门用来展示"没有正则化会发生什么"。</p>
+<h3 id="34">3.4 配图由人工维护<a class="headerlink" href="#34" title="Permanent link">&para;</a></h3>
+<p>本仓库<strong>不做图片同步</strong>。要往站点加图，把文件放进 <code>web/docs/</code>，
+然后在页面里用 <code>![说明](文件名)</code> 引用即可（同目录，不需要 <code>../</code>）。
+下面几张是现成的候选，源文件在 <code>figures/</code>（<code>.gitignore</code>，由脚本生成）：</p>
+<table>
+<thead>
+<tr>
+<th>建议文件名</th>
+<th>内容</th>
+<th>生成方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>B_field_section.png</code></td>
+<td>测量磁场在 <span class="arithmatex">\(z=0\)</span> 平面的分布</td>
+<td><code>python notebooks/plot_2d_sections.py</code></td>
+</tr>
+<tr>
+<td><code>M_section.png</code></td>
+<td>反演磁化强度在磁铁中面的分布</td>
+<td>同上</td>
+</tr>
+<tr>
+<td><code>M_Uspecial.png</code></td>
+<td><code>specialU</code> 数据集的反演结果</td>
+<td><code>notebooks/plot_2d_sections.ipynb</code></td>
+</tr>
+<tr>
+<td><code>M_regularized_vs_noreg.png</code></td>
+<td>正则化 vs 无正则化对照</td>
+<td><code>python notebooks/B2M_noreg.py</code></td>
+</tr>
+<tr>
+<td><code>symmetry_plane_detection.png</code></td>
+<td><span class="arithmatex">\(J(h)\)</span> 凹坑与不确定带宽</td>
+<td><code>python src/symmetry.py data/raw/UshapeNormal_New_prob</code></td>
+</tr>
+<tr>
+<td><code>mirror_overlap.png</code></td>
+<td>镜像重合点的分布与不一致量</td>
+<td>同上</td>
+</tr>
+<tr>
+<td><code>E1_discretization.png</code>、<code>E2_lambda_sweep.png</code>、<code>E5_lambda_rule.png</code></td>
+<td>实验曲线</td>
+<td><code>cd meshtest &amp;&amp; python run_experiments.py --full</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="35">3.5 新数据集（小探头）目前的状态<a class="headerlink" href="#35" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>对称面自动检测</td>
+<td><span class="arithmatex">\(h=8.000\)</span> mm（原始最优点 7.698 mm，带宽 [7.55, 7.90] mm，已吸附到实测 <span class="arithmatex">\(z\)</span> 网格）</td>
+</tr>
+<tr>
+<td>数据装配</td>
+<td>实测 48784 → 镜像补点 30379 → <strong>最终 79163 点</strong>（重合的 18405 个镜像副本被丢弃）</td>
+</tr>
+<tr>
+<td>几何一致性校验</td>
+<td>任何测点（含镜像补点）都不允许落进磁铁实体内部，违反了直接报错</td>
+</tr>
+<tr>
+<td>反演本身</td>
+<td>流程跑通，但因为几何是占位值，<strong>结果暂不发布</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="4">4. 结果文件在哪<a class="headerlink" href="#4" title="Permanent link">&para;</a></h2>
+<p><code>data/derived/</code> 里放的是<strong>可由原始数据 + 脚本重新生成</strong>的中间产物，
+<strong>不纳入 git</strong>（见根目录 <code>.gitignore</code>），换台机器 clone 下来不会有它们：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>data/derived/
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>├── specialU/                 Large.vtk / legs.vtk（csv2vtk 转出的结构化点云）
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>│                             inverted_M_results_{newmesh,newoperator}.vtu
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>├── UshapeNormal/             同上 + inverted_M_results_noreg.vtu（无正则化对照）
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>├── UshapeNormal_New_prob/    inverted_M_results_newmesh.vtu（⚠️ 占位几何）
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>│                             mag_structured_*.vtk（6 个扫描文件的场分布）
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>└── legacy/                   早期结果，仅存档
+</code></pre></div>
+<p><code>.vtu</code> 是 <code>pyvista</code>/VTK 的 <code>UnstructuredGrid</code>，单元数据里带 <code>Mx, My, Mz</code>，
+用 ParaView 或 <code>pyvista.read()</code> 直接打开。</p>
+<hr />
+<h2 id="5">5. 局限<a class="headerlink" href="#5" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>点偶极近似</strong>：每个体素当点偶极子。测点离磁体表面太近（&lt; 4~6 个单元尺度）时，
+   近似误差会污染反演（<code>meshtest</code> 里踩过"真值处残差 = 90σ"的坑）。</li>
+<li><strong><span class="arithmatex">\(z\)</span> 向不可分辨</strong>：若磁化沿 <span class="arithmatex">\(z\)</span> 均匀，外部场只依赖 <span class="arithmatex">\(M\cdot T\)</span>，<span class="arithmatex">\(M\)</span> 与 <span class="arithmatex">\(T\)</span>
+   无法同时反演 —— 厚度必须实测。</li>
+<li><strong>无真值</strong>：真实磁铁没有"标准答案"，所以方法学结论全部建立在
+   <code>meshtest/</code> 的合成真值对照实验上（独立 1 mm 细网格正演，避免 inverse crime）。</li>
+<li><strong>未做</strong>：各向异性 TV、L0/L1 稀疏先验、以及真实 U 形几何 + 真实点云上的
+   <span class="arithmatex">\(\lambda\)</span> 标定值。</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../experiment-results/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 判据汇总">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                判据汇总
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../reproduce/" class="md-footer__link md-footer__link--next" aria-label="下一页: 复现指南">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                复现指南
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.top", "navigation.footer", "content.code.copy", "search.suggest", "search.highlight", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

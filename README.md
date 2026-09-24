@@ -87,9 +87,15 @@ BtoM/
 │   └── derived/               ❌ 反演产物 .vtu/.vtk（不入库，可重跑）
 ├── figures/                   ❌ 论文/站点配图源文件（不入库，手工挑选后放进站点）
 ├── archive/                   历史文件（旧 notebook、早期试验、参数快照）
-└── web/                       ⭐ MkDocs 文档站（与代码同仓库，发布到 gh-pages 分支）
-    └── docs/                  所有分页 markdown 平铺在这里（配图手工放，不做同步）
+├── docs/                      ⭐【构建产物】GitHub Pages 发布的目录（由 mkdocs build 生成）
+└── web/                       站点工程
+    └── docs/                  站点源码：所有分页 markdown 平铺在这里
 ```
+
+> ⚠️ 两个 `docs/` 别搞混：`web/docs/` 是 **markdown 源**（人写），
+> 仓库根的 `docs/` 是 **HTML 产物**（`mkdocs build` 生成，要提交，别手改）。
+> Pages 走 **Settings → Source: Deploy from a branch → `main` / `/docs`**，
+> 不需要 `gh-pages` 分支。
 
 所有脚本/notebook 开头都有一段**仓库路径引导**（向上找含 `.git` 的仓库根），
 所以**在仓库里的任何位置运行都能找到同一批文件**。

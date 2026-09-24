@@ -1,0 +1,12 @@
+# ============================================================
+# 仓库根的 docs/ 是 `mkdocs build` 的产物（站点源码在 web/docs/）。
+# 这些标记只影响 GitHub 的展示，不影响 git 本身的行为：
+#   linguist-generated  不计入仓库的「语言统计」（否则一堆 CSS/JS 会盖过 Python）
+#   linguist-vendored   主题自带的 assets（字体/CSS/JS）当成第三方资源
+# ============================================================
+docs/**            linguist-generated=true
+docs/assets/**     linguist-vendored=true
+
+# 文档与 notebook 统一按文本处理
+*.md  text
+*.yml text

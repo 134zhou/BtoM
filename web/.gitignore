@@ -1,6 +1,8 @@
-# MkDocs 构建产物（用 mkdocs gh-deploy 发布到 gh-pages 分支，不要提交）
-site/
-
 # Python 缓存
 __pycache__/
 *.pyc
+
+# 注：构建产物现在写到【仓库根的 docs/】，那份是要提交的，
+# 由根目录的 .gitignore 统一说明，这里不用管。
+# site/ 是早期 gh-deploy 时代的目录，不再生成，留着防误提交。
+site/

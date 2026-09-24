@@ -1,0 +1,1042 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="用外部磁场测量数据反推磁铁内部的磁化强度分布：偶极正演的离散、体积加权正则化、对称面自动检测与网格无关性">
+      
+      
+        <meta name="author" content="134zhou">
+      
+      
+        <link rel="canonical" href="https://134zhou.github.io/BtoM/symmetry/">
+      
+      
+        <link rel="prev" href="../b2m/">
+      
+      
+        <link rel="next" href="../theory/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>对称面检测与镜像 - BtoM —— 反演磁铁内部磁化强度分布</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="BtoM —— 反演磁铁内部磁化强度分布" class="md-header__button md-logo" aria-label="BtoM —— 反演磁铁内部磁化强度分布" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            BtoM —— 反演磁铁内部磁化强度分布
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              对称面检测与镜像
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="切换到深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="切换到浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/134zhou/BtoM" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    134zhou/BtoM
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="BtoM —— 反演磁铁内部磁化强度分布" class="md-nav__button md-logo" aria-label="BtoM —— 反演磁铁内部磁化强度分布" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    BtoM —— 反演磁铁内部磁化强度分布
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/134zhou/BtoM" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    134zhou/BtoM
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../b2m/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    反演方法（B2M）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    对称面检测与镜像
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    对称面检测与镜像
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 问题：小探头测穿了对称面
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-h" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 原理：\(h\) 处的镜像奇偶性
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 原理：\(h\) 处的镜像奇偶性">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        实现细节
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 实测结果
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 重合点怎么处理
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 自测与回归
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../theory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    理论推导
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../experiments/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实验说明与结论
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../experiment-results/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    判据汇总
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../datasets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数据集与结果
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reproduce/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    复现指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 问题：小探头测穿了对称面
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-h" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 原理：\(h\) 处的镜像奇偶性
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 原理：\(h\) 处的镜像奇偶性">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        实现细节
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 实测结果
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 重合点怎么处理
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 自测与回归
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="_1">对称面检测与镜像增强<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>代码：<code>src/symmetry.py</code>（公用模块 + 命令行）。</p>
+<hr />
+<h2 id="1">1. 问题：小探头测穿了对称面<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<p>反演需要足够的测点。历史上测点只覆盖磁铁<strong>一侧</strong>，于是把每个测点沿厚度方向镜像一份
+（<span class="arithmatex">\(z\mapsto 2h-z\)</span>，<span class="arithmatex">\(\mathbf B\)</span> 按奇偶性翻转）来补齐另一侧，其中 <span class="arithmatex">\(h\)</span> 是磁铁厚度的
+对称面高度，靠手工填 <code>(Z_MIN + Z_MAX)/2</code>。</p>
+<p>换成<strong>小探头</strong>之后，扫描已经跨过了磁铁的对称面，镜像个体会<strong>落在实测点坐标上</strong>：</p>
+<ul>
+<li>新数据集 <code>UshapeNormal_New_prob</code> 在 <span class="arithmatex">\(h=8\)</span> mm 时，48784 个实测点里有 <strong>18405 个</strong>
+  （<strong>37.7%</strong>）与镜像候选点重合；</li>
+<li>重合处的两条数据<strong>并不相等</strong>（探头定位误差 + 噪声 + 磁铁本身的不对称），
+  直接镜像相当于同一位置塞了两份互相矛盾的数据，既重复计权又引入偏差。</li>
+</ul>
+<p>所以要做两件事：<strong>用数据自身把 <span class="arithmatex">\(h\)</span> 定准</strong>，以及<strong>给重合点一个明确的处理策略</strong>。</p>
+<hr />
+<h2 id="2-h">2. 原理：<span class="arithmatex">\(h\)</span> 处的镜像奇偶性<a class="headerlink" href="#2-h" title="Permanent link">&para;</a></h2>
+<p>设磁化强度位于 <span class="arithmatex">\(x\text{-}y\)</span> 面内、沿 <span class="arithmatex">\(z\)</span> 均匀分布（<span class="arithmatex">\(M_z=0\)</span>）。把源按 <span class="arithmatex">\(z=h\pm t\)</span>
+成对配对：<span class="arithmatex">\(\mathbf M\cdot\mathrm d\mathbf r\)</span> 与 <span class="arithmatex">\(z\)</span> 无关，因此绕 <span class="arithmatex">\(z=h\)</span> 有</p>
+<div class="arithmatex">\[B_x(x,y,\,2h-z)=B_x(x,y,z),\qquad
+B_y(x,y,\,2h-z)=B_y(x,y,z),\qquad
+B_z(x,y,\,2h-z)=-B_z(x,y,z)\]</div>
+<p>即 <strong><span class="arithmatex">\(B_x/B_y\)</span> 偶、<span class="arithmatex">\(B_z\)</span> 奇</strong>。</p>
+<div class="admonition warning">
+<p class="admonition-title">别凭直觉写符号</p>
+<p>这与"电流分布镜像不变"的情形<strong>符号相反</strong>。本项目早期就是靠直觉写的，
+所以 <code>symmetry.py --regression</code> 里专门留了一条与旧公式的对照。</p>
+</div>
+<p>于是可以定义<strong>镜像一致性目标</strong>：</p>
+<div class="arithmatex">\[J(h)=\frac{1}{3}\sum_{k\in\{x,y,z\}}
+\frac{\sum \Delta B_k^2}{\sum B_k^2},
+\qquad
+\Delta\mathbf B=\mathbf B(2h-z)-(B_x,\,B_y,\,-B_z)\big|_{z}\]</div>
+<p><span class="arithmatex">\(J\)</span> 是无量纲相对失配：<span class="arithmatex">\(J\ll1\)</span> 说明数据确实关于该平面镜像对称；<span class="arithmatex">\(J\approx1\)</span> 说明
+完全没有这种对称性（单侧数据即如此）。在测量 <span class="arithmatex">\(z\)</span> 跨度内扫描 <span class="arithmatex">\(h\)</span>，<span class="arithmatex">\(J\)</span> 的<strong>极小值</strong>
+就是对称面。</p>
+<h3 id="_2">实现细节<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>做法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>分列</td>
+<td>按 <span class="arithmatex">\((x,y)\)</span> 把测点组成 <span class="arithmatex">\(z\)</span> 向列，只保留点数 ≥5 且 <span class="arithmatex">\(z\)</span> 跨度 ≥6 mm 的列</td>
+</tr>
+<tr>
+<td>重采样</td>
+<td>每条列用<strong>三次样条</strong>重采样到统一 <span class="arithmatex">\(z\)</span> 网格，好让 <span class="arithmatex">\(z\)</span> 与 <span class="arithmatex">\(2h-z\)</span> 逐点比较</td>
+</tr>
+<tr>
+<td>粗扫 → 精扫</td>
+<td>先粗扫定位凹坑，再在坑内精扫；最后在凹坑内部做<strong>抛物线细化</strong>（避免被扫描边界带偏）</td>
+</tr>
+<tr>
+<td>吸附</td>
+<td>候选高度取所有 <span class="arithmatex">\(2h\)</span> 恰落在实测 <span class="arithmatex">\(z\)</span> 平面上的值。若与最优点之差 ≤ <code>max(0.3mm, 带宽)</code> 就吸附过去，<strong>免掉镜像插值误差</strong></td>
+</tr>
+<tr>
+<td>接受判据</td>
+<td>配对数 ≥200、有效列 ≥50、<span class="arithmatex">\(J_{\min}\le0.05\)</span>、<span class="arithmatex">\(J_{\min}\le0.2\,J_{\text{median}}\)</span>、凹坑带宽 ≤2 mm。任一不过 → <strong>拒绝</strong>并回落几何中面（行为与旧版完全一致）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="3">3. 实测结果<a class="headerlink" href="#3" title="Permanent link">&para;</a></h2>
+<p><code>data/raw/UshapeNormal_New_prob/</code>（6 个扫描文件，48784 点，<span class="arithmatex">\(x\in[79,207]\)</span>、
+<span class="arithmatex">\(y\in[89,249]\)</span>、<span class="arithmatex">\(z\in[0,40]\)</span> mm）：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>检测结果 h_raw = 7.698 mm   (J = 1.9763e-02)
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>不确定带宽  = [7.55, 7.90] mm (宽 0.35 mm)
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>网格吸附候选 h_snap = 8.000 mm (|Δ| = 0.302 mm)
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>配对数 = 126790  有效列 = 4029
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>J 中位数(全扫描范围) = 1.3344
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>h* 处各分量相对失配 J_k:  Bx=3.5e-04  By=5.2e-04  Bz=5.8e-02
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>各分量信噪比粗估:          Bx=70       By=28       Bz=39
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>采用 h = 8.000 mm   accepted = True
+</code></pre></div>
+<p>几个值得注意的点：</p>
+<ul>
+<li><strong>凹坑很深</strong>：<span class="arithmatex">\(J_{\min}=0.0198\)</span> 相对全扫描中位数 1.334，比值 0.015 ≪ 0.2，
+  说明数据确实有很强的镜像对称性。</li>
+<li><strong><span class="arithmatex">\(B_z\)</span> 是主要信息来源</strong>：<span class="arithmatex">\(B_x/B_y\)</span> 的失配只有 <span class="arithmatex">\(10^{-4}\)</span> 量级（几乎完美对称），
+  而 <span class="arithmatex">\(B_z\)</span> 是 <span class="arithmatex">\(6\times10^{-2}\)</span> —— 因为对称面高度只通过 <span class="arithmatex">\(B_z\)</span> 的奇性被"看见"。</li>
+<li><strong>纯网格配对交叉校验</strong>（不做任何插值，只在实测 <span class="arithmatex">\(z\)</span> 平面上找配对）独立复现了同一个值：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th><span class="arithmatex">\(h\)</span> / mm</th>
+<th>配对数</th>
+<th>rms<span class="arithmatex">\(\lvert\Delta B\rvert\)</span> / µT（<span class="arithmatex">\(x,y,z\)</span>）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>8.00</strong></td>
+<td>18405</td>
+<td><strong>[203.9, 233.3, 750.7]</strong></td>
+</tr>
+<tr>
+<td>7.00</td>
+<td>16360</td>
+<td>[270.9, 303.9, 1091.0]</td>
+</tr>
+<tr>
+<td>9.00</td>
+<td>20450</td>
+<td>[333.5, 358.4, 1597.5]</td>
+</tr>
+<tr>
+<td>6.00</td>
+<td>14315</td>
+<td>[362.6, 410.6, 2198.1]</td>
+</tr>
+<tr>
+<td>10.00</td>
+<td>22495</td>
+<td>[613.3, 639.3, 2556.9]</td>
+</tr>
+<tr>
+<td>5.00</td>
+<td>12270</td>
+<td>[438.8, 495.8, 3412.6]</td>
+</tr>
+</tbody>
+</table>
+<p><span class="arithmatex">\(h=8\)</span> 在两个方向上都比邻居好，且偏差随 <span class="arithmatex">\(\lvert h-8\rvert\)</span> 单调增大 —— 这比
+  单纯报一个最优点更有说服力。</p>
+<hr />
+<h2 id="4">4. 重合点怎么处理<a class="headerlink" href="#4" title="Permanent link">&para;</a></h2>
+<p><code>apply_mirror</code> 的策略由 <code>--policy</code> 决定：</p>
+<table>
+<thead>
+<tr>
+<th>策略</th>
+<th>含义</th>
+<th>何时用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>keep_measured</code>（<strong>默认</strong>）</td>
+<td>镜像点若落在实测点附近（容差内）就<strong>直接丢弃</strong>，只在实测未覆盖的空区补镜像点。<strong>实测值永远优先</strong></td>
+<td>相信实测、不想让镜像数据影响已有测点</td>
+</tr>
+<tr>
+<td><code>average</code></td>
+<td>重合对做对称化平均 <span class="arithmatex">\(\mathbf B\gets\frac12\bigl(\mathbf B(p)+\mathbf R\,\mathbf B(\sigma p)\bigr)\)</span>，剩余镜像点补进空区</td>
+<td>想利用镜像约束去噪</td>
+</tr>
+</tbody>
+</table>
+<p>去重容差默认自适应：<code>0.5 ×</code> 最近邻距离中位数（本数据集 = <strong>1.000 mm</strong>，对应扫描间距 2 mm）。</p>
+<p>本数据集在 <span class="arithmatex">\(h=8\)</span> mm、<code>keep_measured</code> 下的装配结果：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>实测点 48784 → 镜像候选 48784 → 其中重合 18405（丢弃）→ 补点 30379
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>最终点数 79163
+</code></pre></div>
+<p>重合处两条数据的不一致量（实测 vs 镜像）：</p>
+<table>
+<thead>
+<tr>
+<th>分量</th>
+<th>rms</th>
+<th>相对该分量 rms</th>
+<th>与噪声比较</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\(B_x\)</span></td>
+<td>203.9 µT</td>
+<td>2.09%</td>
+<td>1.9× 噪声（107 µT）</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(B_y\)</span></td>
+<td>233.3 µT</td>
+<td>2.50%</td>
+<td>0.9× 噪声（249 µT）</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(B_z\)</span></td>
+<td>750.7 µT</td>
+<td>23.62%</td>
+<td><strong>6.2× 噪声（121 µT）</strong>，均值 −236.1 µT</td>
+</tr>
+</tbody>
+</table>
+<p><span class="arithmatex">\(B_z\)</span> 的不一致明显超出噪声，而且<strong>集中在靠近磁铁的点上</strong>（最差的 10 个点里 8 个在
+<code>y=117</code>，即磁腿下端面附近，<span class="arithmatex">\(\lvert\Delta B_z\rvert\)</span> 到 7~10 mT）。这更像是
+"探头离磁体太近时定位误差被放大 + 磁铁本身并非理想对称"，而不是检测错了平面 ——
+因为<strong>纯网格配对</strong>（不插值、只用实测值）给出的最优高度同样是 <span class="arithmatex">\(h=8\)</span>。</p>
+<hr />
+<h2 id="5">5. 自测与回归<a class="headerlink" href="#5" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># 合成数据自测（不需要外部文件）：8/8 通过</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>python<span class="w"> </span>src/symmetry.py<span class="w"> </span>--selftest
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># 在真实数据上检测 + 出图（图默认写到仓库根的 figures/）</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>python<span class="w"> </span>src/symmetry.py<span class="w"> </span>data/raw/UshapeNormal_New_prob
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># 与旧版"无条件镜像"公式做回归对照</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>python<span class="w"> </span>src/symmetry.py<span class="w"> </span>data/raw/UshapeNormal_New_prob<span class="w"> </span>--regression
+</code></pre></div>
+<p>自测覆盖：人造对称面高度的还原、重合判定、重合不一致量的统计、
+以及 <code>average</code> 策略下"对称化后镜像失配恒为 0"这条精确性质。</p>
+<p>作为库使用：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">symmetry</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_measurements</span><span class="p">,</span> <span class="n">estimate_symmetry_plane</span><span class="p">,</span> <span class="n">apply_mirror</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">P</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">meta</span> <span class="o">=</span> <span class="n">load_measurements</span><span class="p">(</span><span class="s2">"data/raw/UshapeNormal_New_prob/*.csv"</span><span class="p">)</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">res</span> <span class="o">=</span> <span class="n">estimate_symmetry_plane</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>          <span class="c1"># res.h / res.band / res.accepted / res.reason</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">P2</span><span class="p">,</span> <span class="n">B2</span><span class="p">,</span> <span class="n">rep</span> <span class="o">=</span> <span class="n">apply_mirror</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">h</span><span class="p">)</span>      <span class="c1"># 默认 policy="keep_measured"</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">可直接粘进 notebook</p>
+<p>命令行的最后会打印一段现成参数：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>SYMMETRY_H = 8.0000        # mm (symmetry.py 自动检测)
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>OVERLAP_POLICY = 'keep_measured'
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>数据装配: 实测 48784 -&gt; 最终 79163 点
+</code></pre></div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../b2m/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 反演方法（B2M）">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                反演方法（B2M）
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../theory/" class="md-footer__link md-footer__link--next" aria-label="下一页: 理论推导">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                理论推导
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.top", "navigation.footer", "content.code.copy", "search.suggest", "search.highlight", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

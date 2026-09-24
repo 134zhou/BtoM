@@ -7,8 +7,16 @@ repo_url: https://github.com/134zhou/BtoM
 repo_name: 134zhou/BtoM
 edit_uri: edit/main/web/docs/
 docs_dir: docs
-site_dir: site
+# 构建产物直接写到「仓库根目录的 docs/」——这样 GitHub Pages 可以用
+# Settings → Pages → Source: Deploy from a branch → main / docs，
+# 不需要 gh-pages 分支，也不需要 mkdocs gh-deploy。
+# 注意：这份产物是要提交进仓库的，别把它加进 .gitignore。
+site_dir: ../docs
 use_directory_urls: true
+
+# 构建钩子：在产物目录里补 .nojekyll（Pages 从分支发布时会走 Jekyll）
+hooks:
+  - tools/hooks.py
 
 theme:
   name: material

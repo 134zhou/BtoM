@@ -1,0 +1,2561 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="用外部磁场测量数据反推磁铁内部的磁化强度分布：偶极正演的离散、体积加权正则化、对称面自动检测与网格无关性">
+      
+      
+        <meta name="author" content="134zhou">
+      
+      
+        <link rel="canonical" href="https://134zhou.github.io/BtoM/theory/">
+      
+      
+        <link rel="prev" href="../symmetry/">
+      
+      
+        <link rel="next" href="../experiments/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>理论推导 - BtoM —— 反演磁铁内部磁化强度分布</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="BtoM —— 反演磁铁内部磁化强度分布" class="md-header__button md-logo" aria-label="BtoM —— 反演磁铁内部磁化强度分布" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            BtoM —— 反演磁铁内部磁化强度分布
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              理论推导
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="切换到深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="切换到浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/134zhou/BtoM" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    134zhou/BtoM
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="BtoM —— 反演磁铁内部磁化强度分布" class="md-nav__button md-logo" aria-label="BtoM —— 反演磁铁内部磁化强度分布" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    BtoM —— 反演磁铁内部磁化强度分布
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/134zhou/BtoM" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    134zhou/BtoM
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../b2m/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    反演方法（B2M）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../symmetry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    对称面检测与镜像
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    理论推导
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    理论推导
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#vmba" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        开篇：用大白话说清楚（只用 v、m、B、A、λ，高中数学足够）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="开篇：用大白话说清楚（只用 v、m、B、A、λ，高中数学足够）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-b" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        引子 1 · \(B\) 只认识"体积 × 磁化强度"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-b" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        引子 2 · 同一个磁铁，换一套格子，\(B\) 一模一样
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-b" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        引子 3 · 为什么有一大堆解都能拟合 \(B\)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        引子 4 · 那这些自由度是谁填的
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-sum-m_i2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        引子 5 · 为什么"最小 \(\sum m_i^2\)"就偏大格子：两个格子手算
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        引子 6 · 一般结论（任意多个格子）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#61-e7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        引子 6.1 · 换变量能把这件事修掉（E7 实测）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        引子 7 · 与实测对照
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        引子 8 · 因此必须做两件事
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        §0 记号与问题的数学设定
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="§0 记号与问题的数学设定">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#01" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.1 连续正问题
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#02" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.2 连续反问题
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#03" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.3 网格与离散未知量
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        §1 正问题的离散：单元体积是求积权重（后续论证的杠杆）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="§1 正问题的离散：单元体积是求积权重（后续论证的杠杆）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        引理 1.1（列因子分解）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        推论 1.2（两个范数给出相反的幅值分配）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        §2 为什么体积加权是对的
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="§2 为什么体积加权是对的">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 面梯度与面对偶体积
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-w_f-intnablamathbf-m2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 二次情形：\(w_f\) 是唯一使泛函收敛到 \(\int|\nabla\mathbf M|^{2}\) 的权重
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 一般罚函数：极限泛函是"方向可分离"的那个
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-w" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 \(W\) 的几何意义与"按体积公平"
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-oh-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        §3 不加权写法到底是什么：\(O(h^{-3})\) 且空间失真
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="§3 不加权写法到底是什么：\(O(h^{-3})\) 且空间失真">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        命题 3.1（局部权重）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32h-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        推论 3.2（\(h^{-3}\) 律）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33lambda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        推论 3.3（\(\lambda\) 换算定理）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        推论 3.4（量纲与单位陷阱）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        推论 3.5（空间失真：非均匀网格上的结构性偏置）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        §4 为什么取值不当会"欠正则化"，并表现为"密小疏大"
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="§4 为什么取值不当会&#34;欠正则化&#34;，并表现为&#34;密小疏大&#34;">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 变分问题的两层结构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-ell2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 核心定理：最小 \(\ell^{2}\) 范数解偏向大单元
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-lambda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 另一侧：\(\lambda\) 太大会幅值收缩
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-lambda_bal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 \(\lambda_{bal}\)：把"取值不当"变成可计算的门槛
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 综合：为什么"取值不当"就表现为"密小疏大"
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        §5 工程化推论
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        §6 假设、边界与未证之处
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-fem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        附录 A：用到 FEM 标准结果的地方
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#b" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        附录 B：符号 ↔ 代码对照
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        附录 C：数值证据汇总
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#d" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        附录 D：复现命令
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../experiments/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实验说明与结论
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../experiment-results/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    判据汇总
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../datasets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数据集与结果
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reproduce/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    复现指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#vmba" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        开篇：用大白话说清楚（只用 v、m、B、A、λ，高中数学足够）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="开篇：用大白话说清楚（只用 v、m、B、A、λ，高中数学足够）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-b" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        引子 1 · \(B\) 只认识"体积 × 磁化强度"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-b" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        引子 2 · 同一个磁铁，换一套格子，\(B\) 一模一样
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-b" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        引子 3 · 为什么有一大堆解都能拟合 \(B\)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        引子 4 · 那这些自由度是谁填的
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-sum-m_i2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        引子 5 · 为什么"最小 \(\sum m_i^2\)"就偏大格子：两个格子手算
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        引子 6 · 一般结论（任意多个格子）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#61-e7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        引子 6.1 · 换变量能把这件事修掉（E7 实测）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        引子 7 · 与实测对照
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        引子 8 · 因此必须做两件事
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        §0 记号与问题的数学设定
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="§0 记号与问题的数学设定">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#01" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.1 连续正问题
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#02" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.2 连续反问题
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#03" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.3 网格与离散未知量
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        §1 正问题的离散：单元体积是求积权重（后续论证的杠杆）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="§1 正问题的离散：单元体积是求积权重（后续论证的杠杆）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        引理 1.1（列因子分解）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        推论 1.2（两个范数给出相反的幅值分配）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        §2 为什么体积加权是对的
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="§2 为什么体积加权是对的">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 面梯度与面对偶体积
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-w_f-intnablamathbf-m2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 二次情形：\(w_f\) 是唯一使泛函收敛到 \(\int|\nabla\mathbf M|^{2}\) 的权重
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 一般罚函数：极限泛函是"方向可分离"的那个
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-w" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 \(W\) 的几何意义与"按体积公平"
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-oh-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        §3 不加权写法到底是什么：\(O(h^{-3})\) 且空间失真
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="§3 不加权写法到底是什么：\(O(h^{-3})\) 且空间失真">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        命题 3.1（局部权重）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32h-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        推论 3.2（\(h^{-3}\) 律）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33lambda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        推论 3.3（\(\lambda\) 换算定理）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        推论 3.4（量纲与单位陷阱）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        推论 3.5（空间失真：非均匀网格上的结构性偏置）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        §4 为什么取值不当会"欠正则化"，并表现为"密小疏大"
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="§4 为什么取值不当会&#34;欠正则化&#34;，并表现为&#34;密小疏大&#34;">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 变分问题的两层结构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-ell2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 核心定理：最小 \(\ell^{2}\) 范数解偏向大单元
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-lambda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 另一侧：\(\lambda\) 太大会幅值收缩
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-lambda_bal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 \(\lambda_{bal}\)：把"取值不当"变成可计算的门槛
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 综合：为什么"取值不当"就表现为"密小疏大"
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        §5 工程化推论
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        §6 假设、边界与未证之处
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-fem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        附录 A：用到 FEM 标准结果的地方
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#b" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        附录 B：符号 ↔ 代码对照
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        附录 C：数值证据汇总
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#d" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        附录 D：复现命令
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="_1">正则化体积加权的数学依据<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<div class="admonition abstract">
+<p class="admonition-title">本页是自动同步的副本</p>
+<p>内容来自仓库中的 <a href="https://github.com/134zhou/BtoM/blob/main/meshtest/THEORY.md"><code>meshtest/THEORY.md</code></a>，由 <code>web/tools/sync_docs.py</code> 生成，<strong>请不要直接改这一页</strong>。
+要改内容请改源文件，然后在 <code>web/</code> 目录执行：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>python<span class="w"> </span>tools/sync_docs.py
+</code></pre></div>
+</div>
+<p><strong>从连续正问题到离散反问题：为什么必须按面对偶体积加权，为什么权重取错会导致欠正则化</strong></p>
+<p>本文档给出 <code>meshtest</code> 数值结论的数学依据。所有定理都给出精确陈述、假设与证明（或证明骨架＋附录依据），
+并在每条后标注对应的数值证据编号（证据来源见附录 C，复现命令见附录 D）。</p>
+<hr />
+<h2 id="vmba">开篇：用大白话说清楚（只用 v、m、B、A、λ，高中数学足够）<a class="headerlink" href="#vmba" title="Permanent link">&para;</a></h2>
+<p><strong>一句话</strong>：<span class="arithmatex">\(B\)</span> 只认得每个格子的"<strong>体积 × 磁化强度</strong>"，认不出"磁化强度"本身；格子怎么切是我们自己选的，
+<span class="arithmatex">\(B\)</span> 里根本没有这个信息。数据管不了的那些自由度，由"谁来挑一个解"决定——<span class="arithmatex">\(\lambda\)</span> 太小时，
+挑解的是求解器的默认习惯（让 <span class="arithmatex">\(\sum m_i^2\)</span> 最小），而这个习惯<strong>偏爱大格子</strong>。</p>
+<h3 id="1-b">引子 1 · <span class="arithmatex">\(B\)</span> 只认识"体积 × 磁化强度"<a class="headerlink" href="#1-b" title="Permanent link">&para;</a></h3>
+<p>把磁铁切成若干格子，第 <span class="arithmatex">\(i\)</span> 个格子的体积是 <span class="arithmatex">\(v_i\)</span>、磁化强度是 <span class="arithmatex">\(m_i\)</span>。第 <span class="arithmatex">\(i\)</span> 个格子对磁场的贡献
+正比于 <span class="arithmatex">\(v_i\,m_i\)</span>（偶极子公式里体积就是积分权重），所有格子叠加：</p>
+<div class="arithmatex">\[
+B\;=\;\sum_i \bigl(v_i\,m_i\bigr)\times(\text{几何因子}).
+\]</div>
+<p>几何因子只跟"格子在哪里、测点在哪里"有关，跟格子多大无关。所以 <span class="arithmatex">\(B\)</span> 真正认识的量是<strong>磁矩</strong> <span class="arithmatex">\(v_i m_i\)</span>，
+而不是 <span class="arithmatex">\(m_i\)</span> 本身。</p>
+<h3 id="2-b">引子 2 · 同一个磁铁，换一套格子，<span class="arithmatex">\(B\)</span> 一模一样<a class="headerlink" href="#2-b" title="Permanent link">&para;</a></h3>
+<p>同一个磁铁，切成粗格子还是细格子，测出来的 <span class="arithmatex">\(B\)</span> 是同一个 <span class="arithmatex">\(B\)</span>（这是物理，不是近似）。
+所以<strong>网格只是我们自己记账的方式</strong>：同样一个磁矩，既可以记成"大格子里的一个磁化强度"，
+也可以记成"几个小格子里的磁化强度"。<span class="arithmatex">\(B\)</span> 对此一无所知。</p>
+<p><strong>推论</strong>：反演里 <span class="arithmatex">\(m_i\)</span> 只以 <span class="arithmatex">\(v_i m_i\)</span> 的形式出现，所以"解 <span class="arithmatex">\(A(v_i m_i)=B\)</span>"<strong>解不出唯一的 <span class="arithmatex">\(m\)</span></strong>，
+只能解出磁矩；把磁矩换算回磁化强度要除以 <span class="arithmatex">\(v_i\)</span>，而 <span class="arithmatex">\(v_i\)</span> 是我们自己定的。</p>
+<h3 id="3-b">引子 3 · 为什么有一大堆解都能拟合 <span class="arithmatex">\(B\)</span><a class="headerlink" href="#3-b" title="Permanent link">&para;</a></h3>
+<p>测点在磁铁外面，离得越远磁场越"糊"。两个挨着的格子（一粗一细）在同一个测点上产生的磁场形状几乎一样
+（差别是"格子尺寸 ÷ 距离"的量级）。所以只要把磁矩在这两个格子之间挪一挪、合计不变，<span class="arithmatex">\(B\)</span> 几乎不变。
+<strong>也就是说：数据在这些方向上几乎没有约束力。</strong></p>
+<h3 id="4">引子 4 · 那这些自由度是谁填的<a class="headerlink" href="#4" title="Permanent link">&para;</a></h3>
+<p>反演从 <span class="arithmatex">\(m_i=0\)</span> 开始迭代。第一步往哪个格子放多少，取决于"改这个格子的 <span class="arithmatex">\(m\)</span> 对 <span class="arithmatex">\(B\)</span> 的影响有多大"，
+而由 0.1 这个影响正比于 <span class="arithmatex">\(v_i\)</span>——<strong>大格子总是先被填、填得多</strong>。
+更准确地说：从 0 出发的梯度类算法（L-BFGS、LSQR 都是）在"能拟合 <span class="arithmatex">\(B\)</span> 的所有解"里，
+挑的是 <span class="arithmatex">\(\sum_i m_i^2\)</span> <strong>最小</strong>的那个。<span class="arithmatex">\(\lambda\)</span> 足够大时，正则化项会把这个默认习惯压过去；
+<span class="arithmatex">\(\lambda\)</span> 太小（或者权重取错）时，默认习惯说了算。</p>
+<h3 id="5-sum-m_i2">引子 5 · 为什么"最小 <span class="arithmatex">\(\sum m_i^2\)</span>"就偏大格子：两个格子手算<a class="headerlink" href="#5-sum-m_i2" title="Permanent link">&para;</a></h3>
+<p>粗格子体积 <span class="arithmatex">\(8v\)</span>、细格子体积 <span class="arithmatex">\(v\)</span>。真值是均匀磁化：两个格子都是 <span class="arithmatex">\(m\)</span>，总磁矩 <span class="arithmatex">\(=8v\cdot m+v\cdot m=9vm\)</span>。</p>
+<table>
+<thead>
+<tr>
+<th>方案</th>
+<th>粗格子 <span class="arithmatex">\(m\)</span></th>
+<th>细格子 <span class="arithmatex">\(m\)</span></th>
+<th><span class="arithmatex">\(\sum m_i^2\)</span></th>
+<th>体积加权 <span class="arithmatex">\(\sum v_i m_i^2\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>甲：真值</td>
+<td><span class="arithmatex">\(m\)</span></td>
+<td><span class="arithmatex">\(m\)</span></td>
+<td><span class="arithmatex">\(m^2+m^2=2m^2\)</span></td>
+<td><span class="arithmatex">\(8v m^2+v m^2=9vm^2\)</span></td>
+</tr>
+<tr>
+<td>乙：全塞进粗格子</td>
+<td><span class="arithmatex">\(9vm/(8v)=1.125m\)</span></td>
+<td><span class="arithmatex">\(0\)</span></td>
+<td><span class="arithmatex">\((1.125m)^2=1.27m^2\)</span></td>
+<td><span class="arithmatex">\(8v(1.125m)^2=10.1vm^2\)</span></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>按 <span class="arithmatex">\(\sum m_i^2\)</span> 挑：<span class="arithmatex">\(1.27&lt;2\)</span>，选<strong>乙</strong>——粗格子偏大（<span class="arithmatex">\(1.125m\)</span>）、细格子偏小（<span class="arithmatex">\(0\)</span>），
+  这就是"粗大细小"的来历。</li>
+<li>按 <span class="arithmatex">\(\sum v_i m_i^2\)</span> 挑：<span class="arithmatex">\(9&lt;10.1\)</span>，选<strong>甲</strong>（真值）。</li>
+</ul>
+<h3 id="6">引子 6 · 一般结论（任意多个格子）<a class="headerlink" href="#6" title="Permanent link">&para;</a></h3>
+<p>在"总磁矩固定"这个约束下：</p>
+<ul>
+<li>让 <span class="arithmatex">\(\sum_i m_i^2\)</span> 最小（求导等于 0）：<span class="arithmatex">\(2m_i=\)</span> 常数 <span class="arithmatex">\(\times v_i\)</span>，即 <span class="arithmatex">\(m_i\)</span> <strong>正比于</strong> <span class="arithmatex">\(v_i\)</span>。
+  体积是 8 倍的粗格子，磁化强度就是细格子的 <strong>8 倍</strong>（<span class="arithmatex">\(8=2^3\)</span>，线尺度 2 倍）。</li>
+<li>让 <span class="arithmatex">\(\sum_i v_i m_i^2\)</span> 最小：<span class="arithmatex">\(2v_i m_i=\)</span> 常数 <span class="arithmatex">\(\times v_i\)</span>，即 <span class="arithmatex">\(m_i\)</span> <strong>处处相等</strong>——均匀磁铁该有的样子。</li>
+</ul>
+<p>注意 <span class="arithmatex">\(\sum_i m_i^2\)</span> 本身<strong>依赖切法</strong>（把一格切成两格，这个和就变），所以它不是一个物理量；
+<span class="arithmatex">\(\sum_i v_i m_i^2\)</span> 才是 <span class="arithmatex">\(\int m^2\,\mathrm dV\)</span> 的离散版，与切法无关。<strong>用前者挑解，就会挑出网格的痕迹。</strong></p>
+<h3 id="61-e7">引子 6.1 · 换变量能把这件事修掉（E7 实测）<a class="headerlink" href="#61-e7" title="Permanent link">&para;</a></h3>
+<p>既然偏置来自"求解器隐式最小化 <span class="arithmatex">\(\sum x_i^2\)</span>"，那就换变量：令 <span class="arithmatex">\(x_i=\sqrt{v_i}\,m_i\)</span>，于是
+$<span class="arithmatex">\(\textstyle\sum_i x_i^2=\sum_i v_i m_i^2=\int_\Omega m^2\,\mathrm dV ,\)</span>$
+求解器隐式用的正好是物理范数。验法只用一条：真值取整块均匀磁化、磁场无噪声（物理上左右两半区
+均值必须相等），造两张<strong>互为粗细互换</strong>的网格，看左右区均值。实测（<span class="arithmatex">\(\lambda=0\)</span>，完全没有正则化）：</p>
+<table>
+<thead>
+<tr>
+<th>变量</th>
+<th>网格A(左细) 左/右</th>
+<th>网格B(右细) 左/右</th>
+<th>互换不变性误差</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\(m_i\)</span>（LSQR@50 / L-BFGS-B@50）</td>
+<td>0.63 / 0.53</td>
+<td>1.58 / 1.89</td>
+<td><strong>58% / 89%</strong></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\sqrt{v_i}\,m_i\)</span></td>
+<td><strong>1.00 / 1.00</strong></td>
+<td><strong>1.00 / 1.00</strong></td>
+<td><strong>0.1% / 0.0%</strong></td>
+</tr>
+</tbody>
+</table>
+<p>即：换变量后粗/细网格的区别消失，且对调粗细结果不变。（<span class="arithmatex">\(\lambda=0\)</span> 时结果仍受"迭代到哪一步"
+影响，那是另一个问题，不在这里讨论。）</p>
+<h3 id="7">引子 7 · 与实测对照<a class="headerlink" href="#7" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>情形</th>
+<th>粗格子/细格子（纯数据拟合，<span class="arithmatex">\(\lambda\)</span> 极小）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>测点放到 200 mm 远（几何因子近似常数，上面的推断前提成立）</td>
+<td><strong>7.997</strong>（理论就是体积比 8）</td>
+</tr>
+<tr>
+<td>真实几何（测点 24 mm），几何能部分区分格子</td>
+<td>1.716（方向不变，量级被削弱）</td>
+</tr>
+<tr>
+<td>改用体积加权规则挑解</td>
+<td><strong>1.000</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="8">引子 8 · 因此必须做两件事<a class="headerlink" href="#8" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>正则化必须按 <span class="arithmatex">\(v_i\)</span> 加权</strong>：否则它自己就是网格相关的（同一个磁铁切细一点，正则化项的数值就变），
+   而且它的偏向与引子 5 的偏向<strong>同方向叠加</strong>，把"粗大细小"放大。</li>
+<li><strong><span class="arithmatex">\(\lambda\)</span> 不能太小</strong>：要让按 <span class="arithmatex">\(v_i\)</span> 加权的正则化项去决定那堆同样能拟合 <span class="arithmatex">\(B\)</span> 的解，
+   而不是让求解器的默认习惯去决定。经验做法：取"残差刚好降到噪声水平"的那个 <span class="arithmatex">\(\lambda\)</span>，
+   或取力平衡标定值的 <span class="arithmatex">\(1\sim10\)</span> 倍。</li>
+</ol>
+<p><strong>收尾一句</strong>：不是"反着解不出来"，而是"反着解出来的解不唯一，挑哪一个"这件事——
+<span class="arithmatex">\(\lambda\)</span> 太小时，挑解的是一个偏爱大格子的坏习惯。</p>
+<hr />
+<h2 id="0">§0 记号与问题的数学设定<a class="headerlink" href="#0" title="Permanent link">&para;</a></h2>
+<h3 id="01">0.1 连续正问题<a class="headerlink" href="#01" title="Permanent link">&para;</a></h3>
+<p>磁铁占据区域 <span class="arithmatex">\(\Omega\subset\mathbb R^3\)</span>，内部磁化强度为矢量场 <span class="arithmatex">\(\mathbf M:\Omega\to\mathbb R^3\)</span>。
+在自由空间中，磁化强度产生的磁场（偶极子积分）为</p>
+<div class="arithmatex">\[
+\mathbf B(\mathbf r)\;=\;\frac{\mu_0}{4\pi}\int_\Omega
+\frac{3\bigl(\mathbf M(\mathbf r')\cdot\hat{\mathbf u}\bigr)\hat{\mathbf u}-|\mathbf u|^{2}\mathbf M(\mathbf r')}{|\mathbf u|^{5}}\,\mathrm dV',
+\qquad \mathbf u=\mathbf r-\mathbf r',\quad \hat{\mathbf u}=\mathbf u/|\mathbf u| .
+\tag{0.1}
+\]</div>
+<p>等价的核写法：<span class="arithmatex">\(\mathbf B(\mathbf r)=\frac{\mu_0}{4\pi}\int_\Omega \mathsf K(\mathbf r,\mathbf r')\mathbf M(\mathbf r')\mathrm dV'\)</span>，
+其中 <span class="arithmatex">\(3\times3\)</span> 对称核</p>
+<div class="arithmatex">\[
+\mathsf K(\mathbf r,\mathbf r')=\frac{3\hat{\mathbf u}\hat{\mathbf u}^{\mathsf T}-\mathsf I}{|\mathbf u|^{3}} .
+\tag{0.2}
+\]</div>
+<h3 id="02">0.2 连续反问题<a class="headerlink" href="#02" title="Permanent link">&para;</a></h3>
+<p>给定测点 <span class="arithmatex">\(\mathbf r_i\)</span>（<span class="arithmatex">\(i=1,\dots,N_{\text{meas}}\)</span>）与其上测得的磁场 <span class="arithmatex">\(\mathbf b_i\)</span>，反演 <span class="arithmatex">\(\mathbf M\)</span>：</p>
+<div class="arithmatex">\[
+\min_{\mathbf M}\;\; \underbrace{\sum_{i=1}^{M}\bigl|\mathbf B[\mathbf M](\mathbf r_i)-\mathbf b_i\bigr|^{2}}_{=:E_{\text{data}}[\mathbf M]}
+\;+\;\lambda\underbrace{\int_\Omega \rho\bigl(|\nabla \mathbf M|\bigr)\,\mathrm dV}_{=:R[\mathbf M]} .
+\tag{0.3}
+\]</div>
+<p>罚函数取 Charbonnier/Huber 型（与代码一致）：</p>
+<div class="arithmatex">\[
+\rho(x)=\epsilon^{2}\Bigl(\sqrt{1+(x/\epsilon)^{2}}-1\Bigr),\qquad
+\rho'(x)=\frac{x}{\sqrt{1+(x/\epsilon)^{2}}},
+\tag{0.4}
+\]</div>
+<p>满足 <span class="arithmatex">\(\rho(0)=0\)</span>、<span class="arithmatex">\(\rho\)</span> 凸、<span class="arithmatex">\(\rho\)</span> Lipschitz（常数 <span class="arithmatex">\(L=\epsilon\)</span>）、<span class="arithmatex">\(\rho'(x)\le \epsilon\)</span>。
+两个极限：</p>
+<div class="arithmatex">\[
+\rho(x)\;\simeq\;\tfrac{x^{2}}{2}\quad (x\ll\epsilon),
+\qquad
+\rho(x)\;\simeq\;\epsilon\,x-\tfrac{\epsilon^{2}}{2}\quad (x\gg\epsilon).
+\tag{0.5}
+\]</div>
+<p>即 <span class="arithmatex">\(\epsilon\)</span> 控制"二次区（处处光滑）<span class="arithmatex">\(\to\)</span> L1/TV 区（边缘保持、但带收缩偏置）"的过渡。
+记号 <span class="arithmatex">\(\rho'\le\epsilon\)</span> 在 §4.2 是幅值收缩的<strong>定量</strong>来源。</p>
+<blockquote>
+<p>这里要提前指出一处容易被忽略的事实：代码里 <span class="arithmatex">\(\rho\)</span> 是<strong>逐面</strong>作用的（见 §2.3 定理 2.3 与注 2.4），
+因此离散泛函的连续极限在 TV 区是<strong>方向可分离（各向异性）</strong>的泛函 <span class="arithmatex">\(R_{\mathcal G}\)</span>，
+而不是教科书上的各向同性 <span class="arithmatex">\(\int\rho(|\nabla\mathbf M|)\,\mathrm dV\)</span>。两者仅在 <span class="arithmatex">\(\rho\)</span> 为二次时重合。
+这个差别在本算例上可达 <span class="arithmatex">\(50\%\)</span> 量级（证据 C5），论文里必须写明用的是哪一个。</p>
+</blockquote>
+<h3 id="03">0.3 网格与离散未知量<a class="headerlink" href="#03" title="Permanent link">&para;</a></h3>
+<p>采用与代码一致的<strong>非均匀树网格</strong>（<code>discretize.TreeMesh</code>），把 <span class="arithmatex">\(\Omega\)</span> 剖分为单元 <span class="arithmatex">\(c\in\mathcal C\)</span>：</p>
+<ul>
+<li>单元 <span class="arithmatex">\(c\)</span>：体积 <span class="arithmatex">\(V_c\)</span>、特征线尺度 <span class="arithmatex">\(h_c\)</span>（立方单元时 <span class="arithmatex">\(V_c=h_c^{3}\)</span>）；</li>
+<li><strong>内部面</strong> <span class="arithmatex">\(f\in\mathcal F\)</span>：面积 <span class="arithmatex">\(S_f\)</span>，两侧相邻单元中心距 <span class="arithmatex">\(h_f\)</span>；
+  <strong>面对偶体积</strong>（本文的核心对象）
+  $$
+  \boxed{\;w_f\;=\;S_f\,h_f\;}
+  \tag{0.6}
+  $$</li>
+<li>单元常值展开：<span class="arithmatex">\(\mathbf M_h(\mathbf r)=\sum_{c\in\mathcal C}\mathbf m_c\,\mathbf 1_c(\mathbf r)\)</span>，
+  未知量 <span class="arithmatex">\(\mathbf m=(\mathbf m_c)_{c\in\mathcal C}\in\mathbb R^{3N}\)</span>，<span class="arithmatex">\(N=|\mathcal C|\)</span>；</li>
+<li>弱形式梯度算子 <span class="arithmatex">\(G\in\mathbb R^{n_F\times N}\)</span>（<code>mesh.cell_gradient</code>，标量）；</li>
+<li>面质量矩阵 <span class="arithmatex">\(W=\mathrm{diag}(w_f)\in\mathbb R^{n_F\times n_F}\)</span>（<code>get_face_inner_product</code> 的对角元）；</li>
+<li>对有 <span class="arithmatex">\(n\)</span> 个相邻单元的面，<span class="arithmatex">\((G\mathbf m)_f\)</span> 由这些单元值线性组合而成（(2.1) 给出两单元情形）。</li>
+</ul>
+<p>离散反问题：</p>
+<div class="arithmatex">\[
+\min_{\mathbf m\in\mathbb R^{3N}}\;\; \bigl\|A\mathbf m-\mathbf b\bigr\|_2^{2}
+\;+\;\lambda\,R_h(\mathbf m),
+\qquad
+R_h(\mathbf m)=\sum_{f\in\mathcal F_{\text{int}}} w_f\,
+\rho\Bigl(\bigl|(G\mathbf m)_f\bigr|_2\Bigr),
+\tag{0.7}
+\]</div>
+<p>其中 <span class="arithmatex">\(|(G\mathbf m)_f|_2=\bigl(\sum_{i=1}^{3}\bigl((Gm_i)_f\bigr)^{2}\bigr)^{1/2}\)</span> 是对 <span class="arithmatex">\(\mathbf M\)</span> 三个分量取欧氏范数，
+<span class="arithmatex">\(\mathcal F_{\text{int}}\)</span> 为内部面集合（与代码一致：只统计两侧单元都在磁体内的面）。</p>
+<p><strong>本文要回答的两个问题</strong></p>
+<ul>
+<li><strong>(Q1)</strong> 为什么 <span class="arithmatex">\(R_h\)</span> 的权重必须取 <span class="arithmatex">\(w_f\)</span>（而不是 1，也不是 <span class="arithmatex">\(V_c\)</span>、<span class="arithmatex">\(V_c^{2/3}\)</span> 之类）？</li>
+<li><strong>(Q2)</strong> 为什么 <span class="arithmatex">\(\lambda\)</span> 或权重取得不当，结果会"欠正则化"，并表现为<strong>网格密的区域偏小、稀疏的区域偏大</strong>？</li>
+</ul>
+<hr />
+<h2 id="1">§1 正问题的离散：单元体积是求积权重（后续论证的杠杆）<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<h3 id="11">引理 1.1（列因子分解）<a class="headerlink" href="#11" title="Permanent link">&para;</a></h3>
+<p>把 (0.1) 用 (0.6) 的单元常值展开做中值求积（取单元中心 <span class="arithmatex">\(\mathbf x_c\)</span>）：</p>
+<div class="arithmatex">\[
+\mathbf B_h(\mathbf r_i)=\frac{\mu_0}{4\pi}\sum_{c\in\mathcal C}V_c\,
+\mathsf K(\mathbf r_i,\mathbf x_c)\,\mathbf m_c .
+\tag{1.1}
+\]</div>
+<p>因此灵敏度矩阵可以<strong>精确地</strong>写成</p>
+<div class="arithmatex">\[
+\boxed{\;A=\bar A\,D,\qquad D=\mathrm{diag}\bigl(V_c\mathsf I_3\bigr)_{c\in\mathcal C}\;}
+\tag{1.2}
+\]</div>
+<p>其中 <span class="arithmatex">\(\bar A\)</span> 只含几何量（测点与单元中心的相对位置），<strong>不含任何体积</strong>。</p>
+<p><em>证明</em>：直接比较 (1.1) 与 <span class="arithmatex">\(A\mathbf m\)</span> 的分量形式即可；<span class="arithmatex">\(D\)</span> 是把每个单元的 <span class="arithmatex">\(3\)</span> 个分量都乘以 <span class="arithmatex">\(V_c\)</span> 的分块对角矩阵。<span class="arithmatex">\(\square\)</span></p>
+<p><strong>意义</strong>：单元体积在正问题里就是积分权重（<span class="arithmatex">\(V_c\)</span> 是求积系数），它出现在 <span class="arithmatex">\(A\)</span> 的<strong>列</strong>上。
+这一条会在 §4.1 变成"最小 <span class="arithmatex">\(\ell^{2}\)</span> 范数解偏向大单元"的代数根源。</p>
+<h3 id="12">推论 1.2（两个范数给出相反的幅值分配）<a class="headerlink" href="#12" title="Permanent link">&para;</a></h3>
+<p>考虑数据只约束总量（低分辨极限）的退化情形 <span class="arithmatex">\(\bar A D\mathbf m=\mathbf b\iff \sum_c V_c\,\mathbf m_c=\mathbf C\)</span>，
+比较两种"最小范数"准则：</p>
+<div class="arithmatex">\[
+\text{(i)}\;\min\|\mathbf m\|_2^{2}\ \text{s.t.}\ \sum_cV_c\mathbf m_c=\mathbf C;
+\qquad
+\text{(ii)}\;\min\|\mathbf m\|_{V}^{2}\ \text{s.t.}\ \sum_cV_c\mathbf m_c=\mathbf C,
+\tag{1.3}
+\]</div>
+<p>其中<strong>体积度量</strong>定义为</p>
+<div class="arithmatex">\[
+\|\mathbf m\|_V^{2}:=\sum_{c}V_c\,|\mathbf m_c|^{2}
+\qquad\Bigl(\text{即 }\int_\Omega|\mathbf M_h|^{2}\,\mathrm dV\text{ 的离散对应}\Bigr).
+\tag{1.4}
+\]</div>
+<p>用拉格朗日乘子（<span class="arithmatex">\(\mathcal L=\sum_c a_c|\mathbf m_c|^{2}-\mu(\sum_cV_c\mathbf m_c-\mathbf C)\)</span>，<span class="arithmatex">\(a_c\in\{1,V_c\}\)</span>）：</p>
+<div class="arithmatex">\[
+\text{(i)}\;2\mathbf m_c=\mu V_c\ \Rightarrow\ \mathbf m_c\propto V_c
+\ \Rightarrow\
+\frac{|\mathbf m|_{\text{粗}}}{|\mathbf m|_{\text{细}}}=\frac{V_{\text{粗}}}{V_{\text{细}}}=\Bigl(\frac{h_{\text{粗}}}{h_{\text{细}}}\Bigr)^{3};
+\tag{1.5}
+\]</div>
+<div class="arithmatex">\[
+\text{(ii)}\;2V_c\mathbf m_c=\mu V_c\ \Rightarrow\ \mathbf m_c=\text{const}
+\ \Rightarrow\
+\frac{|\mathbf m|_{\text{粗}}}{|\mathbf m|_{\text{细}}}=1 .
+\tag{1.6}
+\]</div>
+<p><strong>即：<span class="arithmatex">\(\ell^{2}\)</span> 准则把磁化强度堆到大单元上（比值 <span class="arithmatex">\(=\)</span> 体积比 <span class="arithmatex">\(=8\)</span>，对 2:1 的加密档），
+体积度量准则则给出均匀分配。</strong> 数值核验：远场受控算例实测 <span class="arithmatex">\(7.997\)</span>（理论 <span class="arithmatex">\(8.0\)</span>）；
+体积度量解析解 <span class="arithmatex">\(1.000\)</span>（证据 C6、附录 D-②）。</p>
+<hr />
+<h2 id="2">§2 为什么体积加权是对的<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
+<h3 id="21">2.1 面梯度与面对偶体积<a class="headerlink" href="#21" title="Permanent link">&para;</a></h3>
+<p><strong>引理 2.1（离散梯度的显式形式）</strong>
+对树网格，若面 <span class="arithmatex">\(f\)</span> 的两侧单元中心为 <span class="arithmatex">\(\mathbf x_{c^+},\mathbf x_{c^-}\)</span>，法向单位矢 <span class="arithmatex">\(\hat{\mathbf n}_f\)</span>（由 <span class="arithmatex">\(c^-\)</span> 指向 <span class="arithmatex">\(c^+\)</span>），则</p>
+<div class="arithmatex">\[
+\bigl(G\mathbf m\bigr)_f=\frac{\mathbf m_{c^+}-\mathbf m_{c^-}}{h_f},
+\qquad h_f=\bigl|(\mathbf x_{c^+}-\mathbf x_{c^-})\cdot\hat{\mathbf n}_f\bigr|,
+\tag{2.1}
+\]</div>
+<p>且 <span class="arithmatex">\(W\)</span> 的对角元恰为 <span class="arithmatex">\(w_f=S_fh_f\)</span>。等价地，<span class="arithmatex">\(G\)</span> 的元素是 <span class="arithmatex">\(\pm 1/h_f\)</span>，行和为 <span class="arithmatex">\(0\)</span>。</p>
+<p><em>数值核验</em>：在非均匀（含悬挂面）树网格上逐面打印 <span class="arithmatex">\(G\)</span> 的系数与 <span class="arithmatex">\(w_f\)</span>，得系数 <span class="arithmatex">\(=\pm 1/h_f\)</span>、
+由 <span class="arithmatex">\(w_f/h_f\)</span> 反推的面积精确等于面面积（证据 C1）。</p>
+<p>于是对任意 <span class="arithmatex">\(\mathbf m\)</span>：</p>
+<div class="arithmatex">\[
+\bigl(G\mathbf m\bigr)^{\mathsf T}W\bigl(G\mathbf m\bigr)
+=\sum_{f}w_f\bigl|(G\mathbf m)_f\bigr|_2^{2}
+=\sum_{f}S_f\,\frac{\bigl|\Delta\mathbf m_f\bigr|^{2}}{h_f},
+\qquad \Delta\mathbf m_f:=\mathbf m_{c^+}-\mathbf m_{c^-}.
+\tag{2.2}
+\]</div>
+<h3 id="22-w_f-intnablamathbf-m2">2.2 二次情形：<span class="arithmatex">\(w_f\)</span> 是唯一使泛函收敛到 <span class="arithmatex">\(\int|\nabla\mathbf M|^{2}\)</span> 的权重<a class="headerlink" href="#22-w_f-intnablamathbf-m2" title="Permanent link">&para;</a></h3>
+<p><strong>引理 2.2（弱形式恒等式与收敛）</strong>
+设 <span class="arithmatex">\(\mathbf m\)</span> 是光滑 <span class="arithmatex">\(\mathbf M\)</span> 的单元中心取样，<span class="arithmatex">\(\rho(x)=x^{2}/2\)</span>。则</p>
+<div class="arithmatex">\[
+\sum_{f}w_f\bigl|(G\mathbf m)_f\bigr|_2^{2}
+=\int_\Omega\bigl|\nabla\mathbf M\bigr|_F^{2}\,\mathrm dV\;+\;O(h^{2}),
+\tag{2.3}
+\]</div>
+<p>其中 <span class="arithmatex">\(|\nabla\mathbf M|_F^{2}=\sum_{i,j}(\partial_jM_i)^{2}\)</span>。</p>
+<p><em>证明</em>：由 (2.1) 与中值定理，
+<span class="arithmatex">\(\Delta\mathbf m_f=h_f\,\bigl(\hat{\mathbf n}_f\cdot\nabla\bigr)\mathbf M(\mathbf x_f)+O(h^{2})\)</span>，
+<span class="arithmatex">\(\mathbf x_f\)</span> 为面心。代入 (2.2)：</p>
+<div class="arithmatex">\[
+\sum_f S_f\frac{|\Delta\mathbf m_f|^{2}}{h_f}
+=\sum_f S_fh_f\bigl|\bigl(\hat{\mathbf n}_f\cdot\nabla\bigr)\mathbf M(\mathbf x_f)\bigr|^{2}+O(h^{2}).
+\tag{2.4}
+\]</div>
+<p>按面法向把 <span class="arithmatex">\(\mathcal F\)</span> 分成 <span class="arithmatex">\(x,y,z\)</span> 三族。对每族，<span class="arithmatex">\(\sum_f S_fh_f\varphi(\mathbf x_f)\)</span> 是体积分
+<span class="arithmatex">\(\int\varphi\,\mathrm dV\)</span> 的<strong>中值求积</strong>（每个单元在自己那一族里恰好贡献一个 <span class="arithmatex">\(S_fh_f\approx V_c\)</span> 的
+求积块，见 2.4），误差 <span class="arithmatex">\(O(h^{2})\)</span>。三族相加即得</p>
+<div class="arithmatex">\[
+\int\sum_{d=x,y,z}\bigl|(\hat{\mathbf e}_d\cdot\nabla)\mathbf M\bigr|^{2}\mathrm dV
+=\int|\nabla\mathbf M|_F^{2}\mathrm dV . \qquad\square
+\]</div>
+<p><strong>数值核验（E1）</strong>：非均匀网格上 <span class="arithmatex">\(n_{\text{base}}=16/32/64\)</span> 时相对误差
+<span class="arithmatex">\(5.01\%\to1.68\%\to0.46\%\)</span>，观测收敛阶 <span class="arithmatex">\(1.57\sim1.72\)</span>（证据 C2）。</p>
+<p><strong>反面（关键）</strong>：若把权重换成 <span class="arithmatex">\(1\)</span>，则同一被积函数变成
+<span class="arithmatex">\(\sum_f|\Delta\mathbf m_f|^{2}/h_f^{2}=\sum_f h_f^{-2}\cdot h_f^{-1}\cdot(S_fh_f)|\partial\mathbf M|^{2}\)</span>，
+即每个求积块被额外乘上 <span class="arithmatex">\(h_f^{-3}\)</span>：</p>
+<div class="arithmatex">\[
+\sum_{f}\bigl|(G\mathbf m)_f\bigr|^{2}
+\;\approx\;\sum_f \frac{1}{h_f^{3}}\,S_fh_f\,\bigl|\partial\mathbf M\bigr|^{2}
+\;\longrightarrow\;\int_\Omega\frac{\bigl|\nabla\mathbf M\bigr|^{2}}{h(\mathbf x)^{3}}\,\mathrm dV .
+\tag{2.5}
+\]</div>
+<p>当 <span class="arithmatex">\(h\to0\)</span> 时该泛函<strong>发散</strong>（<span class="arithmatex">\(\propto h^{-3}\)</span>），因此它<strong>不是任何连续泛函的离散化</strong>。
+数值上不加权的能量误差为 <span class="arithmatex">\(338.8\%\to3467\%\to28628\%\)</span>（证据 C2），与 (2.5) 一致。</p>
+<h3 id="23">2.3 一般罚函数：极限泛函是"方向可分离"的那个<a class="headerlink" href="#23" title="Permanent link">&para;</a></h3>
+<p><strong>定理 2.3（一致性）</strong>
+设 <span class="arithmatex">\(\rho\in C^{1}([0,\infty))\)</span>、凸、<span class="arithmatex">\(\rho(0)=0\)</span>、<span class="arithmatex">\(|\rho'|\le L\)</span>。记 <span class="arithmatex">\(\mathbf m\)</span> 为光滑 <span class="arithmatex">\(\mathbf M\)</span> 的
+单元中心取样。则</p>
+<div class="arithmatex">\[
+R_h(\mathbf m)=\sum_{f}w_f\,\rho\bigl(|(G\mathbf m)_f|_2\bigr)
+\;=\;R_{\mathcal G}[\mathbf M]\;+\;O(h^{\alpha}),\qquad \alpha\ge1,
+\tag{2.6}
+\]</div>
+<div class="arithmatex">\[
+\boxed{\;R_{\mathcal G}[\mathbf M]:=\int_\Omega\sum_{d=x,y,z}
+\rho\Bigl(\bigl|\partial_d\mathbf M\bigr|_2\Bigr)\mathrm dV ,
+\qquad \bigl|\partial_d\mathbf M\bigr|_2^{2}=\sum_{i=1}^{3}\bigl(\partial_dM_i\bigr)^{2}.}
+\tag{2.7}
+\]</div>
+<p><em>证明骨架</em>：
+(1) 把每个内部面归属给其<strong>一侧单元</strong>（例如 <span class="arithmatex">\(+x,+y,+z\)</span> 三个方向的面），则每个单元恰好拥有 3 个面，
+<span class="arithmatex">\(w_f=S_fh_f\approx V_c\)</span>，于是</p>
+<div class="arithmatex">\[
+R_h=\sum_{c}\sum_{d=1}^{3}w_{f(c,d)}\,\rho\bigl(|(G\mathbf m)_{f(c,d)}|_2\bigr).
+\]</div>
+<p>(2) 由 (2.1) 与中值定理，<span class="arithmatex">\((G\mathbf m)_{f(c,d)}=(\hat{\mathbf e}_d\cdot\nabla)\mathbf M+O(h)\)</span>，
+再用 <span class="arithmatex">\(\rho\)</span> 的 Lipschitz 性 <span class="arithmatex">\(|\rho(a)-\rho(b)|\le L|a-b|\)</span> 把误差从二次情形传到 <span class="arithmatex">\(\rho\)</span> 情形。</p>
+<p>(3) 对每个 <span class="arithmatex">\((c,d)\)</span> 以中值求积替换求和（同引理 2.2），得
+<span class="arithmatex">\(\sum_cV_c\sum_d\rho(|\partial_d\mathbf M|_2)+O(h^{\alpha})=R_{\mathcal G}[\mathbf M]+O(h^{\alpha})\)</span>。<span class="arithmatex">\(\square\)</span></p>
+<p><strong>注 2.4（各向异性 vs 各向同性，必须写明）</strong>
+<span class="arithmatex">\(R_{\mathcal G}\)</span> 是把 <span class="arithmatex">\(\rho\)</span> 分别作用在<strong>三个坐标方向</strong>的导数上再求和（方向可分离、TV 区各向异性），
+而教科书上的各向同性泛函是</p>
+<div class="arithmatex">\[
+R_{\text{iso}}[\mathbf M]=\int_\Omega\rho\bigl(|\nabla\mathbf M|_F\bigr)\mathrm dV .
+\tag{2.8}
+\]</div>
+<p>两者关系：由 <span class="arithmatex">\(\sum_d a_d\ge\sqrt{\sum_d a_d^{2}}\)</span>（<span class="arithmatex">\(a_d\ge0\)</span>）有 <span class="arithmatex">\(R_{\mathcal G}\ge R_{\text{iso}}\)</span>，
+一般相差一个 <span class="arithmatex">\(O(1)\)</span> 因子（在 TV 区最大可达 <span class="arithmatex">\(\sqrt3\)</span> 量级）。</p>
+<ul>
+<li>当 <span class="arithmatex">\(\rho(x)=x^{2}/2\)</span>（二次区，即 <span class="arithmatex">\(|\nabla\mathbf M|\ll\epsilon\)</span>）：
+  <span class="arithmatex">\(\sum_d\frac12|\partial_d\mathbf M|^{2}=\frac12|\nabla\mathbf M|_F^{2}\)</span>，两者<strong>重合</strong>。</li>
+<li>在深 L1 区两者<strong>不重合</strong>。数值核验（证据 C5）：取光滑紧支矢量场，
+  <span class="arithmatex">\(n_{\text{base}}=16/32/64\)</span> 时离散值与 <span class="arithmatex">\(R_{\mathcal G}\)</span> 的相对差为 <span class="arithmatex">\(5.30\%\to2.93\%\to2.05\%\)</span>（收敛），
+  而与 <span class="arithmatex">\(R_{\text{iso}}\)</span> 的相对差为 <span class="arithmatex">\(44.7\%\to48.3\%\to49.6\%\)</span>（不收敛，比值 <span class="arithmatex">\(1.53\)</span>）；
+  改用二次区（<span class="arithmatex">\(\epsilon\)</span> 很大）时两个参照重合（比值 <span class="arithmatex">\(1.0000\)</span>），离散值以 <span class="arithmatex">\(5.01\%\to1.68\%\to0.46\%\)</span> 收敛。</li>
+</ul>
+<p><strong>工程含义</strong>：代码现在的写法等价于<strong>方向可分离 TV</strong>，这对"盒式/树网格 + 有限体积"是标准且合理的选择，
+但它不是各向同性 TV。若论文要声称 <span class="arithmatex">\(\int\rho(|\nabla\mathbf M|)\mathrm dV\)</span>，需要改成单元装配
+<span class="arithmatex">\(\sum_cV_c\rho(|\nabla\mathbf M(\mathbf x_c)|_F)\)</span>（例如先把面梯度平均回单元中心），
+或明确声明所解的是 <span class="arithmatex">\(R_{\mathcal G}\)</span>。（本文其余部分对 <span class="arithmatex">\(R_{\mathcal G}\)</span> 与 <span class="arithmatex">\(R_{\text{iso}}\)</span> 的结论完全平行，
+因为一致性论证只用到"每个单元 3 个求积块、每块权重 <span class="arithmatex">\(\approx V_c\)</span>"这一点。）</p>
+<h3 id="24-w">2.4 <span class="arithmatex">\(W\)</span> 的几何意义与"按体积公平"<a class="headerlink" href="#24-w" title="Permanent link">&para;</a></h3>
+<p><strong>推论 2.5</strong> 每个内部面被唯一归属给一个单元、每单元 3 个面、<span class="arithmatex">\(w_f=S_fh_f\approx V_c\)</span>，故</p>
+<div class="arithmatex">\[
+\sum_{f\in\mathcal F_{\text{int}}}w_f\;=\;3V_\Omega\bigl(1+O(h)\bigr),
+\tag{2.9}
+\]</div>
+<p>并且<strong>权重按体积分配</strong>：某档网格单元所占磁体体积的比例，等于该档 <span class="arithmatex">\(w_f\)</span> 之和占 <span class="arithmatex">\(\sum w_f\)</span> 的比例。</p>
+<p><em>数值核验</em>：生产型网格（<code>voxel_size_base</code> <span class="arithmatex">\(=6/3/1.5\)</span> mm）实测
+<span class="arithmatex">\(\sum w_f/V_{\text{磁体}}=2.31\to2.69\to2.84\to3\)</span>；细档占磁体体积 <span class="arithmatex">\(18\%\)</span>，
+占 <span class="arithmatex">\(\sum w_f\)</span> 亦为 <span class="arithmatex">\(18\%\)</span>（证据 C3、C4）。这条排除了"悬挂面把权重量算错"的怀疑。</p>
+<hr />
+<h2 id="3-oh-3">§3 不加权写法到底是什么：<span class="arithmatex">\(O(h^{-3})\)</span> 且<strong>空间失真</strong><a class="headerlink" href="#3-oh-3" title="Permanent link">&para;</a></h2>
+<h3 id="31">命题 3.1（局部权重）<a class="headerlink" href="#31" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[
+\tilde R_h(\mathbf m):=\sum_{f}\rho\bigl(|(G\mathbf m)_f|_2\bigr)
+=\sum_{f}\frac{1}{h_f^{3}}\,\underbrace{w_f}_{=S_fh_f\approx h_f^{3}}\,\rho(\cdot)
+\;\longrightarrow\;\int_\Omega\frac{\sum_d\rho\bigl(|\partial_d\mathbf M|_2\bigr)}{h(\mathbf x)^{3}}\,\mathrm dV .
+\tag{3.1}
+\]</div>
+<p><em>证明</em>：把 <span class="arithmatex">\(w_f\)</span> 拆成 <span class="arithmatex">\(h_f^{3}\cdot(S_f/h_f^{2})\)</span>，立方单元 <span class="arithmatex">\(S_f=h_f^{2}\)</span> 故 <span class="arithmatex">\(S_f/h_f^{2}=1\)</span>；
+再用定理 2.3 的中值求积。<span class="arithmatex">\(\square\)</span></p>
+<h3 id="32h-3">推论 3.2（<span class="arithmatex">\(h^{-3}\)</span> 律）<a class="headerlink" href="#32h-3" title="Permanent link">&para;</a></h3>
+<p>在均匀网格族上，<span class="arithmatex">\(\tilde R_h=\dfrac{1}{\langle w\rangle}R_h\,(1+O(h))\)</span>，其中</p>
+<div class="arithmatex">\[
+\langle w\rangle:=\frac{W}{n_f}=\frac{\sum_fw_f}{|\mathcal F_{\text{int}}|}=O(h^{3}).
+\tag{3.2}
+\]</div>
+<p><strong>因此 <span class="arithmatex">\(\tilde R_h/R_h=O(h^{-3})\)</span>：网格每加密一倍（线性尺度 <span class="arithmatex">\(2:1\)</span>），比值涨 <span class="arithmatex">\(2^{3}=8\)</span> 倍。</strong></p>
+<p><em>数值核验</em>（证据 C2）：体积加权与不加权能量之比
+<span class="arithmatex">\(4.62\to36.28\to288.61\)</span>，即每加密 <span class="arithmatex">\(7.86\times\)</span>、<span class="arithmatex">\(7.95\times\)</span>（理论 <span class="arithmatex">\(8\)</span>）。</p>
+<h3 id="33lambda">推论 3.3（<span class="arithmatex">\(\lambda\)</span> 换算定理）<a class="headerlink" href="#33lambda" title="Permanent link">&para;</a></h3>
+<p><strong>严格版本（相差常数因子的权重族）</strong>：若两套权重满足 <span class="arithmatex">\(\tilde w_f=\kappa\,w_f\)</span>（同一个常数 <span class="arithmatex">\(\kappa\)</span>，
+例如 <span class="arithmatex">\(w_f\)</span>、<span class="arithmatex">\(w_f/W\)</span>、<span class="arithmatex">\(w_f/10^{9}\)</span> 三者之间），则 <span class="arithmatex">\(\tilde R_h=\kappa R_h\)</span> <strong>对一切 <span class="arithmatex">\(\mathbf m\)</span> 精确成立</strong>，
+于是同一物理强度对应</p>
+<div class="arithmatex">\[
+\boxed{\;\tilde\lambda\;=\;\frac{1}{\kappa}\,\lambda\;}
+\qquad\text{特别地}\quad
+w_f\to\frac{w_f}{W}:\ \tilde\lambda=W\lambda ;
+\qquad
+w_f\to\frac{w_f}{10^{9}}:\ \tilde\lambda=10^{9}\lambda .
+\tag{3.3a}
+\]</div>
+<p><strong>平均版本（<span class="arithmatex">\(1\)</span> 与 <span class="arithmatex">\(w_f\)</span> 之间）</strong>：不加权写法 <span class="arithmatex">\(\tilde R_h=\sum_f\rho_f\)</span> 与体积加权 <span class="arithmatex">\(R_h=\sum_fw_f\rho_f\)</span>
+一般<strong>不成比例</strong>——比例是 <span class="arithmatex">\(1/\langle w\rangle_\rho\)</span>，其中 <span class="arithmatex">\(\langle w\rangle_\rho\)</span> 是以 <span class="arithmatex">\(\rho_f\)</span> 为权的
+<span class="arithmatex">\(w_f\)</span> 加权平均。只有"所有 <span class="arithmatex">\(w_f\)</span> 相等"或"<span class="arithmatex">\(\rho_f\)</span> 在面上均匀"时才有 <span class="arithmatex">\(\tilde R_h=R_h/\langle w\rangle\)</span>。故</p>
+<div class="arithmatex">\[
+\tilde\lambda\;\approx\;\langle w\rangle\,\lambda,
+\qquad \langle w\rangle=\frac{W}{n_f}=O(h^{3}).
+\tag{3.3b}
+\]</div>
+<p><strong>这里的 <span class="arithmatex">\(\approx\)</span> 不能省略</strong>：偏差正是推论 3.5 的档间失真（<span class="arithmatex">\(\langle w\rangle_\rho\)</span> 在
+<span class="arithmatex">\([\min_fw_f,\max_fw_f]\)</span> 内随解变化，非均匀网格上跨度可达 <span class="arithmatex">\(8\)</span> 倍），<strong>调 <span class="arithmatex">\(\lambda\)</span> 无法消除</strong>。
+数值核验：E2a 是在 <span class="arithmatex">\(w_f\)</span> 与 <span class="arithmatex">\(w_f/W\)</span> 之间做的（严格族），实测目标函数差 <span class="arithmatex">\(0\)</span>、解差 <span class="arithmatex">\(5.1\times10^{-14}\)</span>（证据 C7）。</p>
+<p><strong>含义</strong>：把正则化从"不加权"改成"体积加权"时，<strong>同一个物理强度对应的 <span class="arithmatex">\(\lambda\)</span> 大约要乘 <span class="arithmatex">\(\langle w\rangle\)</span></strong>。
+<span class="arithmatex">\(\langle w\rangle\)</span> 是平均面对偶体积，<span class="arithmatex">\(\propto h^{3}\)</span>，故它随网格加密迅速变小：
+生产网格（<span class="arithmatex">\(1.0\sim1.4\)</span> mm，<span class="arithmatex">\(\langle w\rangle\approx5\ \mathrm{mm^{3}}\)</span>）约 <span class="arithmatex">\(5\)</span> 倍，
+本实验 quick/full 配置分别为 <span class="arithmatex">\(108\)</span>、<span class="arithmatex">\(14\)</span> 倍（证据 C7）。
+<strong>反之，若换了写法却沿用旧 <span class="arithmatex">\(\lambda\)</span>，等效物理强度就会偏离 <span class="arithmatex">\(\langle w\rangle\)</span> 倍。</strong></p>
+<h3 id="34">推论 3.4（量纲与单位陷阱）<a class="headerlink" href="#34" title="Permanent link">&para;</a></h3>
+<p><span class="arithmatex">\(\lambda\)</span> 必须承担 <span class="arithmatex">\(1/\text{体积}\)</span> 的量纲（因为 <span class="arithmatex">\(E_{\text{data}}\)</span> 是 <span class="arithmatex">\(\text{T}^{2}\)</span> 而 <span class="arithmatex">\(R_h\)</span> 是
+<span class="arithmatex">\([\rho]\times\text{体积}\)</span>）。因此</p>
+<ul>
+<li>若把 <span class="arithmatex">\(w_f\)</span> 的体积单位由 <span class="arithmatex">\(\mathrm{mm^{3}}\)</span> 换成 <span class="arithmatex">\(\mathrm{m^{3}}\)</span>（即 <span class="arithmatex">\(w_f\mathbin{/}10^{9}\)</span>），
+  则同一 <span class="arithmatex">\(\lambda\)</span> 对应的物理强度变化 <span class="arithmatex">\(10^{9}\)</span> 倍；</li>
+<li>反过来，若代码里 <span class="arithmatex">\(E_{\text{data}}\)</span> 的几何用 m、而正则化权重用 <span class="arithmatex">\(\mathrm{mm^{3}}\)</span>（当前生产代码的情形），
+  就相当于在 <span class="arithmatex">\(\lambda\)</span> 里隐含了 <span class="arithmatex">\(10^{9}\)</span> 的因子。</li>
+</ul>
+<p><em>数值核验</em>（证据 C8）：<span class="arithmatex">\(w_f\)</span> 用 <span class="arithmatex">\(\mathrm{m^{3}}\)</span> 且沿用生产 <span class="arithmatex">\(\lambda=10^{-10}\)</span> 时，
+等效强度落在 <span class="arithmatex">\(\lambda_{bal}\times10^{-12.8}\)</span>（quick）<span class="arithmatex">\(/\;10^{-11.5}\)</span>（full），
+即深陷欠正则化区；实测还原误差 <span class="arithmatex">\(60\%\sim200\%\)</span>、档间幅值偏置 <span class="arithmatex">\(&gt;1.4\)</span>。</p>
+<h3 id="35">推论 3.5（空间失真：非均匀网格上的<strong>结构性</strong>偏置）<a class="headerlink" href="#35" title="Permanent link">&para;</a></h3>
+<p>由 (3.1)，不加权写法给每个求积块的权重是 <span class="arithmatex">\(1\)</span>，等价于给<strong>单位体积</strong>的权重
+<span class="arithmatex">\(3/h(\mathbf x)^{3}\)</span>；而体积加权给的是 <span class="arithmatex">\(3\)</span>（常数）。于是线性尺度 <span class="arithmatex">\(2:1\)</span> 的两档网格，
+其<strong>单位体积上的有效正则化强度相差 <span class="arithmatex">\(2^{3}=8\)</span> 倍</strong>——这个因子</p>
+<ul>
+<li>与 <span class="arithmatex">\(\lambda\)</span> 无关（调 <span class="arithmatex">\(\lambda\)</span> 只能整体缩放，不能消除档间差异）；</li>
+<li>与 <span class="arithmatex">\(|\nabla\mathbf M|\)</span> 无关（是纯粹的网格几何事实）；</li>
+<li>方向确定：<strong>细网格单元受到的正则化更强</strong> <span class="arithmatex">\(\Rightarrow\)</span> 细档被压得更平/更小。</li>
+</ul>
+<p>这解释了为什么"换回不加权"不是解：它本身就是网格相关的泛函。</p>
+<p><em>数值核验</em>（证据 C9）：同一物理强度下，不加权写法的档间幅值偏置为 <span class="arithmatex">\(0.157\)</span>，
+体积加权为 <span class="arithmatex">\(0.039\)</span>（<span class="arithmatex">\(4\)</span> 倍差距）；在同一 <span class="arithmatex">\(\lambda\)</span> 下把解搬到另外两张网格，
+体积加权的误差只变 <span class="arithmatex">\(1.07\)</span> 倍，不加权变 <span class="arithmatex">\(7.71\)</span> 倍（证据 C11）。</p>
+<hr />
+<h2 id="4_1">§4 为什么取值不当会"欠正则化"，并表现为"密小疏大"<a class="headerlink" href="#4_1" title="Permanent link">&para;</a></h2>
+<h3 id="41">4.1 变分问题的两层结构<a class="headerlink" href="#41" title="Permanent link">&para;</a></h3>
+<p>记 <span class="arithmatex">\(E(\mathbf m)=\|A\mathbf m-\mathbf b\|_2^{2}\)</span>，<span class="arithmatex">\(R_h\)</span> 如 (0.7)。<span class="arithmatex">\(J_\lambda=E+\lambda R_h\)</span>。
+数据项把解限制在<strong>可行集</strong></p>
+<div class="arithmatex">\[
+\mathcal D_\delta:=\bigl\{\mathbf m:\ \|A\mathbf m-\mathbf b\|_2\le\delta\bigr\},
+\qquad \delta\simeq\sqrt{N_{\text{meas}}}\,\sigma\ \ (\sigma\ \text{为测量噪声标准差}),
+\tag{4.1}
+\]</div>
+<p>之内（<span class="arithmatex">\(\delta\)</span> 是数据能达到的最小残差量级）。于是：</p>
+<ul>
+<li><strong><span class="arithmatex">\(\lambda\)</span> 足够大</strong>：解由 <span class="arithmatex">\(R_h\)</span> 在 <span class="arithmatex">\(\mathcal D_\delta\)</span> 上的极小解决定（正则化主导）；</li>
+<li><strong><span class="arithmatex">\(\lambda\to0\)</span></strong>：<span class="arithmatex">\(R_h\)</span> 不再起作用，解由 <span class="arithmatex">\(\mathcal D_\delta\)</span> 的<strong>内部选择</strong>决定，
+  而该选择实际上由<strong>算法的隐式范数</strong>给出——<span class="arithmatex">\(A\)</span> 秩亏/病态时，从 <span class="arithmatex">\(\mathbf m=\mathbf 0\)</span> 出发的
+  梯度型迭代（L-BFGS-B、LSQR、共轭梯度）收敛到<strong>最小 <span class="arithmatex">\(\ell^{2}\)</span> 范数解</strong>
+  <span class="arithmatex">\(\mathbf m^{\ell2}=A^{+}\mathbf b=\lim_{\mu\to0}(A^{\mathsf T}A+\mu I)^{-1}A^{\mathsf T}\mathbf b\)</span>
+  （迭代向量都是 <span class="arithmatex">\(A^{\mathsf T}A\)</span> 的多项式作用在 <span class="arithmatex">\(A^{\mathsf T}\mathbf b\)</span> 上，其公共极限即该式）。</li>
+</ul>
+<p>（当前代码恰是 <span class="arithmatex">\(M_x=\mathbf 0\)</span> 起步的 L-BFGS-B，所以 <span class="arithmatex">\(\lambda\)</span> 太小时落到 <span class="arithmatex">\(\mathbf m^{\ell2}\)</span>。）</p>
+<h3 id="42-ell2">4.2 核心定理：最小 <span class="arithmatex">\(\ell^{2}\)</span> 范数解偏向大单元<a class="headerlink" href="#42-ell2" title="Permanent link">&para;</a></h3>
+<p><strong>定理 4.1（<span class="arithmatex">\(\ell^{2}\)</span> 偏置定理）</strong>
+设 <span class="arithmatex">\(A=\bar AD\)</span>（引理 1.1）。在数据不约束的（近）零空间方向上，</p>
+<div class="arithmatex">\[
+\mathbf m^{\ell2}=\arg\min\bigl\{\|\mathbf m\|_2:\ \bar AD\mathbf m=\mathbf b\bigr\},
+\tag{4.2}
+\]</div>
+<p>它等价于在<strong>矩变量</strong> <span class="arithmatex">\(\mathbf q:=D\mathbf m\)</span>（<span class="arithmatex">\(q_c=V_c\mathbf m_c\)</span>）下解</p>
+<div class="arithmatex">\[
+\arg\min\Bigl\{\sum_c\bigl(q_c/V_c\bigr)^{2}:\ \bar A\mathbf q=\mathbf b\Bigr\}
+\;=\;\arg\min\bigl\{\|D^{-1}\mathbf q\|_2:\ \bar A\mathbf q=\mathbf b\bigr\},
+\tag{4.3}
+\]</div>
+<p>即每单元的"矩"被 <span class="arithmatex">\(1/V_c^{2}\)</span> 加权。可见 <span class="arithmatex">\(\ell^{2}\)</span> 准则<strong>倾向于把矩放进 <span class="arithmatex">\(V_c\)</span> 大的单元</strong>。
+在只约束总量的退化情形（推论 1.2）可精确求解：</p>
+<div class="arithmatex">\[
+\text{(i)}\ \ell^{2}:\ q_c\propto V_c^{2}\ \Rightarrow\ \mathbf m^{\ell2}_c=\frac{q_c}{V_c}\propto V_c ,
+\qquad
+\text{(ii)}\ V\text{-度量}:\ q_c\propto V_c\ \Rightarrow\ \mathbf m^{V}_c=\text{const}.
+\tag{4.4}
+\]</div>
+<p>于是同一真值在两档网格上的幅值比分别为</p>
+<div class="arithmatex">\[
+\frac{|\mathbf m|_{\text{粗}}}{|\mathbf m|_{\text{细}}}\Big|_{\ell^{2}}=\Bigl(\frac{h_{\text{粗}}}{h_{\text{细}}}\Bigr)^{3}=8,
+\qquad
+\frac{|\mathbf m|_{\text{粗}}}{|\mathbf m|_{\text{细}}}\Big|_{V}=1 .
+\tag{4.5}
+\]</div>
+<p><em>数值核验</em>（证据 C6、附录 D-②）：把测点放到 <span class="arithmatex">\(200\)</span> mm 远处（几何核 <span class="arithmatex">\(\mathsf K\)</span> 在磁体上近似常数，
+(4.3) 的前提成立）后做<strong>纯数据拟合</strong>，实测幅值比 <span class="arithmatex">\(=7.997\)</span>（理论 <span class="arithmatex">\(8.0\)</span>）；
+同一算例把测点放回正常距离（<span class="arithmatex">\(24\)</span> mm）时几何部分约束了该方向，比值降到 <span class="arithmatex">\(1.716\)</span>，
+<strong>方向不变、量级被削弱</strong>。体积度量的解析解为 <span class="arithmatex">\(1.000\)</span>。</p>
+<p><strong>注 4.2（定理的适用范围）</strong> (4.5) 是<strong>低分辨极限/上界</strong>陈述，不是等式断言：
+真实几何使 <span class="arithmatex">\(A\)</span> 的列不完全平行，偏置被削弱但不会反转（实测 <span class="arithmatex">\(1.716\in(1,8)\)</span>）。
+它给出的可检验预言是"<strong>偏置方向恒为粗档偏高、细档偏低，且随网格对比度按体积比放大</strong>"。</p>
+<h3 id="43-lambda">4.3 另一侧：<span class="arithmatex">\(\lambda\)</span> 太大会幅值收缩<a class="headerlink" href="#43-lambda" title="Permanent link">&para;</a></h3>
+<p><strong>命题 4.3（摩擦上界）</strong>
+由 (0.4)，<span class="arithmatex">\(\rho'(x)=x/\sqrt{1+(x/\epsilon)^{2}}\to\epsilon\,\mathrm{sgn}(x)\)</span>（<span class="arithmatex">\(|x|\gg\epsilon\)</span>），
+故深 L1 区每个面的<strong>正则化"摩擦"幅值被 $ \lambda\epsilon w_f$ 封顶</strong>，与 <span class="arithmatex">\(|\mathbf m|\)</span> 大小无关。
+最优性条件</p>
+<div class="arithmatex">\[
+\mathbf 0=2A^{\mathsf T}(A\mathbf m-\mathbf b)+\lambda G^{\mathsf T}W\rho'(G\mathbf m)
+\tag{4.6}
+\]</div>
+<p>说明：<strong>数据力必须超过该恒定的摩擦上限，幅值才能继续增长</strong>；若 <span class="arithmatex">\(\lambda\epsilon\)</span> 太大，
+解在到达真值幅值之前就被"刹住"，表现为幅值整体收缩（偏置单调低于 1）。
+这与 (4.5) 的粗档偏高叠加，给出一个<strong>双侧</strong>约束：<span class="arithmatex">\(\lambda\)</span> 有下界（压住 <span class="arithmatex">\(\ell^{2}\)</span> 偏置）
+与上界（不要触发收缩）。</p>
+<h3 id="44-lambda_bal">4.4 <span class="arithmatex">\(\lambda_{bal}\)</span>：把"取值不当"变成可计算的门槛<a class="headerlink" href="#44-lambda_bal" title="Permanent link">&para;</a></h3>
+<p>定义<strong>力平衡标定</strong></p>
+<div class="arithmatex">\[
+\boxed{\;\lambda_{bal}=\frac{\bigl\|\nabla E(\mathbf M_{\text{ref}})\bigr\|_2}
+{\bigl\|\nabla R_h(\mathbf M_{\text{ref}})\bigr\|_2\big|_{\lambda=1}}\;}
+\tag{4.7}
+\]</div>
+<p>（<span class="arithmatex">\(\mathbf M_{\text{ref}}\)</span> 为参考模型，量级正确即可；代码实现见 <code>b2m_core.calibrate_lambda</code>）。
+它的意义是"数据拉力 <span class="arithmatex">\(=\)</span> 正则化摩擦"的临界强度。<strong>关键性质是协变性</strong>：<span class="arithmatex">\(E\)</span> 与 <span class="arithmatex">\(R_h\)</span> 各自都是
+一致离散（§2），因此该比值在网格加密与单位变换下不变——这就是为什么 <span class="arithmatex">\(\lambda_{bal}\)</span>
+可以跨网格搬运，而"绝对数值"不能。</p>
+<p>由 §4.2 与 §4.3，可用区间是</p>
+<div class="arithmatex">\[
+\lambda\in\bigl[\lambda_{bal},\,10\,\lambda_{bal}\bigr]
+\qquad\Longleftrightarrow\qquad k=\log_{10}(\lambda/\lambda_{bal})\in[0,+1],
+\tag{4.8}
+\]</div>
+<p>下界由 <span class="arithmatex">\(\ell^{2}\)</span> 竞争给出，上界由收缩给出。<strong>"宁大勿小"</strong> 是 (4.5) 的直接后果：
+低于下界时 <span class="arithmatex">\(\ell^{2}\)</span> 偏置按体积比放大，而高于上界只是整体收缩（更容易被识别和补救）。</p>
+<h3 id="45">4.5 综合：为什么"取值不当"就表现为"密小疏大"<a class="headerlink" href="#45" title="Permanent link">&para;</a></h3>
+<p>把 §3 与 §4.2 拼起来：</p>
+<table>
+<thead>
+<tr>
+<th>情形</th>
+<th>正则化项给单位体积的权重</th>
+<th>零空间方向由谁决定</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>体积加权 + <span class="arithmatex">\(\lambda\gtrsim\lambda_{bal}\)</span></td>
+<td><span class="arithmatex">\(3\)</span>（均匀）</td>
+<td>正则化项（体积公平）</td>
+<td>各档无偏 <span class="arithmatex">\(\lvert\text{bias}-1\rvert\le0.05\)</span></td>
+</tr>
+<tr>
+<td>体积加权 + <span class="arithmatex">\(\lambda\ll\lambda_{bal}\)</span></td>
+<td><span class="arithmatex">\(3\)</span>（均匀）</td>
+<td><span class="arithmatex">\(\ell^{2}\)</span> 隐式范数</td>
+<td>粗档偏高、细档偏低（定理 4.1）</td>
+</tr>
+<tr>
+<td>不加权 + 任意 <span class="arithmatex">\(\lambda\)</span></td>
+<td><span class="arithmatex">\(3/h(\mathbf x)^{3}\)</span>（<strong>差 8 倍</strong>）</td>
+<td>两项都偏向粗档（<strong>叠加</strong>）</td>
+<td>偏置比体积加权大数倍</td>
+</tr>
+</tbody>
+</table>
+<p><strong>这解释了全部数值现象</strong>：
+(a) <span class="arithmatex">\(\lambda\)</span> 太小时两种写法都出现"密小疏大"（定理 4.1，与权重无关）；
+(b) 同一物理强度下体积加权的偏置只有不加权的 <span class="arithmatex">\(1/4\)</span>（推论 3.5：不加权的 8 倍档间权重与
+<span class="arithmatex">\(\ell^{2}\)</span> 偏置方向相同，两者叠加）；
+(c) <span class="arithmatex">\(\lambda\gtrsim\lambda_{bal}\)</span> 后偏置消失、且跨网格几乎不变（§2 的一致性 + 协变性）。</p>
+<hr />
+<h2 id="5">§5 工程化推论<a class="headerlink" href="#5" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>归一化写法</strong>（推荐）：<span class="arithmatex">\(\displaystyle \hat R_h(\mathbf m)=\sum_f\frac{w_f}{W}\rho\bigl(|(G\mathbf m)_f|\bigr)\)</span>，
+   <span class="arithmatex">\(W=\sum_fw_f\approx3V_\Omega\)</span>。由 (2.9)，<span class="arithmatex">\(W\)</span> 与 <span class="arithmatex">\(w_f\)</span> 同量纲，故 <span class="arithmatex">\(\hat R_h\)</span> 对<strong>长度单位不变</strong>；
+   由 (3.3)，<span class="arithmatex">\(\hat\lambda=W\lambda\)</span> 与<strong>网格加密无关</strong>。代码：
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">w</span> <span class="o">=</span> <span class="n">V_face</span><span class="p">;</span> <span class="n">W</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">loss_reg</span> <span class="o">=</span> <span class="n">lambda_reg</span> <span class="o">*</span> <span class="n">eps</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">w</span><span class="o">/</span><span class="n">W</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="p">(</span><span class="n">gn</span><span class="o">/</span><span class="n">eps</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">grad_reg</span> <span class="o">=</span> <span class="n">lambda_reg</span> <span class="o">*</span> <span class="p">(</span><span class="n">G_sub</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">((</span><span class="n">w</span><span class="o">/</span><span class="n">W</span><span class="p">)[:,</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">g</span> <span class="o">*</span> <span class="n">wt</span><span class="p">[:,</span><span class="kc">None</span><span class="p">]))</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+</code></pre></div></li>
+<li><strong><span class="arithmatex">\(\lambda\)</span> 的定法</strong>：先用 (4.7) 标定 <span class="arithmatex">\(\lambda_{bal}\)</span>（参考模型只需量级正确），
+   再取满足"残差 <span class="arithmatex">\(\approx\sigma\)</span>"的<strong>最大</strong> <span class="arithmatex">\(\lambda\)</span>（discrepancy principle，
+   即 <span class="arithmatex">\(\|\mathbf A\mathbf m-\mathbf b\|\lesssim\delta\)</span>，(4.1)）；两者一致性由 E5 实测确认
+   （自动 <span class="arithmatex">\(\lambda\)</span> 与上帝视角最优 <span class="arithmatex">\(\lambda\)</span> 同为 <span class="arithmatex">\(k=+1\)</span>，误差同为 <span class="arithmatex">\(0.29\%\)</span>）。</li>
+<li><strong>定理 ↔ 数值判据对照</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>结论</th>
+<th>定理/推论</th>
+<th>数值证据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>面对偶体积 <span class="arithmatex">\(w_f=S_fh_f\)</span>、<span class="arithmatex">\(G\)</span> 系数 <span class="arithmatex">\(\pm1/h\)</span></td>
+<td>引理 2.1</td>
+<td>C1</td>
+</tr>
+<tr>
+<td>体积加权 <span class="arithmatex">\(\to\int\lvert\nabla\mathbf M\rvert^{2}\)</span>，<span class="arithmatex">\(O(h^{2})\)</span></td>
+<td>引理 2.2</td>
+<td>C2（E1）</td>
+</tr>
+<tr>
+<td>不加权 <span class="arithmatex">\(\propto h^{-3}\)</span>、不是任何连续泛函的离散</td>
+<td>(2.5)、推论 3.2</td>
+<td>C2（<span class="arithmatex">\(7.86\times/7.95\times\)</span>）</td>
+</tr>
+<tr>
+<td>权重按体积公平、<span class="arithmatex">\(\sum w_f\approx3V_\Omega\)</span></td>
+<td>推论 2.5</td>
+<td>C3、C4</td>
+</tr>
+<tr>
+<td>极限泛函是方向可分离的 <span class="arithmatex">\(R_{\mathcal G}\)</span></td>
+<td>定理 2.3、注 2.4</td>
+<td>C5</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\lambda\)</span> 换算 <span class="arithmatex">\(\tilde\lambda=\langle w\rangle\lambda\)</span></td>
+<td>推论 3.3</td>
+<td>C7（E2a，目标函数差 <span class="arithmatex">\(0\)</span>）</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(10^{9}\)</span> 单位陷阱</td>
+<td>推论 3.4</td>
+<td>C8（E2a）</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\ell^{2}\)</span> 偏置 <span class="arithmatex">\(\propto V_c\)</span>（<span class="arithmatex">\(8:1\)</span>）</td>
+<td>定理 4.1</td>
+<td>C6（<span class="arithmatex">\(7.997\)</span>）</td>
+</tr>
+<tr>
+<td>档间偏置随权重写法放大</td>
+<td>推论 3.5</td>
+<td>C9（E2b，<span class="arithmatex">\(0.157\)</span> vs <span class="arithmatex">\(0.039\)</span>）</td>
+</tr>
+<tr>
+<td>网格无关性</td>
+<td>§2 + 协变性</td>
+<td>C11（E4，<span class="arithmatex">\(7.71\times\)</span> vs <span class="arithmatex">\(1.07\times\)</span>）</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\lambda\)</span> 窗口 <span class="arithmatex">\([0,+1]\)</span></td>
+<td>(4.8)</td>
+<td>C10（E2a/E2b/E5）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="6_1">§6 假设、边界与未证之处<a class="headerlink" href="#6_1" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>连续反问题本身不适定</strong>，与离散化无关；本文只讨论"离散泛函是否忠实、<span class="arithmatex">\(\lambda\)</span> 是否可比"，
+   不声称能恢复不可分辨的分量。</li>
+<li>§2 的收敛结论假设：<span class="arithmatex">\(\rho\)</span> 凸、Lipschitz、<span class="arithmatex">\(\rho(0)=0\)</span>；<span class="arithmatex">\(\mathbf M\)</span> 光滑且（或其法向导数）
+   在 <span class="arithmatex">\(\partial\Omega\)</span> 上可忽略——代码只累加<strong>内部面</strong>，边界面的缺失带来 <span class="arithmatex">\(O(h)\)</span> 项；
+   <span class="arithmatex">\(\mathbf m\)</span> 取单元中心值（中点求积），误差 <span class="arithmatex">\(O(h^{2})\)</span>（严格依据见附录 A）。</li>
+<li><strong>悬挂面</strong>：<code>discretize</code> 对"粗单元对面 4 个细单元"的界面取 <span class="arithmatex">\(S_f\)</span> 为粗面面积、<span class="arithmatex">\(h_f\)</span> 为中心距；
+   该约定使 <span class="arithmatex">\(\sum w_f/V\to3\)</span>、二次泛函以 <span class="arithmatex">\(O(h^{2})\)</span> 收敛（C2/C3 已核验），
+   但本文未逐面证明它对任意 <span class="arithmatex">\(\rho\)</span> 都是最优装配。</li>
+<li><strong>定理 4.1 是低分辨理想化极限</strong>（列方向近似平行、单约束）。真实几何是"削弱版"：
+   实测 <span class="arithmatex">\(1.716\)</span> 落在 <span class="arithmatex">\((1,8)\)</span> 内。它给出的是<strong>方向性预言与上界</strong>，不是等式。</li>
+<li><strong>点偶极近似</strong>（(1.1) 的中值求积）要求单元尺度 <span class="arithmatex">\(\ll\)</span> 测量距离；该误差与本文讨论的
+   正则化标度问题独立，但会污染"还原度"的绝对值。</li>
+<li><strong>窗口 <span class="arithmatex">\([0,+1]\)</span> 只给出量级</strong>，不是精确常数；上下界依赖于噪声水平、网格对比度与
+   <span class="arithmatex">\(\rho\)</span> 的 <span class="arithmatex">\(\epsilon\)</span> 取值。<span class="arithmatex">\(\lambda_{bal}\)</span> 对参考模型幅值有弱依赖（深 L1 区近似线性、
+   二次区近似无关），由 <span class="arithmatex">\(10\)</span> 倍窗口吸收。</li>
+<li><strong>未覆盖</strong>：各向同性 TV 的正确装配（注 2.4 给出了改法但未实现/未验证）、
+   <span class="arithmatex">\(L^{0}\)</span>/稀疏先验、<span class="arithmatex">\(\epsilon\)</span> 的最优选取、悬挂面外的其它非拟一致网格。</li>
+<li>单元中心取样 vs 面心取样的差异（(2.4) 的一阶项）在<strong>均匀</strong>网格上严格抵消，
+   在非均匀网格上给出 <span class="arithmatex">\(O(h)\)</span> 项；实测收敛阶 <span class="arithmatex">\(1.57\sim1.72\)</span> 与其一致。</li>
+</ol>
+<hr />
+<h2 id="a-fem">附录 A：用到 FEM 标准结果的地方<a class="headerlink" href="#a-fem" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong><span class="arithmatex">\(W=\mathrm{diag}(S_fh_f)\)</span> 是质量集中（mass lumping）后的面质量矩阵。</strong>
+   对 <span class="arithmatex">\(H(\mathrm{div})\)</span> 相容的有限体积/混合有限元离散，弱形式 Dirichlet 能量
+   <span class="arithmatex">\(\int|\nabla M|^{2}\mathrm dV\)</span> 的离散对应是 <span class="arithmatex">\((GM)^{\mathsf T}W(GM)\)</span>，
+   其中 <span class="arithmatex">\(W\)</span> 为面对偶体积（<span class="arithmatex">\(=\)</span> 面面积 <span class="arithmatex">\(\times\)</span> 法向中心距）；对正交网格该矩阵对角，
+   对角元即 <span class="arithmatex">\(S_fh_f\)</span>。本文 (2.2) 只是把这个恒等式写成显式求和。</li>
+<li><strong>插值/求积误差 <span class="arithmatex">\(O(h^{2})\)</span>。</strong> Ciarlet（<em>The Finite Element Method for Elliptic Problems</em>）的插值误差估计给出
+   <span class="arithmatex">\(\|\nabla M-\nabla M_h\|_{L^{2}}\le Ch|M|_{H^{2}}\)</span>；Strang &amp; Fix（<em>An Analysis of the Finite Element
+   Method</em>）的 Strang 第一引理把"变分犯罪"（variational crime）的误差
+   <span class="arithmatex">\(|a_h(M_h,v_h)-a(M,v_h)|\)</span> 界住，从而能量误差为 <span class="arithmatex">\(O(h^{2})\)</span>——
+   这正是 (2.3) 与实测 <span class="arithmatex">\(5.01\%\to1.68\%\to0.46\%\)</span>（比值约 <span class="arithmatex">\(4\)</span>）的来源。</li>
+<li><strong>质量集中（mass lumping）的收敛性</strong>：对角化的面/单元质量矩阵保持 <span class="arithmatex">\(O(h^{2})\)</span> 能量精度
+   （对正交网格的常系数问题）；否则会退化到 <span class="arithmatex">\(O(h)\)</span>。本文 (2.9) 的 <span class="arithmatex">\(\sum w_f\to3V_\Omega\)</span>
+   是同一事实的几何推论。</li>
+<li><strong>最小范数解与 Krylov 迭代</strong>：从 <span class="arithmatex">\(\mathbf 0\)</span> 出发的梯度型方法在一致线性系统上的极限为
+   <span class="arithmatex">\(A^{+}\mathbf b=\lim_{\mu\to0}(A^{\mathsf T}A+\mu I)^{-1}A^{\mathsf T}\mathbf b\)</span>
+   （Tikhonov 解族的极限），即最小 <span class="arithmatex">\(\ell^{2}\)</span> 范数解——(4.2) 的前提。</li>
+</ol>
+<h2 id="b">附录 B：符号 ↔ 代码对照<a class="headerlink" href="#b" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>本文</th>
+<th>代码（<code>B2M_newprob.py</code> 第 5 节 / <code>meshtest/b2m_core.py</code>）</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\(\mathbf m\)</span></td>
+<td><code>M_sol_current.reshape(n_voxels, 3)</code></td>
+<td>单元常值磁化强度</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(G\)</span></td>
+<td><code>mesh.cell_gradient</code> → <code>G_sub</code></td>
+<td>弱形式梯度（元素 <span class="arithmatex">\(\pm1/h_f\)</span>）</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(W=\mathrm{diag}(w_f)\)</span></td>
+<td><code>mesh.get_face_inner_product().diagonal()</code> → <code>V_all</code></td>
+<td>面质量矩阵 / 面对偶体积</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(w_f=S_fh_f\)</span></td>
+<td><code>V_face = V_all[internal_faces]</code></td>
+<td>面权重（<span class="arithmatex">\(\mathrm{mm^{3}}\)</span>）</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(R_h\)</span></td>
+<td><code>loss_reg</code></td>
+<td>体积加权正则化</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\tilde R_h\)</span></td>
+<td>把 <code>V_face</code> 换成 <code>1</code> 的版本</td>
+<td>不加权写法</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\hat R_h\)</span></td>
+<td><code>V_face / W</code></td>
+<td>归一化写法（推荐）</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\rho,\ \epsilon\)</span></td>
+<td><code>huber_epsilon**2*(sqrt(1+(gn/eps)**2)-1)</code></td>
+<td>Charbonnier/Huber</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\rho'/x\)</span> 权重</td>
+<td><code>weights = 1/sqrt(1+(gn/eps)**2)</code></td>
+<td>梯度里的同一权重</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\lambda\)</span></td>
+<td><code>lambda_reg</code>（当前 <span class="arithmatex">\(10^{-10}\)</span>，<span class="arithmatex">\(w_f\)</span> 用 <span class="arithmatex">\(\mathrm{mm^{3}}\)</span>）</td>
+<td>正则化强度</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\lambda_{bal}\)</span></td>
+<td><code>b2m_core.calibrate_lambda</code></td>
+<td>力平衡标定值</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\delta,\sigma\)</span></td>
+<td><code>results.md</code> 中的 <code>σ</code>、<code>残差</code></td>
+<td>噪声水平与残差</td>
+</tr>
+</tbody>
+</table>
+<h2 id="c">附录 C：数值证据汇总<a class="headerlink" href="#c" title="Permanent link">&para;</a></h2>
+<p>（E1–E5 均来自 <code>meshtest/results.md</code>；C1、C5、C6 为本文写作时的受控核验，命令见附录 D。）</p>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>内容</th>
+<th>数值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C1</td>
+<td><span class="arithmatex">\(G\)</span> 系数与 <span class="arithmatex">\(w_f\)</span></td>
+<td>系数 <span class="arithmatex">\(=\pm1/h_f\)</span>；<span class="arithmatex">\(w_f/h_f\)</span> 反推面积 <span class="arithmatex">\(=\)</span> 面面积</td>
+</tr>
+<tr>
+<td>C2</td>
+<td>体积加权 / 不加权 梯度能量收敛</td>
+<td>加权 <span class="arithmatex">\(5.01\%\to1.68\%\to0.46\%\)</span>；不加权 <span class="arithmatex">\(338.8\%\to3467\%\to28628\%\)</span>；两者比值 <span class="arithmatex">\(4.62\to36.28\to288.61\)</span>（每加密 <span class="arithmatex">\(7.86\times\)</span>、<span class="arithmatex">\(7.95\times\)</span>）</td>
+</tr>
+<tr>
+<td>C3</td>
+<td><span class="arithmatex">\(\sum w_f/V_{\text{磁体}}\)</span></td>
+<td><span class="arithmatex">\(2.31\to2.69\to2.84\)</span>（生产型网格，<span class="arithmatex">\(6/3/1.5\)</span> mm）</td>
+</tr>
+<tr>
+<td>C4</td>
+<td>权重按体积分配</td>
+<td>细档占磁体体积 <span class="arithmatex">\(18\%\)</span>、占 <span class="arithmatex">\(\sum w_f\)</span> <span class="arithmatex">\(18\%\)</span></td>
+</tr>
+<tr>
+<td>C5</td>
+<td>极限泛函是方向可分离的 <span class="arithmatex">\(R_{\mathcal G}\)</span></td>
+<td>深 L1：与 <span class="arithmatex">\(R_{\mathcal G}\)</span> 差 <span class="arithmatex">\(5.30\%\to2.93\%\to2.05\%\)</span>；与 <span class="arithmatex">\(R_{\text{iso}}\)</span> 差 <span class="arithmatex">\(44.7\%\to48.3\%\to49.6\%\)</span>（参照比 <span class="arithmatex">\(1.53\)</span>）。二次区：两参照重合（比 <span class="arithmatex">\(1.0000\)</span>），离散 <span class="arithmatex">\(5.01\%\to1.68\%\to0.46\%\)</span></td>
+</tr>
+<tr>
+<td>C6</td>
+<td><span class="arithmatex">\(\ell^{2}\)</span> 偏置 <span class="arithmatex">\(\propto V_c\)</span></td>
+<td>远场（<span class="arithmatex">\(200\)</span> mm）纯数据拟合 粗/细 <span class="arithmatex">\(=7.997\)</span>（理论 <span class="arithmatex">\(8.0\)</span>）；正常距离（<span class="arithmatex">\(24\)</span> mm）<span class="arithmatex">\(=1.716\)</span>；<span class="arithmatex">\(V\)</span>-度量解析 <span class="arithmatex">\(=1.000\)</span></td>
+</tr>
+<tr>
+<td>C7</td>
+<td><span class="arithmatex">\(\lambda\)</span> 换算</td>
+<td><span class="arithmatex">\(\langle w\rangle=W/n_f\)</span>：quick <span class="arithmatex">\(108.42\)</span>、full <span class="arithmatex">\(13.93\)</span>、生产 <span class="arithmatex">\(\approx5\)</span>；等效 <span class="arithmatex">\(\lambda\)</span> 下两约定目标函数差 <span class="arithmatex">\(0\)</span>（<span class="arithmatex">\(10^{-16}\)</span>）、解差 <span class="arithmatex">\(5.1\times10^{-14}\)</span></td>
+</tr>
+<tr>
+<td>C8</td>
+<td><span class="arithmatex">\(\mathrm{m^{3}}\)</span> 陷阱</td>
+<td>落到 <span class="arithmatex">\(k=-12.8\)</span>（quick）<span class="arithmatex">\(/-11.5\)</span>（full）；误差 <span class="arithmatex">\(60\%\sim200\%\)</span>、档间偏置 <span class="arithmatex">\(&gt;1.4\)</span></td>
+</tr>
+<tr>
+<td>C9</td>
+<td>档间偏置（指纹起始 <span class="arithmatex">\(\lambda\)</span>）</td>
+<td>不加权 <span class="arithmatex">\(0.157\)</span> vs 体积加权 <span class="arithmatex">\(0.039\)</span>（比值 <span class="arithmatex">\(0.25\)</span>）；更深处 <span class="arithmatex">\(1.97\)</span> vs <span class="arithmatex">\(1.65\)</span></td>
+</tr>
+<tr>
+<td>C10</td>
+<td><span class="arithmatex">\(\lambda\)</span> 窗口</td>
+<td>quick 安全 <span class="arithmatex">\(k=[-2,+1]\)</span>、full <span class="arithmatex">\(k=[0,+3]\)</span>；判据取交集 <span class="arithmatex">\([0,+1]\)</span>；窗口内误差 <span class="arithmatex">\(\le2\%\)</span>（full）、偏置 <span class="arithmatex">\(\le0.05\)</span></td>
+</tr>
+<tr>
+<td>C11</td>
+<td>网格无关性</td>
+<td>同一 <span class="arithmatex">\(\lambda\)</span> 搬到三张网格：体积加权 <span class="arithmatex">\(1.07\times\)</span>、不加权 <span class="arithmatex">\(7.71\times\)</span></td>
+</tr>
+<tr>
+<td>C12</td>
+<td><span class="arithmatex">\(\lambda\)</span> 选择规则</td>
+<td>discrepancy principle 选出的 <span class="arithmatex">\(k=+1\)</span> 与最优 <span class="arithmatex">\(k=+1\)</span> 相同、误差同为 <span class="arithmatex">\(0.29\%\)</span></td>
+</tr>
+</tbody>
+</table>
+<h2 id="d">附录 D：复现命令<a class="headerlink" href="#d" title="Permanent link">&para;</a></h2>
+<p>解释器：<code>E:\Python\Miniforge\envs\discretize\python.exe</code>；工作目录 <code>meshtest/</code>。
+（E1–E5：<code>python run_experiments.py --quick</code> 或 <code>--full</code>，结果见 <code>results.md</code>。）</p>
+<p><strong>D-① <span class="arithmatex">\(h^{-3}\)</span> 律与 <span class="arithmatex">\(\langle w\rangle\)</span></strong>（对应 C2/C3/C7）</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>python<span class="w"> </span>run_experiments.py<span class="w"> </span>--only<span class="w"> </span>E1<span class="w">     </span><span class="c1"># 体积加权/不加权能量与收敛阶</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>python<span class="w"> </span>-<span class="w"> </span><span class="s">&lt;&lt;'PY'</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="s">import numpy as np, sys; sys.path.insert(0,'.')</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="s">from run_experiments import setup, default_geom</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="s">domain, mbox = default_geom()</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="s">st = setup(domain, mbox, "split", (16,16,4), "volume_raw", "dense", "uniform", verbose=False)</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="s">W, nf = st["reg"]["W"], st["reg"]["n_faces"]</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="s">print(f"Σw_f={W:.4f} mm³  &lt;w&gt;=W/n_f={W/nf:.4f} mm³  Σw_f/V_magnet={W/st['vol'].sum():.4f}")</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="s">E_u = {16: 87.354, 32: 716.865, 64: 5776.035}; E_w = {16: 18.913, 32: 19.758, 64: 20.013}</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="s">r = {n: E_u[n]/E_w[n] for n in E_u}</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="s">print("不加权/加权比值:", {n: round(r[n],2) for n in r},</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="s">      "每加密倍率:", round(r[32]/r[16],2), round(r[64]/r[32],2))   # 期望 ≈ 8</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="s">PY</span>
+</code></pre></div>
+<p><strong>D-③ 面梯度系数、面对偶体积与极限泛函</strong>（对应 C1/C5）</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>python<span class="w"> </span>-<span class="w"> </span><span class="s">&lt;&lt;'PY'</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="s">import numpy as np, sys; sys.path.insert(0,'.')</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="s">from run_experiments import setup, default_geom</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="s">from discretize import TreeMesh</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="s">st = setup(*default_geom(), "split", (16,16,4), "volume_raw", "dense", "uniform", verbose=False)</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="s">mesh = st["mesh"]; cc = mesh.cell_centers</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="s">G = mesh.cell_gradient.tocsr(); w_all = mesh.get_face_inner_product().diagonal()</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="s">for f in range(G.shape[0]):                       # C1: G 系数 = ±1/h, w_f/h = 面面积</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="s">    c = G.indices[G.indptr[f]:G.indptr[f+1]]; v = G.data[G.indptr[f]:G.indptr[f+1]]</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="s">    if len(c) != 2: continue</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="s">    d = cc[c[1]] - cc[c[0]]; h = abs(d[int(np.argmax(np.abs(d)))])</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="s">    print(f"G系数={v}  1/h={1/h:.5f}  w_f={w_all[f]:.3f}  反推S={w_all[f]/h:.3f}"); break</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="s">L = 4.0</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="s">def Mfun(X,Y,Z):</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="s">    r2 = X**2+Y**2+Z**2; w = np.where(r2 &lt; 9.0, (1.0-r2/9.0)**2, 0.0)</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="s">    return np.stack([w, w*0.5, w*0.25], axis=-1)</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="s">def grads(X,Y,Z):</span>
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="s">    r2 = X**2+Y**2+Z**2</span>
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="s">    f = lambda c: np.where(r2 &lt; 9.0, -4*c*(1.0-r2/9.0)/9.0, 0.0)</span>
+<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="s">    g = np.stack([f(X), f(Y), f(Z)], axis=-1)</span>
+<a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="s">    return np.stack([g*1.0, g*0.5, g*0.25], axis=-2)     # [n, 3方向, 3分量]</span>
+<a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="s">rho = lambda x, eps: eps**2*(np.sqrt(1.0+(x/eps)**2)-1.0)</span>
+<a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a><span class="s">for eps in (1e-6, 1e3):                                  # C5: 深 L1 与二次区</span>
+<a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a><span class="s">    for nbase in (16, 32, 64):</span>
+<a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a><span class="s">        h = 2*L/nbase</span>
+<a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a><span class="s">        m = TreeMesh([[(h,nbase)],[(h,nbase)],[(h,nbase)]], origin=[-L,-L,-L], diagonal_balance=False)</span>
+<a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a><span class="s">        ml = m.max_level</span>
+<a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a><span class="s">        m.refine_bounding_box(np.array([[-L,-L,-L],[L,L,L]]), level=ml-1, finalize=False)</span>
+<a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a><span class="s">        m.refine(lambda c: ml if c.center[0] &lt; 0 else ml-1, finalize=False)</span>
+<a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a><span class="s">        m.finalize(); m.number()</span>
+<a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a><span class="s">        c2 = m.cell_centers; V = m.cell_volumes</span>
+<a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a><span class="s">        Gs = m.cell_gradient.tocsr(); wf = m.get_face_inner_product().diagonal()</span>
+<a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a><span class="s">        g = Gs @ Mfun(c2[:,0], c2[:,1], c2[:,2]); it = np.diff(Gs.indptr) &gt;= 2</span>
+<a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a><span class="s">        A = float(np.sum(wf[it]*rho(np.sqrt((g[it]**2).sum(1)), eps)))</span>
+<a id="__codelineno-3-35" name="__codelineno-3-35" href="#__codelineno-3-35"></a><span class="s">        gr = grads(c2[:,0], c2[:,1], c2[:,2])</span>
+<a id="__codelineno-3-36" name="__codelineno-3-36" href="#__codelineno-3-36"></a><span class="s">        B = float(np.sum(V*np.sum(rho(np.sqrt((gr**2).sum(-1)), eps), axis=-1)))   # R_G 方向可分离</span>
+<a id="__codelineno-3-37" name="__codelineno-3-37" href="#__codelineno-3-37"></a><span class="s">        C = float(np.sum(V*rho(np.sqrt((gr**2).sum(-1).sum(-1)), eps)))           # R_iso</span>
+<a id="__codelineno-3-38" name="__codelineno-3-38" href="#__codelineno-3-38"></a><span class="s">        print(f"eps={eps:g} nbase={nbase:3d} 离散={A:.6f} R_G={B:.6f} 误差={abs(A-B)/B*100:5.2f}%"</span>
+<a id="__codelineno-3-39" name="__codelineno-3-39" href="#__codelineno-3-39"></a><span class="s">              f"  R_iso={C:.6f} 误差={abs(A-C)/C*100:5.2f}%  参照比={B/C:.4f}")</span>
+<a id="__codelineno-3-40" name="__codelineno-3-40" href="#__codelineno-3-40"></a><span class="s">PY</span>
+</code></pre></div>
+<p><strong>D-② 最小 <span class="arithmatex">\(\ell^{2}\)</span> 范数偏置 <span class="arithmatex">\(\propto V_c\)</span></strong>（对应 C6）</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>python<span class="w"> </span>-<span class="w"> </span><span class="s">&lt;&lt;'PY'</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="s">import numpy as np, sys; sys.path.insert(0,'.')</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="s">from run_experiments import setup, invert, default_geom</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="s">domain, mbox = default_geom()</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="s"># 测点放到 200mm 远处 ⇒ 几何核近似常数 ⇒ 定理 4.1 的前提成立</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="s">for zoff in (200.0, 24.0):</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="s">    st = setup(domain, mbox, "split", (16,16,4), "volume_raw", "oneside", "uniform",</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="s">               step=8.0, noise_frac=0.0, z_off=zoff, verbose=False)</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="s">    lv, vol = st["level"], st["vol"]</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="s">    M, _ = invert(st, st["lam_bal"]*1e-40, maxiter=1200)      # 几乎无正则化 = 纯数据拟合</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="s">    mm = np.linalg.norm(M, axis=1)</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="s">    r = {int(L): float(mm[lv==L].mean()) for L in np.unique(lv)}</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="s">    print(f"z_off={zoff:6.1f} 粗/细={r[1]/r[0]:6.3f}   (min-ℓ² 理论 =&gt; V比 = 8.0)")</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="s"># 解析对照：min ΣV_c m_c² 的解</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="s">v = vol; print("V-度量解析 粗/细 =", 1.000, " (=1，体积度量下无偏)")</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="s">PY</span>
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../symmetry/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 对称面检测与镜像">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                对称面检测与镜像
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../experiments/" class="md-footer__link md-footer__link--next" aria-label="下一页: 实验说明与结论">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                实验说明与结论
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.top", "navigation.footer", "content.code.copy", "search.suggest", "search.highlight", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

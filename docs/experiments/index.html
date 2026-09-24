@@ -1,0 +1,1270 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="用外部磁场测量数据反推磁铁内部的磁化强度分布：偶极正演的离散、体积加权正则化、对称面自动检测与网格无关性">
+      
+      
+        <meta name="author" content="134zhou">
+      
+      
+        <link rel="canonical" href="https://134zhou.github.io/BtoM/experiments/">
+      
+      
+        <link rel="prev" href="../theory/">
+      
+      
+        <link rel="next" href="../experiment-results/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>实验说明与结论 - BtoM —— 反演磁铁内部磁化强度分布</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#meshtest" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="BtoM —— 反演磁铁内部磁化强度分布" class="md-header__button md-logo" aria-label="BtoM —— 反演磁铁内部磁化强度分布" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            BtoM —— 反演磁铁内部磁化强度分布
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              实验说明与结论
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="切换到深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="切换到浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/134zhou/BtoM" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    134zhou/BtoM
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="BtoM —— 反演磁铁内部磁化强度分布" class="md-nav__button md-logo" aria-label="BtoM —— 反演磁铁内部磁化强度分布" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    BtoM —— 反演磁铁内部磁化强度分布
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/134zhou/BtoM" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    134zhou/BtoM
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../b2m/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    反演方法（B2M）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../symmetry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    对称面检测与镜像
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../theory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    理论推导
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实验说明与结论
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实验说明与结论
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        结论（先看这个）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="结论（先看这个）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-bug" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 体积权重不是 bug，它才是"正确离散化"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 真正的原因是 λ 的标度被换掉了，等效正则化强度掉进欠正则化区
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 修复方案
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-e3e4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 体积加权的附带好处（E3/E4）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-sqrtv_im_i-m_ie7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 换求解变量：优化 \(\sqrt{v_i}\,m_i\) 而不是 \(m_i\)（E7）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        目录结构
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        实验清单
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        踩过的坑（别再犯）
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        边界与未做的事
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../experiment-results/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    判据汇总
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../datasets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数据集与结果
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reproduce/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    复现指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        结论（先看这个）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="结论（先看这个）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-bug" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 体积权重不是 bug，它才是"正确离散化"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 真正的原因是 λ 的标度被换掉了，等效正则化强度掉进欠正则化区
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 修复方案
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-e3e4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 体积加权的附带好处（E3/E4）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-sqrtv_im_i-m_ie7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 换求解变量：优化 \(\sqrt{v_i}\,m_i\) 而不是 \(m_i\)（E7）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        目录结构
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        实验清单
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        踩过的坑（别再犯）
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        边界与未做的事
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="meshtest">meshtest：正则化体积加权的可复现对照实验<a class="headerlink" href="#meshtest" title="Permanent link">&para;</a></h1>
+<div class="admonition abstract">
+<p class="admonition-title">本页是自动同步的副本</p>
+<p>内容来自仓库中的 <a href="https://github.com/134zhou/BtoM/blob/main/meshtest/README.md"><code>meshtest/README.md</code></a>，由 <code>web/tools/sync_docs.py</code> 生成，<strong>请不要直接改这一页</strong>。
+要改内容请改源文件，然后在 <code>web/</code> 目录执行：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>python<span class="w"> </span>tools/sync_docs.py
+</code></pre></div>
+</div>
+<p>本目录回答一个问题：<strong>给正则化加上"按体素体积加权"之后，为什么反演结果会变得非物理
+（网格密的区域异常偏小、稀疏的区域异常偏大）？该怎么修？</strong></p>
+<p>跑法（用 <code>E:\Python\Miniforge\envs\discretize</code>，不新增依赖）：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>python<span class="w"> </span>run_experiments.py<span class="w"> </span>--quick<span class="w">      </span><span class="c1"># 粗网格，约 1 分钟，用于快速回归</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>python<span class="w"> </span>run_experiments.py<span class="w"> </span>--full<span class="w">       </span><span class="c1"># 细网格 + 完整 λ 扫描（默认交付配置）</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>python<span class="w"> </span>run_experiments.py<span class="w"> </span>--only<span class="w"> </span>E2<span class="w">    </span><span class="c1"># 只跑某个实验</span>
+</code></pre></div>
+<p>产物：<code>results.md</code>（判据汇总 + λ 换算表）、<code>figures/*.png</code>。</p>
+<hr />
+<h2 id="_1">结论（先看这个）<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h3 id="1-bug">1. 体积权重不是 bug，它才是"正确离散化"<a class="headerlink" href="#1-bug" title="Permanent link">&para;</a></h3>
+<p><code>mesh.get_face_inner_product()</code> 的对角元就是面对偶体积 <span class="arithmatex">\(w_f = S\cdot h\)</span>。把正则化写成
+<span class="arithmatex">\(\sum_f w_f\,\rho(|\nabla M|_f)\)</span> 才是 <span class="arithmatex">\(\int \rho(|\nabla M|)\,\mathrm dV\)</span> 的正确离散化。
+在"左细右粗"的非均匀网格上做加密收敛（对光滑紧支的 M 与解析积分比较，E1）：</p>
+<table>
+<thead>
+<tr>
+<th>每方向基础网格数</th>
+<th>体积加权误差</th>
+<th>不加权误差</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>16</td>
+<td>5.01%</td>
+<td>338.8%</td>
+</tr>
+<tr>
+<td>32</td>
+<td>1.68%</td>
+<td>3467%</td>
+</tr>
+<tr>
+<td>64</td>
+<td><strong>0.46%</strong></td>
+<td><strong>28628%</strong></td>
+</tr>
+</tbody>
+</table>
+<p>体积加权以 <span class="arithmatex">\(O(h^2)\)</span> 收敛；<strong>不加权的那版随加密而发散</strong>。
+（另外实测 <span class="arithmatex">\(\sum_f w_f \approx 3V_{\text{磁体}}\)</span>，且权重严格按体积分配：细档占磁体体积多少
+就占 <span class="arithmatex">\(\sum w_f\)</span> 多少 —— 悬挂面处理是对的。）</p>
+<p>→ 所以"退回不加权"不是解，体积权重正是让正则化与网格无关的东西。</p>
+<h3 id="2">2. 真正的原因是 <strong>λ 的标度被换掉了，等效正则化强度掉进欠正则化区</strong><a class="headerlink" href="#2" title="Permanent link">&para;</a></h3>
+<p>同一物理强度在各约定下需要的 λ（E2a 实测换算表，本配置 <span class="arithmatex">\(W=\sum_f w_f\)</span>、<span class="arithmatex">\(n_f\)</span> 为内部面数）：</p>
+<table>
+<thead>
+<tr>
+<th>约定</th>
+<th>权重</th>
+<th>同一强度所需 λ 相对 <code>volume_raw</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>volume_raw</code></td>
+<td><span class="arithmatex">\(w_f\)</span>（mm³）</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>volume_norm</code>（推荐）</td>
+<td><span class="arithmatex">\(w_f/W\)</span></td>
+<td><span class="arithmatex">\(W\)</span></td>
+</tr>
+<tr>
+<td><code>volume_m3</code></td>
+<td><span class="arithmatex">\(w_f/10^9\)</span>（m³）</td>
+<td><span class="arithmatex">\(10^{-9}\)</span></td>
+</tr>
+<tr>
+<td><code>none</code>（旧写法）</td>
+<td>1</td>
+<td><span class="arithmatex">\(W/n_f\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><strong>加了体积权重后，同一个物理强度对应的 λ 要乘 <span class="arithmatex">\(W/n_f\)</span></strong>，也就是<strong>平均面对偶体积</strong>
+（它正比于 <span class="arithmatex">\(h^3\)</span>，随网格加密而变小）：</p>
+<table>
+<thead>
+<tr>
+<th>网格</th>
+<th>单元尺度</th>
+<th><span class="arithmatex">\(W/n_f\)</span>（λ 需要乘的倍数）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>本实验 quick</td>
+<td>4 / 8 mm</td>
+<td>≈108</td>
+</tr>
+<tr>
+<td>本实验 full</td>
+<td>2 / 4 mm</td>
+<td>≈14</td>
+</tr>
+<tr>
+<td>生产网格（B2M）</td>
+<td>1.0～1.4 mm</td>
+<td><strong>≈5</strong></td>
+</tr>
+<tr>
+<td>体积写成 m³</td>
+<td>同上</td>
+<td><strong>×10⁹</strong></td>
+</tr>
+</tbody>
+</table>
+<p>E0 证明本目录的 <code>volume_raw</code> 与 <code>B2M_newprob.py</code> 第 5 节的公式<strong>逐位一致</strong>
+（Δloss/loss=1e-16），所以这个标度差是真实的：<strong>换成 m³ 就是 10⁹ 倍的坑</strong>；即使在 mm³ 下
+也有 5 倍左右的漂移 —— 只要 λ 原来就卡在临界点上，换写法后就会掉进欠正则化区。</p>
+<p>E2b 直接把症状复现出来：把 λ 调到欠正则化区（λ ≪ λ_bal）后，<strong>两种写法都会</strong>出现
+"细档偏小、粗档偏大"的幅值指纹（full 配置，指纹起始 k=-2）：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>细档 |M|/真值</th>
+<th>粗档 |M|/真值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>none</code>（不加权）</td>
+<td>1.01</td>
+<td><strong>1.16</strong></td>
+</tr>
+<tr>
+<td><code>volume_norm</code></td>
+<td><strong>1.04</strong></td>
+<td><strong>0.99</strong></td>
+</tr>
+</tbody>
+</table>
+<p>且在指纹刚出现的 λ 上，体积加权把偏置压到不加权的 <strong>1/4</strong>（0.039 vs 0.157）；
+quick 配置更明显（0.296 vs 1.272，比值 0.23）。再往更深的欠正则化走（k≤-6）两者一样烂
+—— 那时解由"最小范数"结构主导、正则化已不起作用，纯粹是"λ 太小"。</p>
+<h3 id="3">3. 修复方案<a class="headerlink" href="#3" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">w</span> <span class="o">=</span> <span class="n">V_face</span>                 <span class="c1"># 面对偶体积 S·h，单位任意（mm³ / m³ 都行）</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">W</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>                <span class="c1"># 归一化因子，≈ 3·V_magnet</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">loss_reg</span> <span class="o">=</span> <span class="n">lambda_reg</span> <span class="o">*</span> <span class="n">eps</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">w</span> <span class="o">/</span> <span class="n">W</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">gn</span><span class="o">/</span><span class="n">eps</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">grad_reg</span> <span class="o">=</span> <span class="n">lambda_reg</span> <span class="o">*</span> <span class="p">(</span><span class="n">G_sub</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">((</span><span class="n">w</span> <span class="o">/</span> <span class="n">W</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">g</span> <span class="o">*</span> <span class="n">wt</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]))</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+</code></pre></div>
+<p>除以 <span class="arithmatex">\(W\)</span> 之后：</p>
+<ul>
+<li>λ 与<strong>网格加密无关</strong>：<span class="arithmatex">\(W\)</span> 随加密收敛到 <span class="arithmatex">\(3V_{\text{磁体}}\)</span>（本目录实测 2.31→2.69→2.84，
+  见 E1）；</li>
+<li>λ 与<strong>长度单位无关</strong>：分子分母同为体积量纲，mm³ 与 m³ 给出完全相同的解
+  （E2a 实测两约定的目标函数差为 0、解的最大相对差 5e-14）；</li>
+<li>λ 的可用窗口是<strong>单边</strong>的：<span class="arithmatex">\(k\in[0,+1]\)</span>（λ 取 <span class="arithmatex">\(\lambda_{bal}\)</span> 的 1～10 倍）在两套网格上都
+  安全；往下推很快变差（full 配置 k=-1 就 9%，k=-2 就 46%），所以<strong>宁大勿小</strong>。</li>
+</ul>
+<p>λ 怎么定：<strong>先力平衡标定，再按噪声定档</strong>。</p>
+<ol>
+<li>标定 <span class="arithmatex">\(\lambda_{bal} = \|\nabla E_{data}(M_{ref})\| / \|\nabla E_{reg}(M_{ref})\|_{\lambda=1}\)</span>
+   （参考模型用"材料饱和磁化强度量级 × 正弦扰动"即可，不需要真值；
+   <code>b2m_core.make_reference_model(points, amp=...)</code> 就是给生产用的）；</li>
+<li>取满足"残差 ≈ 噪声 σ"的<strong>最大</strong> λ（discrepancy principle）。E5 实测：这样选出的 λ
+   与上帝视角最优 λ 完全一致（k=+1 vs +1），误差也相同（0.29%）。</li>
+</ol>
+<h3 id="4-e3e4">4. 体积加权的附带好处（E3/E4）<a class="headerlink" href="#4-e3e4" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>按档公平</strong>：反向拼接的接缝真值下，<code>volume_norm</code> 的各档 |M| 偏置之差 0.005，
+  不加权 0.026（quick 配置 0.020 vs 0.051）；各档独立估出的接缝跳变离散仅 1.1%。</li>
+<li><strong>边缘不糊</strong>：最优 λ 下过渡宽度不超过纯数据拟合（quick 配置还更锐：6 单元 vs 10 单元，
+  不加权 10 vs 10）。</li>
+<li><strong>网格无关</strong>：在 split 网格上标定一次 λ，直接搬到另外两张网格，误差只变 <strong>1.07</strong> 倍；
+  不加权则变 <strong>7.71</strong> 倍（E4）。</li>
+</ul>
+<hr />
+<h3 id="5-sqrtv_im_i-m_ie7">5. 换求解变量：优化 <span class="arithmatex">\(\sqrt{v_i}\,m_i\)</span> 而不是 <span class="arithmatex">\(m_i\)</span>（E7）<a class="headerlink" href="#5-sqrtv_im_i-m_ie7" title="Permanent link">&para;</a></h3>
+<p><strong>为什么</strong>：求解器从 0 出发时，隐式挑的是"变量平方和最小"的那个解。
+- 变量取 <span class="arithmatex">\(m_i\)</span> ⇒ 最小化 <span class="arithmatex">\(\sum m_i^2\)</span> ⇒ 相当于给 <span class="arithmatex">\(m\)</span> 的权重 <span class="arithmatex">\(v^0\)</span> ⇒ 偏向粗格子；
+- 变量取 <span class="arithmatex">\(v_im_i\)</span> ⇒ 最小化 <span class="arithmatex">\(\sum (v_im_i)^2\)</span> ⇒ 权重 <span class="arithmatex">\(v^2\)</span> ⇒ 偏到另一侧（细大粗小）；
+- 变量取 <span class="arithmatex">\(\sqrt{v_i}\,m_i\)</span> ⇒ 最小化 <span class="arithmatex">\(\sum v_im_i^2=\int m^2\,\mathrm dV\)</span> ⇒ <strong>权重 <span class="arithmatex">\(v^1\)</span>，物理上正确</strong>。</p>
+<p><strong>怎么验</strong>（E7，只用一条判据，<span class="arithmatex">\(\lambda=0\)</span> 完全没有正则化）：真值取整块均匀磁化、磁场无噪声，
+造两张<strong>互为粗细互换</strong>的网格（A：左半细；B：右半细），比较左右半区的体积加权平均 <span class="arithmatex">\(|m|\)</span>。
+物理上左右两区必须相等，所以判据是：<strong>互换网格后同一区域均值变化 ≤2%，且每张网格上"左/右"比值 ∈ [0.98,1.02]</strong>。</p>
+<table>
+<thead>
+<tr>
+<th>设置（对四组完全一致）</th>
+<th>变量</th>
+<th>网格A(左细) 左/右</th>
+<th>网格B(右细) 左/右</th>
+<th>互换不变性误差</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LSQR@50</td>
+<td><span class="arithmatex">\(m\)</span></td>
+<td>0.63</td>
+<td>1.58</td>
+<td>58.0%</td>
+</tr>
+<tr>
+<td>LSQR@50</td>
+<td><span class="arithmatex">\(\sqrt v\,m\)</span></td>
+<td><strong>1.00</strong></td>
+<td><strong>1.00</strong></td>
+<td><strong>0.1%</strong></td>
+</tr>
+<tr>
+<td>LSQR@200</td>
+<td><span class="arithmatex">\(m\)</span></td>
+<td>0.70</td>
+<td>1.43</td>
+<td>43.4%</td>
+</tr>
+<tr>
+<td>LSQR@200</td>
+<td><span class="arithmatex">\(\sqrt v\,m\)</span></td>
+<td><strong>0.99</strong></td>
+<td><strong>1.01</strong></td>
+<td><strong>0.7%</strong></td>
+</tr>
+<tr>
+<td>L-BFGS-B@50（±max_M 边界）</td>
+<td><span class="arithmatex">\(m\)</span></td>
+<td>0.53</td>
+<td>1.89</td>
+<td>89.4%</td>
+</tr>
+<tr>
+<td>L-BFGS-B@50</td>
+<td><span class="arithmatex">\(\sqrt v\,m\)</span></td>
+<td><strong>1.00</strong></td>
+<td><strong>1.00</strong></td>
+<td><strong>0.0%</strong></td>
+</tr>
+</tbody>
+</table>
+<p><span class="arithmatex">\(\sqrt v\,m\)</span> 解出的区域均值是 99953~100407（真值 <span class="arithmatex">\(10^5\)</span>）——<strong>绝对值也对</strong>，不只是比值；
+<span class="arithmatex">\(m\)</span> 变量则是细半区 ≈0.74e5、粗半区 ≈1.40e5（±40%），且两张网格的比值互为倒数（0.63 ↔ 1.58）。
+<strong>结论：换成 <span class="arithmatex">\(\sqrt v\,m\)</span> 后，粗/细网格的区别消失，且对调粗细结果不变（≤0.7%）。</strong></p>
+<h2 id="_2">目录结构<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>b2m_core.py</code></td>
+<td>共用核心：网格/几何、正演 numba 核（照抄生产）、正则化变体、目标函数、度量</td>
+</tr>
+<tr>
+<td><code>truth.py</code></td>
+<td>合成真值与合成磁场（均匀块 / 反向接缝块），独立 1mm 细网格正演避免 inverse crime</td>
+</tr>
+<tr>
+<td><code>run_experiments.py</code></td>
+<td>E0–E6 实验驱动，写 <code>results.md</code> 与 <code>figures/</code></td>
+</tr>
+<tr>
+<td><code>results.md</code></td>
+<td>自动生成的判据汇总 + λ 换算表</td>
+</tr>
+<tr>
+<td><code>figures/</code></td>
+<td>E1 收敛、E2 λ 扫描、E5 λ 选择规则</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_3">实验清单<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>内容</th>
+<th>判据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>E0</td>
+<td>harness 与生产公式一致性（loss/grad 逐位比较）</td>
+<td>相对差 &lt; 1e-12</td>
+</tr>
+<tr>
+<td>E1</td>
+<td>体积权重是否为正确离散化（非均匀网格加密收敛）</td>
+<td><span class="arithmatex">\(O(h^{1.2+})\)</span> 收敛、最细误差 &lt;2%、不加权 &gt;50%</td>
+</tr>
+<tr>
+<td>E2a</td>
+<td>标定 λ 下的还原度 + 各约定 λ 换算 + 标度等价 + m³ 陷阱</td>
+<td>k∈[0,+1] 窗口内误差 ≤2~5%、偏置 ≤0.05、等效 λ 下目标函数相同、m³ 落到欠正则化区</td>
+</tr>
+<tr>
+<td>E2b</td>
+<td>欠正则化幅值指纹（细/粗档偏置）</td>
+<td>指纹可复现，且体积加权压到 ≤0.7×</td>
+</tr>
+<tr>
+<td>E3</td>
+<td>反向接缝块：对比度、边缘宽度、按档公平性</td>
+<td>档间差 ≤0.05 且 ≤0.5× 不加权；跳变 ≥40%；边缘不比纯数据拟合更宽</td>
+</tr>
+<tr>
+<td>E4</td>
+<td>网格无关性（同一 λ 搬到三张网格）</td>
+<td>误差变化 ≤1.5×、偏置 ≤0.05；不加权 ≥1.5×</td>
+</tr>
+<tr>
+<td>E5</td>
+<td>λ 选择规则（残差≈σ 的最大 λ）</td>
+<td>与最优 λ 差 ≤3 倍、误差 ≤1.3 倍</td>
+</tr>
+<tr>
+<td>E6</td>
+<td>求解器收敛性（maxiter 60 vs 400）</td>
+<td>误差差 &lt;1%、目标函数改善 &lt;1%</td>
+</tr>
+<tr>
+<td>E7</td>
+<td>粗细网格互换不变性（λ=0，变量 <span class="arithmatex">\(m\)</span> vs <span class="arithmatex">\(\sqrt v\,m\)</span>）</td>
+<td><span class="arithmatex">\(\sqrt v\,m\)</span> 互换误差 ≤2% 且左右比值 ∈[0.98,1.02]（三种求解设置都要过）</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_4">踩过的坑（别再犯）<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>几何必须与网格对齐</strong>。磁体盒边界要落在所有细化档的格边界上，否则按"单元中心在盒内"
+   选出的磁体体积会大于盒体积（我们踩到过 +39%），幅值整体系统性偏小、还原误差 45%~150%。
+   <code>setup()</code> 里有体积一致性断言，直接报错而不是给错结果。</li>
+<li><strong>λ 不能用绝对数值扫</strong>。第一版直接扫 <code>1e-10…1e-7</code>，整段落在过正则化区（各档偏置全是
+   0.00、还原误差 100%），什么都测不出来。必须用 λ_bal 标定。</li>
+<li><strong>测点离磁体要足够远（≥4~6 个单元尺度）</strong>，否则点偶极近似本身就有大误差，
+   真值在反演网格上都复现不出数据（我们踩到过"真值处残差 = 90×σ"，就是几何+距离不当）。</li>
+<li><strong>接缝必须与网格细化分界正交</strong>。第一版把接缝放在 x（网格分界也在 x），结果测到的
+   "按档偏置"完全是"接缝恰好落在细档"的假信号。</li>
+<li><strong>真值要有梯度，否则测不出正则化偏差</strong>。均匀磁化块的梯度恒为 0，任何 λ 都能完美还原
+   （正则是它的精确极小值），所以它只能当 sanity check；暴露正则化问题要靠接缝/反向真值。</li>
+<li><strong>换变量时梯度只有正则化项要乘 <span class="arithmatex">\(\partial m/\partial x\)</span></strong>。实现 <span class="arithmatex">\(x=\sqrt v\,m\)</span> 时，
+   数据项梯度就是 <span class="arithmatex">\(2A_x^{\mathsf T}r\)</span>，<strong>不能再除一次 <span class="arithmatex">\(\sqrt v\)</span></strong>；只有正则化项才要除。
+   踩过：两项都除，L-BFGS-B 第 0 次迭代就 <code>ABNORMAL</code>、解恒为 0。<code>b2m_core.check_gradient</code>
+   用有限差分守住这条（探测点必须取<strong>非零</strong> x，否则 <span class="arithmatex">\(\chi'(0)=0\)</span> 测不出来）。</li>
+<li><strong><span class="arithmatex">\(\sqrt v\)</span> 要用 SI（<span class="arithmatex">\(v\)</span> 以 m³ 计）</strong>。混用 mm³ 的 <span class="arithmatex">\(\sqrt v\)</span> 与 /1e9，乘积虽然自洽，
+   但变量尺度会变成 <span class="arithmatex">\(10^5\)</span>、梯度变成 <span class="arithmatex">\(10^{-11}\)</span>，优化器步长控制失效（实测 L-BFGS-B 直接失败）。</li>
+<li><strong>合成真值要用独立细网格正演</strong>（1mm，反演网格的 1/4 以上），否则 inverse crime
+   会让还原度虚高。</li>
+</ol>
+<h2 id="_5">边界与未做的事<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<ul>
+<li>本轮只交付实验与结论，<strong>未改动任何生产 notebook</strong>（按约定，结论确认后再改）。</li>
+<li>没测：真实 U 形几何与真实扫描点云上的 λ 标定值（本目录用矩形块 + 合成扫描）；
+  推广时只需把 <code>b2m_core.make_reference_model(points, amp=...)</code> 与生产的数据/网格接上。</li>
+<li>没测：各向同性 TV、L0/L1 稀疏先验等其它正则化形式；也没动 <code>huber_epsilon</code> 的量级。</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../theory/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 理论推导">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                理论推导
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../experiment-results/" class="md-footer__link md-footer__link--next" aria-label="下一页: 判据汇总">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                判据汇总
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.top", "navigation.footer", "content.code.copy", "search.suggest", "search.highlight", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
