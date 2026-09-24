@@ -82,6 +82,15 @@ def read_text(p: Path) -> str:
         return f.read()
 
 
+def norm(s: str) -> str:
+    """统一成 LF 再比较。
+
+    仓库开了 core.autocrlf=true（Windows 上 checkout 出来是 CRLF），而本脚本
+    生成的是 LF。不归一化的话 --check 会在任何 autocrlf 的机器上误报"需要同步"。
+    """
+    return s.replace("\r\n", "\n")
+
+
 def write_text(p: Path, s: str) -> None:
     p.parent.mkdir(parents=True, exist_ok=True)
     with open(p, "w", encoding="utf-8", newline="\n") as f:
@@ -98,7 +107,7 @@ def sync_md(check: bool) -> int:
             continue
         want = render(src_rel, read_text(src))
         have = read_text(dst) if dst.is_file() else None
-        if have == want:
+        if have is not None and norm(have) == want:
             print(f"  == 已最新  {dst_rel}  <-  {src_rel}")
         elif check:
             print(f"  !! 需要同步 {dst_rel}  <-  {src_rel}")
@@ -111,11 +120,14 @@ def sync_md(check: bool) -> int:
 
 def sync_assets(check: bool) -> int:
     drift = 0
+    skipped = 0
     for src_rel, dst_rel in ASSET_MAP.items():
         src, dst = REPO / src_rel, WEB / dst_rel
         if not src.is_file():
-            print(f"  !! 缺图（先跑出图脚本）：{src_rel}")
-            drift += 1
+            # 源图是 .gitignore 的产物目录，新 clone 里本来就没有。
+            # 站点里的副本已经入库、并由 mkdocs build --strict 兜底，所以只提示不算漂移。
+            print(f"  -- 跳过（本地没有源图，以站点里已入库的副本为准）：{src_rel}")
+            skipped += 1
             continue
         if dst.is_file() and filecmp.cmp(src, dst, shallow=False):
             print(f"  == 已最新  {dst_rel}")
@@ -126,6 +138,8 @@ def sync_assets(check: bool) -> int:
             dst.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(src, dst)
             print(f"  -> 已拷贝  {dst_rel}  <-  {src_rel}")
+    if skipped:
+        print(f"  （{skipped} 张源图不在本地，已跳过；站点里的副本不受影响）")
     return drift
 
 

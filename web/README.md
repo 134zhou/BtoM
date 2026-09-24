@@ -96,5 +96,6 @@ web/
 
 - 公式在浏览器端由 MathJax 渲染，读者需要能访问 `unpkg.com`。要完全离线，
   把 `mkdocs.yml` 里 MathJax 的 URL 换成本地文件。
-- `docs/assets/` 里的图是从 `figures/`（`.gitignore`）拷来的。这些图已经入库，
-  所以 clone 下来就能构建；但 `sync_docs.py --check` 在缺图的机器上会报"需要拷贝"。
+- `docs/assets/` 里的图是从 `figures/`（`.gitignore`）拷来的。**这些副本已经入库**，
+  所以 clone 下来就能构建；`sync_docs.py` 在本地找不到源图时会打印"跳过"而不是报错，
+  `--check` 因此在新 clone 里也能通过（此时只有 markdown 会被校验）。
