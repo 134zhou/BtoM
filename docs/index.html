@@ -412,87 +412,6 @@
   
   
     <li class="md-nav__item">
-      <a href="theory/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    理论推导
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="experiments/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    实验说明与结论
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="experiment-results/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    判据汇总
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="datasets/" class="md-nav__link">
         
   
@@ -636,20 +555,6 @@
 <p><a href="symmetry/">阅读</a></p>
 </li>
 <li>
-<p><strong>理论推导</strong></p>
-<hr />
-<p>从正问题的离散出发，证明"按体素体积加权"才是 <span class="arithmatex">\(\int\rho(|\nabla M|)\mathrm dV\)</span>
-的正确离散化；以及为什么 <span class="arithmatex">\(\lambda\)</span> 取值不当会表现为"细网格偏小、粗网格偏大"。</p>
-<p><a href="theory/">阅读</a></p>
-</li>
-<li>
-<p><strong>对照实验</strong></p>
-<hr />
-<p>E0–E7 七组可复现实验、29 条判据：<span class="arithmatex">\(O(h^{2})\)</span> 收敛性、<span class="arithmatex">\(\lambda\)</span> 换算表、
-欠正则化幅值指纹、网格无关性、<span class="arithmatex">\(\lambda\)</span> 自动选择、粗细网格互换不变性。</p>
-<p><a href="experiments/">阅读</a></p>
-</li>
-<li>
 <p><strong>数据与结果</strong></p>
 <hr />
 <p>三套测量数据集、几何参数、以及反演出来的磁化强度分布截面图。</p>
@@ -674,7 +579,7 @@
 <tbody>
 <tr>
 <td>正则化该不该按体素体积加权？</td>
-<td><strong>该</strong>。<span class="arithmatex">\(w_f=S_fh_f\)</span>（面对偶体积）是 <span class="arithmatex">\(\int\rho(\|\nabla M\|)\mathrm dV\)</span> 的正确求积权重，误差 <span class="arithmatex">\(O(h^2)\)</span>；不加权那版随加密<strong>发散</strong>（实测 338% → 3467% → 28628%）</td>
+<td><strong>该</strong>。<span class="arithmatex">\(w_f=S_fh_f\)</span>（面对偶体积）是 <span class="arithmatex">\(\int\rho(\|\nabla M\|)\mathrm dV\)</span> 的正确求积权重，误差 <span class="arithmatex">\(O(h^2)\)</span>；不加权那版随加密<strong>发散</strong>（受控合成数据实测 338% → 3467% → 28628%）</td>
 </tr>
 <tr>
 <td>那为什么"加了体积项反而结果非物理"？</td>
@@ -682,21 +587,27 @@
 </tr>
 <tr>
 <td>怎么根治"粗格子偏大、细格子偏小"？</td>
-<td>换未知量：求解 <span class="arithmatex">\(\sqrt{v_i}\,m_i\)</span> 而不是 <span class="arithmatex">\(m_i\)</span>。这样求解器隐式最小化的是 <span class="arithmatex">\(\sum v_im_i^2=\int m^2\mathrm dV\)</span>（物理范数）。实测互换粗细网格的误差从 <strong>58%~89% 降到 ≤0.7%</strong></td>
+<td>换未知量：求解 <span class="arithmatex">\(\sqrt{v_i}\,m_i\)</span> 而不是 <span class="arithmatex">\(m_i\)</span>。这样求解器隐式最小化的是 <span class="arithmatex">\(\sum v_im_i^2=\int m^2\mathrm dV\)</span>（物理范数）。互换粗细网格的误差从 <strong>58%~89% 降到 ≤0.7%</strong></td>
 </tr>
 <tr>
 <td><span class="arithmatex">\(\lambda\)</span> 怎么定？</td>
-<td>先力平衡标定 <span class="arithmatex">\(\lambda_{bal}\)</span>，再按"残差 ≈ 噪声 <span class="arithmatex">\(\sigma\)</span>"取最大的那个 <span class="arithmatex">\(\lambda\)</span>。实测与上帝视角最优 <span class="arithmatex">\(\lambda\)</span> 完全一致</td>
+<td>先力平衡标定 <span class="arithmatex">\(\lambda_{bal}\)</span>，再按"残差 ≈ 噪声 <span class="arithmatex">\(\sigma\)</span>"取最大的那个 <span class="arithmatex">\(\lambda\)</span>。选出来的与上帝视角最优 <span class="arithmatex">\(\lambda\)</span> 完全一致</td>
 </tr>
 </tbody>
 </table>
+<div class="admonition info">
+<p class="admonition-title">上面这些数字哪来的</p>
+<p>都来自<strong>受控合成实验</strong>：真值自己造（均匀块 / 反向接缝块），磁场用<strong>独立 1 mm 细网格</strong>
+正演（避免 inverse crime），再拿反演网格去还原，与解析积分或真值比较。
+真实磁铁没有真值，所以方法学结论只能这么验。</p>
+</div>
 <div class="admonition warning">
 <p class="admonition-title">两个必须知道的限制</p>
 <ol>
 <li><strong>新数据集（<code>UshapeNormal_New_prob</code>）的磁铁几何目前是占位值</strong>（从扫描范围反推的粗估），
    厚度 <span class="arithmatex">\(T\)</span> 必须用卡尺实测。用占位几何算出的结果是<strong>临时</strong>的，本站的定性结论不受影响，
    但绝对幅值不要引用。</li>
-<li><strong><span class="arithmatex">\(\sqrt{v_i}\,m_i\)</span> 换变量目前只在 <code>meshtest/</code> 里验证过，尚未接进生产 notebook</strong>。
+<li><strong><span class="arithmatex">\(\sqrt{v_i}\,m_i\)</span> 换变量目前只在受控合成实验里验证过，尚未接进生产 notebook</strong>。
    生产 notebook 的未知量仍是 <span class="arithmatex">\(m_i\)</span>。</li>
 </ol>
 </div>
@@ -750,9 +661,8 @@
 <div class="admonition note">
 <p class="admonition-title">关于本站</p>
 <p>站点用 <strong>MkDocs + Material for MkDocs</strong> 构建，公式由 <strong>MathJax 3</strong> 在浏览器端渲染。
-所有分页 markdown 平铺在 <code>web/docs/</code> 一个文件夹里。
-<code>理论推导</code> / <code>实验说明与结论</code> / <code>判据汇总</code> 三页是仓库里 <code>meshtest/*.md</code> 的
-<strong>自动同步副本</strong>（见 <code>web/tools/sync_docs.py</code>），事实来源始终是仓库中的源文件。</p>
+所有分页 markdown 平铺在 <code>web/docs/</code> 一个文件夹里，构建产物写到仓库根的 <code>docs/</code>，
+GitHub Pages 直接从那里发布。</p>
 </div>
 
 

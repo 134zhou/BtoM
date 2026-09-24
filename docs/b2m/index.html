@@ -469,87 +469,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../theory/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    理论推导
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../experiments/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    实验说明与结论
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../experiment-results/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    判据汇总
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../datasets/" class="md-nav__link">
         
   
@@ -752,7 +671,7 @@ CSV 里的磁场是 <strong>µT</strong>，读入后乘 <code>B_unit_conversion 
 <li>未知量只取<strong>单元中心落在磁铁实体内</strong>的那些单元 —— 外面是空气，<span class="arithmatex">\(\mathbf M\equiv0\)</span>，不设未知量。</li>
 </ol>
 <p>旧数据集里还用过"按 <span class="arithmatex">\(y\)</span> 分界、左右两半不同细化档"的网格（<code>Y_split = 144</code>），
-用来检验解对网格的依赖性 —— 这正是 <code>meshtest/</code> 里 E7 那组实验的原型。</p>
+用来检验解对网格的依赖性 —— 这正是后面「换未知量」那组实验的原型。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># notebooks/B2M.ipynb（节选）</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">mesh</span> <span class="o">=</span> <span class="n">discretize</span><span class="o">.</span><span class="n">TreeMesh</span><span class="p">([</span><span class="o">...</span><span class="p">],</span> <span class="n">origin</span><span class="o">=...</span><span class="p">,</span> <span class="n">diagonal_balance</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">mesh</span><span class="o">.</span><span class="n">refine_bounding_box</span><span class="p">(</span><span class="n">BBox</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">absolute_coarse_level</span><span class="p">,</span> <span class="n">finalize</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -814,7 +733,7 @@ CSV 里的磁场是 <strong>µT</strong>，读入后乘 <code>B_unit_conversion 
 \quad\text{（误差 }O(h^{2})\text{）}\]</div>
 <p>而不加权的 <span class="arithmatex">\(\sum_f\rho(\|\nabla\mathbf m\|_f)\)</span> 随网格加密<strong>发散</strong>（<span class="arithmatex">\(O(h^{-3})\)</span>），
 也就是说它本身就是一个网格相关的量 —— 同一个磁铁切细一点，正则化项的数值就变了。</p>
-<p>实测（<code>meshtest/</code> 的 E1，对面梯度型泛函与解析积分比较）：</p>
+<p>受控合成实验（面梯度型泛函 vs 解析积分，网格逐级加密）：</p>
 <table>
 <thead>
 <tr>
@@ -841,8 +760,9 @@ CSV 里的磁场是 <strong>µT</strong>，读入后乘 <code>B_unit_conversion 
 </tr>
 </tbody>
 </table>
-<p>完整推导（含"为什么 <span class="arithmatex">\(\lambda\)</span> 没跟着换算就会表现为细网格偏小、粗网格偏大"）见
-<a href="../theory/">理论推导</a>。</p>
+<p>这两列不是调参调出来的：<span class="arithmatex">\(w_f\)</span> 就是体积积分在每个面上的求积权重，所以加权那列随加密收敛到
+解析值；不加权那列等价于把权重全取成 1，而网格越细内部面越多，它自然按 <span class="arithmatex">\(O(h^{-3})\)</span> 发散 ——
+也就是说，不加权的正则化项<strong>本身就是一个网格相关的量</strong>。</p>
 <hr />
 <h2 id="5-m_i-sqrtv_im_i">5. 未知量选 <span class="arithmatex">\(m_i\)</span> 还是 <span class="arithmatex">\(\sqrt{v_i}\,m_i\)</span>？<a class="headerlink" href="#5-m_i-sqrtv_im_i" title="Permanent link">&para;</a></h2>
 <p>这是本项目最新的一条结论，也是消掉"粗网格偏大、细网格偏小"的<strong>根治手段</strong>。</p>
@@ -877,7 +797,7 @@ CSV 里的磁场是 <strong>µT</strong>，读入后乘 <code>B_unit_conversion 
 </tr>
 </tbody>
 </table>
-<p>验法只用一条判据（E7，<span class="arithmatex">\(\lambda=0\)</span> 完全没有正则化）：真值取整块均匀磁化、磁场无噪声，
+<p>验法只用一条判据（<span class="arithmatex">\(\lambda=0\)</span>，完全没有正则化）：真值取整块均匀磁化、磁场无噪声，
 造两张<strong>互为粗细互换</strong>的网格（A：左半细；B：右半细），比较左右半区的体积加权平均 <span class="arithmatex">\(|m|\)</span>。
 物理上左右必须相等：</p>
 <table>
@@ -938,8 +858,8 @@ CSV 里的磁场是 <strong>µT</strong>，读入后乘 <code>B_unit_conversion 
 <p><span class="arithmatex">\(\sqrt v\,m\)</span> 解出的区域均值是 <span class="arithmatex">\(99953\sim100407\)</span>（真值 <span class="arithmatex">\(10^5\)</span>）—— <strong>绝对值也对</strong>。</p>
 <div class="admonition warning">
 <p class="admonition-title">尚未接入生产</p>
-<p><code>meshtest/b2m_core.py</code> 里已经有 <code>variable="m" | "sqrt_v_m"</code> 开关（<code>VARIABLES</code>、
-<code>variable_scale()</code>、<code>to_m()</code>），但<strong>生产 notebook 的未知量仍然是 <span class="arithmatex">\(m_i\)</span></strong>。
+<p>受控实验里已经有 <code>variable="m" | "sqrt_v_m"</code> 的开关（<code>VARIABLES</code>、<code>variable_scale()</code>、
+<code>to_m()</code>），但<strong>生产 notebook 的未知量仍然是 <span class="arithmatex">\(m_i\)</span></strong>。
 换变量的实现要注意一个坑：<strong>只有正则化项的梯度要乘 <span class="arithmatex">\(\partial m/\partial x\)</span>，数据项不乘</strong>
 （数据项梯度就是 <span class="arithmatex">\(2\mathbf A^{\mathsf T}\mathbf r\)</span>）。两项都乘会让 L-BFGS-B 第 0 次迭代
 就 <code>ABNORMAL</code>、解恒为 0；<code>b2m_core.check_gradient</code> 用有限差分守着这条。</p>
@@ -953,7 +873,7 @@ CSV 里的磁场是 <strong>µT</strong>，读入后乘 <code>B_unit_conversion 
 <li><strong>按噪声定档</strong>：在 <span class="arithmatex">\(\lambda=\lambda_{bal}\cdot10^{k}\)</span> 里取满足"残差 ≈ 噪声 <span class="arithmatex">\(\sigma\)</span>"的
    <strong>最大</strong> <span class="arithmatex">\(\lambda\)</span>（discrepancy principle）。</li>
 </ol>
-<p>实测：这样选出来的 <span class="arithmatex">\(\lambda\)</span> 与上帝视角最优完全一致（<span class="arithmatex">\(k=+1\)</span> vs <span class="arithmatex">\(+1\)</span>，误差同为 0.29%）。
+<p>受控实验：这样选出来的 <span class="arithmatex">\(\lambda\)</span> 与上帝视角最优完全一致（<span class="arithmatex">\(k=+1\)</span> vs <span class="arithmatex">\(+1\)</span>，误差同为 0.29%）。
 可用窗口是<strong>单边</strong>的 <span class="arithmatex">\(k\in[0,+1]\)</span>，<strong>宁大勿小</strong>。</p>
 <hr />
 <h2 id="7-todo">7. 已知问题与 TODO<a class="headerlink" href="#7-todo" title="Permanent link">&para;</a></h2>
@@ -979,7 +899,7 @@ CSV 里的磁场是 <strong>µT</strong>，读入后乘 <code>B_unit_conversion 
 </tr>
 <tr>
 <td>点偶极近似</td>
-<td>测点离磁体表面太近（&lt; 4~6 个单元尺度）时误差不可忽略；<code>meshtest</code> 里踩过"真值处残差 = 90σ"的坑</td>
+<td>测点离磁体表面太近（&lt; 4~6 个单元尺度）时误差不可忽略；受控实验里踩过"真值处残差 = 90σ"的坑</td>
 </tr>
 </tbody>
 </table>

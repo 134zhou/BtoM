@@ -43,7 +43,7 @@
     代码里 `GEOMETRY_IS_PLACEHOLDER = True` 会在每次运行时大声警告。
     填充实测尺寸后请把它置为 `False`。
     **本数据集的反演绝对幅值暂时不要引用**，但"对称面 $h=8$ mm""重合 37.7%"
-    以及全部方法学结论（`meshtest/`）都不依赖这组占位尺寸。
+    以及全部方法学结论都不依赖这组占位尺寸。
 
 ---
 
@@ -85,7 +85,6 @@
 | `M_regularized_vs_noreg.png` | 正则化 vs 无正则化对照 | `python notebooks/B2M_noreg.py` |
 | `symmetry_plane_detection.png` | $J(h)$ 凹坑与不确定带宽 | `python src/symmetry.py data/raw/UshapeNormal_New_prob` |
 | `mirror_overlap.png` | 镜像重合点的分布与不一致量 | 同上 |
-| `E1_discretization.png`、`E2_lambda_sweep.png`、`E5_lambda_rule.png` | 实验曲线 | `cd meshtest && python run_experiments.py --full` |
 
 ### 3.5 新数据集（小探头）目前的状态
 
@@ -121,10 +120,10 @@ data/derived/
 ## 5. 局限
 
 1. **点偶极近似**：每个体素当点偶极子。测点离磁体表面太近（< 4~6 个单元尺度）时，
-   近似误差会污染反演（`meshtest` 里踩过"真值处残差 = 90σ"的坑）。
+   近似误差会污染反演（受控实验里踩过"真值处残差 = 90σ"的坑）。
 2. **$z$ 向不可分辨**：若磁化沿 $z$ 均匀，外部场只依赖 $M\cdot T$，$M$ 与 $T$
    无法同时反演 —— 厚度必须实测。
 3. **无真值**：真实磁铁没有"标准答案"，所以方法学结论全部建立在
-   `meshtest/` 的合成真值对照实验上（独立 1 mm 细网格正演，避免 inverse crime）。
+   受控合成实验上（真值自己造，磁场用独立 1 mm 细网格正演，避免 inverse crime）。
 4. **未做**：各向异性 TV、L0/L1 稀疏先验、以及真实 U 形几何 + 真实点云上的
    $\lambda$ 标定值。

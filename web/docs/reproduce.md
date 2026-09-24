@@ -35,14 +35,6 @@ BtoM/
 │   ├── B2M_noreg.py/.ipynb    去掉正则化的对照
 │   ├── B2M_newprob.py/.ipynb  新版小探头数据集 + 对称面自动检测
 │   └── plot_2d_sections.py/.ipynb  文章配图
-├── meshtest/                  ⭐ 正则化体积加权的对照实验（方法学结论都在这里）
-│   ├── THEORY.md              数学推导（含"大白话"开篇）
-│   ├── README.md              实验说明与结论
-│   ├── results.md             自动生成的判据汇总（29 条）
-│   ├── b2m_core.py            共用核心：网格/正演/正则化/目标函数/度量
-│   ├── truth.py               合成真值与合成磁场
-│   ├── run_experiments.py     E0–E7 实验驱动
-│   └── figures/               实验图（.gitignore，跑实验后生成）
 ├── data/
 │   ├── raw/                   ✅ 入库：原始测量数据
 │   │   ├── specialU/  UshapeNormal/  UshapeNormal_New_prob/  legacy/
@@ -54,8 +46,6 @@ BtoM/
 └── web/                       站点工程
     ├── mkdocs.yml             站点配置（site_dir: ../docs）
     ├── requirements.txt
-    ├── tools/sync_docs.py     把 meshtest 的三份 md 同步到 web/docs/
-    ├── tools/hooks.py         构建钩子：往产物里写 .nojekyll
     └── docs/                  【站点源码】分页 markdown 平铺在这里
 ```
 
@@ -110,35 +100,13 @@ $PY src/symmetry.py data/raw/UshapeNormal_New_prob --regression   # 与旧公式
 
 ---
 
-## 5. 跑对照实验（`meshtest/`）
-
-**必须在 `meshtest/` 目录下运行**（脚本用 `__file__` 定位自身）：
-
-```bash
-cd meshtest
-$PY run_experiments.py --quick        # 粗网格，约 1 分钟，快速回归
-$PY run_experiments.py --full         # 细网格 + 完整 λ 扫描（交付配置）
-$PY run_experiments.py --only E7      # 只跑某一个实验
-```
-
-- 判据会自动写进 `meshtest/results.md`；
-- **期望结果：`29/29 条通过`**（E0–E6 共 26 条 + E7 共 3 条）；
-- 图写进 `meshtest/figures/`（已 `.gitignore`）。
-
-`THEORY.md` 附录 D 里还有 3 段可直接粘贴的受控核验脚本（$h^{-3}$ 律、面梯度系数与
-极限泛函、最小 $\ell^2$ 范数偏置），对应 C1–C7。
-
 ---
 
-## 6. 构建与发布站点
+## 5. 构建与发布站点
 
 ```bash
 # 依赖（首次/换机）——已装好则跳过
 E:/Python/Miniforge/envs/HTML/python.exe -m pip install -r web/requirements.txt
-
-# 同步 meshtest 的三份 md 到站点源码（改了源文件就要跑；只管 markdown，不管图片）
-E:/Python/Miniforge/envs/HTML/python.exe web/tools/sync_docs.py
-E:/Python/Miniforge/envs/HTML/python.exe web/tools/sync_docs.py --check   # 只检查是否已同步
 
 # 本地预览
 cd web
@@ -150,7 +118,7 @@ E:/Python/Miniforge/envs/HTML/python.exe -m mkdocs serve
 E:/Python/Miniforge/envs/HTML/python.exe -m mkdocs build --strict
 cd ..
 
-# 发布：把源码和产物一起提交到 main
+# 发布：把源码和产物一起提交到 main（没有同步脚本，改了 md 直接构建）
 git add web docs
 git commit -m "docs: ..."
 git push
@@ -169,13 +137,12 @@ GitHub 侧只需要设置一次：仓库 **Settings → Pages → Source** →
 
     | 路径 | 是什么 | 谁维护 |
     |---|---|---|
-    | `web/docs/` | markdown **源文件** | 人写（+ `sync_docs.py` 同步三页） |
+    | `web/docs/` | markdown **源文件** | 人写 |
     | `docs/` | 构建出来的 **HTML 产物** | `mkdocs build` 生成，**别手改** |
 
-    产物里的 `.nojekyll` 由 `web/tools/hooks.py` 在每次构建后自动写入，
-    让 Pages 不走 Jekyll。
+    产物里的 `docs/.nojekyll` 是**手工放的一个空文件**（已提交进仓库），
+    MkDocs 构建时不会删掉它；作用是不让 Pages 走 Jekyll。
 
 !!! warning "发布是手动动作"
     本仓库**没有**配置 GitHub Actions 自动部署。改完文档要自己跑一次
-    `sync_docs.py`（可选）+ `mkdocs build --strict` + `git add docs` 再提交，
-    否则线上站点不会更新。
+    `mkdocs build --strict` + `git add docs` 再提交，否则线上站点不会更新。

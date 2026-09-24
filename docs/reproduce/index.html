@@ -343,87 +343,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../theory/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    理论推导
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../experiments/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    实验说明与结论
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../experiment-results/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    判据汇总
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../datasets/" class="md-nav__link">
         
   
@@ -555,21 +474,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-meshtest" class="md-nav__link">
+  <a href="#5" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. 跑对照实验（meshtest/）
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#6" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6. 构建与发布站点
+        5. 构建与发布站点
       
     </span>
   </a>
@@ -655,21 +563,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-meshtest" class="md-nav__link">
+  <a href="#5" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. 跑对照实验（meshtest/）
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#6" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6. 构建与发布站点
+        5. 构建与发布站点
       
     </span>
   </a>
@@ -779,28 +676,18 @@
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>│   ├── B2M_noreg.py/.ipynb    去掉正则化的对照
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>│   ├── B2M_newprob.py/.ipynb  新版小探头数据集 + 对称面自动检测
 <a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>│   └── plot_2d_sections.py/.ipynb  文章配图
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>├── meshtest/                  ⭐ 正则化体积加权的对照实验（方法学结论都在这里）
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>│   ├── THEORY.md              数学推导（含"大白话"开篇）
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>│   ├── README.md              实验说明与结论
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>│   ├── results.md             自动生成的判据汇总（29 条）
-<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>│   ├── b2m_core.py            共用核心：网格/正演/正则化/目标函数/度量
-<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>│   ├── truth.py               合成真值与合成磁场
-<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>│   ├── run_experiments.py     E0–E7 实验驱动
-<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>│   └── figures/               实验图（.gitignore，跑实验后生成）
-<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>├── data/
-<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>│   ├── raw/                   ✅ 入库：原始测量数据
-<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>│   │   ├── specialU/  UshapeNormal/  UshapeNormal_New_prob/  legacy/
-<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>│   └── derived/               ❌ 不入库：反演产物（.vtu/.vtk），可由脚本重跑
-<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>├── figures/                   ❌ 不入库：论文/站点配图（由 notebooks 生成）
-<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>├── archive/                   历史文件：旧 notebook、早期试验、参数快照
-<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>├── docs/                      ⭐【构建产物】GitHub Pages 发布的就是这个目录
-<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>│                                 由 mkdocs build 生成，别手改，也别 .gitignore
-<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>└── web/                       站点工程
-<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>    ├── mkdocs.yml             站点配置（site_dir: ../docs）
-<a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>    ├── requirements.txt
-<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>    ├── tools/sync_docs.py     把 meshtest 的三份 md 同步到 web/docs/
-<a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>    ├── tools/hooks.py         构建钩子：往产物里写 .nojekyll
-<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>    └── docs/                  【站点源码】分页 markdown 平铺在这里
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>├── data/
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>│   ├── raw/                   ✅ 入库：原始测量数据
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>│   │   ├── specialU/  UshapeNormal/  UshapeNormal_New_prob/  legacy/
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>│   └── derived/               ❌ 不入库：反演产物（.vtu/.vtk），可由脚本重跑
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>├── figures/                   ❌ 不入库：论文/站点配图（由 notebooks 生成）
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>├── archive/                   历史文件：旧 notebook、早期试验、参数快照
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>├── docs/                      ⭐【构建产物】GitHub Pages 发布的就是这个目录
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>│                                 由 mkdocs build 生成，别手改，也别 .gitignore
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>└── web/                       站点工程
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>    ├── mkdocs.yml             站点配置（site_dir: ../docs）
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>    ├── requirements.txt
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>    └── docs/                  【站点源码】分页 markdown 平铺在这里
 </code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">路径无关</p>
@@ -844,43 +731,25 @@
 <p>期望输出（关键几行）：<code>h_raw = 7.698 mm</code> → 吸附到 <code>h = 8.000 mm</code>，
 <code>accepted = True</code>，重合 <code>18405</code>、补点 <code>30379</code>、最终 <code>79163</code> 点。</p>
 <hr />
-<h2 id="5-meshtest">5. 跑对照实验（<code>meshtest/</code>）<a class="headerlink" href="#5-meshtest" title="Permanent link">&para;</a></h2>
-<p><strong>必须在 <code>meshtest/</code> 目录下运行</strong>（脚本用 <code>__file__</code> 定位自身）：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nb">cd</span><span class="w"> </span>meshtest
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nv">$PY</span><span class="w"> </span>run_experiments.py<span class="w"> </span>--quick<span class="w">        </span><span class="c1"># 粗网格，约 1 分钟，快速回归</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="nv">$PY</span><span class="w"> </span>run_experiments.py<span class="w"> </span>--full<span class="w">         </span><span class="c1"># 细网格 + 完整 λ 扫描（交付配置）</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="nv">$PY</span><span class="w"> </span>run_experiments.py<span class="w"> </span>--only<span class="w"> </span>E7<span class="w">      </span><span class="c1"># 只跑某一个实验</span>
-</code></pre></div>
-<ul>
-<li>判据会自动写进 <code>meshtest/results.md</code>；</li>
-<li><strong>期望结果：<code>29/29 条通过</code></strong>（E0–E6 共 26 条 + E7 共 3 条）；</li>
-<li>图写进 <code>meshtest/figures/</code>（已 <code>.gitignore</code>）。</li>
-</ul>
-<p><code>THEORY.md</code> 附录 D 里还有 3 段可直接粘贴的受控核验脚本（<span class="arithmatex">\(h^{-3}\)</span> 律、面梯度系数与
-极限泛函、最小 <span class="arithmatex">\(\ell^2\)</span> 范数偏置），对应 C1–C7。</p>
 <hr />
-<h2 id="6">6. 构建与发布站点<a class="headerlink" href="#6" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># 依赖（首次/换机）——已装好则跳过</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>E:/Python/Miniforge/envs/HTML/python.exe<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>web/requirements.txt
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># 同步 meshtest 的三份 md 到站点源码（改了源文件就要跑；只管 markdown，不管图片）</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>E:/Python/Miniforge/envs/HTML/python.exe<span class="w"> </span>web/tools/sync_docs.py
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>E:/Python/Miniforge/envs/HTML/python.exe<span class="w"> </span>web/tools/sync_docs.py<span class="w"> </span>--check<span class="w">   </span><span class="c1"># 只检查是否已同步</span>
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="c1"># 本地预览</span>
-<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="nb">cd</span><span class="w"> </span>web
-<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>E:/Python/Miniforge/envs/HTML/python.exe<span class="w"> </span>-m<span class="w"> </span>mkdocs<span class="w"> </span>serve
-<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="c1"># 浏览器打开 http://127.0.0.1:8000/</span>
-<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
-<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="c1"># 构建（--strict 会把断链/坏引用当错误）</span>
-<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="c1"># 产物直接写到【仓库根的 docs/】，因为 mkdocs.yml 里设了 site_dir: ../docs</span>
-<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>E:/Python/Miniforge/envs/HTML/python.exe<span class="w"> </span>-m<span class="w"> </span>mkdocs<span class="w"> </span>build<span class="w"> </span>--strict
-<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="nb">cd</span><span class="w"> </span>..
-<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>
-<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="c1"># 发布：把源码和产物一起提交到 main</span>
-<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>git<span class="w"> </span>add<span class="w"> </span>web<span class="w"> </span>docs
-<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"docs: ..."</span>
-<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>git<span class="w"> </span>push
+<h2 id="5">5. 构建与发布站点<a class="headerlink" href="#5" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># 依赖（首次/换机）——已装好则跳过</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>E:/Python/Miniforge/envs/HTML/python.exe<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>web/requirements.txt
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># 本地预览</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="nb">cd</span><span class="w"> </span>web
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>E:/Python/Miniforge/envs/HTML/python.exe<span class="w"> </span>-m<span class="w"> </span>mkdocs<span class="w"> </span>serve
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="c1"># 浏览器打开 http://127.0.0.1:8000/</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="c1"># 构建（--strict 会把断链/坏引用当错误）</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="c1"># 产物直接写到【仓库根的 docs/】，因为 mkdocs.yml 里设了 site_dir: ../docs</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>E:/Python/Miniforge/envs/HTML/python.exe<span class="w"> </span>-m<span class="w"> </span>mkdocs<span class="w"> </span>build<span class="w"> </span>--strict
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="nb">cd</span><span class="w"> </span>..
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="c1"># 发布：把源码和产物一起提交到 main（没有同步脚本，改了 md 直接构建）</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>git<span class="w"> </span>add<span class="w"> </span>web<span class="w"> </span>docs
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"docs: ..."</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>git<span class="w"> </span>push
 </code></pre></div>
 <p>GitHub 侧只需要设置一次：仓库 <strong>Settings → Pages → Source</strong> →
 <strong>Deploy from a branch</strong> → 分支 <strong><code>main</code></strong> / 目录 <strong><code>/docs</code></strong>。
@@ -903,7 +772,7 @@
 <tr>
 <td><code>web/docs/</code></td>
 <td>markdown <strong>源文件</strong></td>
-<td>人写（+ <code>sync_docs.py</code> 同步三页）</td>
+<td>人写</td>
 </tr>
 <tr>
 <td><code>docs/</code></td>
@@ -912,14 +781,13 @@
 </tr>
 </tbody>
 </table>
-<p>产物里的 <code>.nojekyll</code> 由 <code>web/tools/hooks.py</code> 在每次构建后自动写入，
-让 Pages 不走 Jekyll。</p>
+<p>产物里的 <code>docs/.nojekyll</code> 是<strong>手工放的一个空文件</strong>（已提交进仓库），
+MkDocs 构建时不会删掉它；作用是不让 Pages 走 Jekyll。</p>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">发布是手动动作</p>
 <p>本仓库<strong>没有</strong>配置 GitHub Actions 自动部署。改完文档要自己跑一次
-<code>sync_docs.py</code>（可选）+ <code>mkdocs build --strict</code> + <code>git add docs</code> 再提交，
-否则线上站点不会更新。</p>
+<code>mkdocs build --strict</code> + <code>git add docs</code> 再提交，否则线上站点不会更新。</p>
 </div>
 
 

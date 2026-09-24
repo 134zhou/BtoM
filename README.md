@@ -76,12 +76,6 @@ BtoM/
 │   ├── B2M_noreg.py/.ipynb    去掉正则化的对照
 │   ├── B2M_newprob.py/.ipynb  新版小探头数据集 + 对称面自动检测
 │   └── plot_2d_sections.py/.ipynb  文章配图
-├── meshtest/                  ⭐ 对照实验与数学推导（29 条判据全过）
-│   ├── THEORY.md              数学推导（含"大白话"开篇）
-│   ├── README.md              实验说明与结论
-│   ├── results.md             自动生成的判据汇总
-│   ├── b2m_core.py truth.py run_experiments.py
-│   └── figures/               （不入库，跑实验后生成）
 ├── data/
 │   ├── raw/                   ✅ 原始测量数据（入库）
 │   └── derived/               ❌ 反演产物 .vtu/.vtk（不入库，可重跑）
@@ -115,9 +109,6 @@ $PY -m jupyter nbconvert --to notebook --execute notebooks/B2M.ipynb --inplace
 
 # 对称面检测 + 报告 + 出图
 $PY src/symmetry.py data/raw/UshapeNormal_New_prob
-
-# 对照实验（29 条判据，快速约 1 分钟）
-cd meshtest && $PY run_experiments.py --quick
 ```
 
 文档站的构建与发布见 [`web/README.md`](web/README.md)。
@@ -142,14 +133,15 @@ cd meshtest && $PY run_experiments.py --quick
 
 - ⚠️ **`UshapeNormal_New_prob` 的磁铁几何是占位值**（从扫描范围反推的粗估），
   厚度 $T$ 必须用卡尺实测。该数据集的反演绝对幅值暂时不要引用。
-- ⚠️ **$\sqrt{v_i}\,m_i$ 换变量只在 `meshtest/` 里验证过，尚未接进生产 notebook**。
-- 真实磁铁没有真值，所以方法学结论全部建立在 `meshtest/` 的**合成真值对照实验**上
-  （独立 1 mm 细网格正演，避免 inverse crime）。
+- ⚠️ **$\sqrt{v_i}\,m_i$ 换变量只在受控合成实验里验证过，尚未接进生产 notebook**。
+- 真实磁铁没有真值，所以上面那些方法学结论全部来自**受控合成实验**：真值自己造
+  （均匀块 / 反向接缝块），磁场用独立 1 mm 细网格正演（避免 inverse crime），
+  再拿反演网格去还原。
 - 未做：各向异性 TV、L0/L1 稀疏先验、真实 U 形几何 + 真实点云上的 λ 标定值。
 
 ## 踩过的坑
 
-完整清单在 [`meshtest/README.md`](meshtest/README.md) 的"踩过的坑"一节（8 条）。最容易再犯的：
+最容易再犯的：
 
 1. **几何必须与网格对齐**，否则按"单元中心在盒内"选出的磁体体积会偏大（踩过 +39%）。
 2. **λ 不能用绝对数值扫**，必须先用 $\lambda_{bal}$ 标定，否则整段落在过正则化区。
@@ -157,6 +149,11 @@ cd meshtest && $PY run_experiments.py --quick
    两项都除会让 L-BFGS-B 第 0 次迭代就 `ABNORMAL`、解恒为 0。
 4. **$\sqrt v$ 要用 SI**（$v$ 以 m³ 计），混用 mm³ 会让变量尺度到 $10^5$、优化器失效。
 5. **测点离磁体要足够远**（≥4~6 个单元尺度），否则点偶极近似本身就不可用。
+6. **合成真值要用独立细网格正演**（1 mm，反演网格的 1/4 以上），否则 inverse crime
+   会让还原度虚高。
+7. **接缝/边界必须与网格细化分界正交**，否则测到的"偏置"只是"接缝恰好落在细档"的假信号。
+8. **真值要有梯度**：均匀磁化块的梯度恒为 0，任何 $\lambda$ 都能完美还原，
+   它只能当 sanity check。
 
 ## 许可
 

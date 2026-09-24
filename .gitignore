@@ -39,8 +39,11 @@ figures/
 # 网格化后的 vtk/vtu 与数值结果
 data/derived/
 
-# meshtest 的实验曲线
-meshtest/figures/
-
 # 早期临时试验目录（含 4 MB PDF 与 4×1.7 MB vtu）
 archive/test/
+
+# ---------- 不上 git 的私人试验目录 ----------
+#
+# meshtest/ 是本地跑的对照试验（合成真值、判据脚本、推导草稿），
+# 不是交付内容，也不参与网站构建。整个目录不入库；文件留在本地磁盘上。
+meshtest/
